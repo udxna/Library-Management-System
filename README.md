@@ -1,7 +1,5 @@
 # Library Management System
 
-A web-based Library Management System developed using PHP, MySQL, HTML, CSS, Bootstrap, and XAMPP.
-
 <p align="center">
   <img src="assets/images/logo.png" width="220">
 </p>
