@@ -2,6 +2,16 @@
 
 A web-based Library Management System developed using PHP, MySQL, HTML, CSS, Bootstrap, and XAMPP.
 
+<p align="center">
+  <img src="assets/images/logo.png" width="220">
+</p>
+
+<h1 align="center">Library Management System</h1>
+
+<p align="center">
+  Web-based LMS built using PHP, MySQL, Bootstrap and XAMPP
+</p>
+
 ## Features
 - User Authentication
 - Book Management
