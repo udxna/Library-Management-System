@@ -1,7 +1,5 @@
-# Library Management System
-
 <p align="center">
-  <img src="assets/images/logo.png" width="220">
+  <img src="assets/images/logo.png" width="440">
 </p>
 
 <h1 align="center">Library Management System</h1>
