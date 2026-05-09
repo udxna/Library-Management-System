@@ -28,7 +28,7 @@ if(isset($_POST['submit'])){
     else{
 
         $sql = "INSERT INTO member 
-        (member_id, firstname, lastname, birthday, email)
+        (member_id, first_name, last_name, birthday, email)
         VALUES
         ('$member_id', '$firstname', '$lastname', '$birthday', '$email')";
 
