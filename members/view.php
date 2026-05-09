@@ -45,11 +45,12 @@ $result = $conn->query($sql);
 
                 <tr>
 
-                    <th>Member ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Birthday</th>
-                    <th>Email</th>
+                    <th class ="text-center">Member ID</th>
+                    <th class ="text-center">First Name</th>
+                    <th class ="text-center">Last Name</th>
+                    <th class ="text-center">Birthday</th>
+                    <th class ="text-center">Email</th>
+                    <th style="width: 1%;" class ="text-center">Action</th>
 
                 </tr>
 
@@ -65,15 +66,34 @@ $result = $conn->query($sql);
 
                         echo "<tr>
 
-                            <td>".$row['member_id']."</td>
+                            <td class ='text-center'>".$row['member_id']."</td>
 
-                            <td>".$row['first_name']."</td>
+                            <td class ='text-center'>".$row['first_name']."</td>
 
-                            <td>".$row['last_name']."</td>
+                            <td class ='text-center'>".$row['last_name']."</td>
 
-                            <td>".$row['birthday']."</td>
+                            <td class ='text-center'>".$row['birthday']."</td>
 
-                            <td>".$row['email']."</td>
+                            <td class ='text-center'>".$row['email']."</td>
+                            <td class='text-nowrap'>
+
+                                <div class='d-flex gap-1'>
+
+                                    <a href='edit.php?id=".$row['member_id']."'
+                                    class='btn btn-warning btn-sm px-3'>
+                                        Edit
+                                    </a>
+
+                                    <a href='delete.php?id=".$row['member_id']."'
+                                    class='btn btn-danger btn-sm px-3'
+                                    onclick=\"return confirm('Are you sure you want to delete this member?')\">
+                                        Delete
+                                     </a>
+
+                                </div>
+
+                            </td>
+                            
 
                         </tr>";
 
