@@ -82,7 +82,7 @@ if(isset($_POST['submit'])){
 
                     <?php if($message != ""){ ?>
 
-                    <   div class="alert alert-success alert-dismissible fade show"role="alert">
+                    <div class="alert alert-success alert-dismissible fade show"role="alert">
 
                     <?php echo $message; ?>
 
@@ -93,7 +93,7 @@ if(isset($_POST['submit'])){
 
                 </div>
 
-<?php } ?>
+                <?php } ?>
 
                 <form method="POST">
 
