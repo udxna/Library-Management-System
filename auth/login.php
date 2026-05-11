@@ -1,8 +1,4 @@
 <?php
-
-$theme-colors: (
-  "primary":    $primary,
-);
 session_start();
 include '../config/db.php';
 
