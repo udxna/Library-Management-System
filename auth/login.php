@@ -1,52 +1,72 @@
 <?php
 session_start();
-include 'config/db.php';
+include '../config/db.php';
+
+$message = "";
 
 if(isset($_POST['login'])){
 
-    $username = $_POST['username'];
-    $password = md5($_POST['password']);
+    $username = trim($_POST['username']);
+    $password = md5(trim($_POST['password']));
 
-    $sql = "SELECT * FROM users 
-    WHERE username='$username' 
-    AND password='$password'";
+    $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
 
     $result = mysqli_query($conn,$sql);
 
     if(mysqli_num_rows($result) > 0){
 
-        $_SESSION['username'] = $username;
+        $user = mysqli_fetch_assoc($result);
+
+        $_SESSION['userid'] = $user['userid'];
+        $_SESSION['username'] = $user['username'];
 
         header("Location: dashboard.php");
-
-    }else{
-        echo "Login Failed";
+    }
+    else{
+        $message = "Invalid Username or Password";
     }
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
+<?php include '../includes/header.php'; ?>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<div class="container mt-5">
+<div class="row justify-content-center">
+<div class="col-md-5">
 
-</head>
-<body class="container mt-5">
+<div class="card shadow p-4">
 
-<h2>Login</h2>
+<h2 class="text-center mb-4">Login</h2>
+
+<?php if($message != ""){ ?>
+<div class="alert alert-danger"><?php echo $message; ?></div>
+<?php } ?>
 
 <form method="POST">
 
-<input type="text" name="username" class="form-control mb-3" placeholder="Username">
+<div class="mb-3">
+<label>Username</label>
+<input type="text" name="username" class="form-control" required>
+</div>
 
-<input type="password" name="password" class="form-control mb-3" placeholder="Password">
+<div class="mb-3">
+<label>Password</label>
+<input type="password" name="password" class="form-control" required>
+</div>
 
-<button class="btn btn-success" name="login">
+<button type="submit" name="login" class="btn btn-success w-100">
 Login
 </button>
 
+<div class="text-center mt-3">
+<a href="register.php">Create Account</a>
+</div>
+
 </form>
 
-</body>
-</html>
+</div>
+</div>
+</div>
+</div>
+
+<?php include '../includes/footer.php'; ?>
