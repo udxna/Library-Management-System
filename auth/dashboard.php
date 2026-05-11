@@ -6,54 +6,27 @@ if(!isset($_SESSION['username'])){
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-<title>Dashboard</title>
-</head>
+<?php include '../includes/header.php'; ?>
+<?php include '../includes/navbar.php'; ?>
 
-<body>
+<div class="container mt-5">
 
-<h1>Welcome <?php echo $_SESSION['username']; ?></h1>
+<div class="card shadow p-5 text-center">
 
-<a href="logout.php">Logout</a>
-<?php
-include 'config/db.php';
+<h1>Welcome to LMS Dashboard</h1>
 
-$sql = "SELECT * FROM users";
-$result = mysqli_query($conn,$sql);
-?>
+<h3 class="mt-3">
+Hello, <?php echo $_SESSION['username']; ?> 👋
+</h3>
 
-<table class="table table-bordered">
+<p class="mt-3">Library Management System - Feature 1</p>
 
-<tr>
-<th>User ID</th>
-<th>Firstname</th>
-<th>Lastname</th>
-<th>Username</th>
-<th>Email</th>
-<th>Action</th>
-</tr>
+<a href="view_users.php" class="btn btn-primary mt-3">
+Manage Users
+</a>
 
-<?php while($row=mysqli_fetch_assoc($result)){ ?>
+</div>
 
-<tr>
+</div>
 
-<td><?php echo $row['userid']; ?></td>
-<td><?php echo $row['firstname']; ?></td>
-<td><?php echo $row['lastname']; ?></td>
-<td><?php echo $row['username']; ?></td>
-<td><?php echo $row['email']; ?></td>
-
-<td>
-<a href="delete.php?id=<?php echo $row['id']; ?>">Delete</a>
-</td>
-
-</tr>
-
-<?php } ?>
-
-</table>
-
-</body>
-</html>
+<?php include '../includes/footer.php'; ?>
