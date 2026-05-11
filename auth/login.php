@@ -1,13 +1,7 @@
 <?php
+
 $theme-colors: (
   "primary":    $primary,
-  "secondary":  $secondary,
-  "success":    $success,
-  "info":       $info,
-  "warning":    $warning,
-  "danger":     $danger,
-  "light":      $light,
-  "dark":       $dark
 );
 session_start();
 include '../config/db.php';
