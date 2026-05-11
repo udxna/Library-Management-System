@@ -1,25 +1,76 @@
 body{
-    background:#1c50b8;
-    font-family:Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #d4f8d4, #b8f1b8);
+
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.card{
-    border:none;
-    border-radius:15px;
+/* Login Card */
+
+.login-card{
+    border: none;
+    border-radius: 20px;
+
+    background: #ffffff;
 }
 
-.card-title{
-    font-weight:bold;
+/* Title */
+
+.login-title{
+    color: #2e8b57;
+
+    font-weight: bold;
 }
 
-.table{
-    background:white;
+/* Input Fields */
+
+.custom-input{
+    height: 50px;
+
+    border-radius: 10px;
+
+    border: 1px solid #b7e4c7;
 }
 
-h2{
-    font-weight:bold;
+.custom-input:focus{
+    border-color: #52b788;
+
+    box-shadow: 0 0 10px rgba(82, 183, 136, 0.3);
 }
 
-.btn{
-    border-radius:8px;
+/* Login Button */
+
+.login-btn{
+    background: #52b788;
+
+    border: none;
+
+    height: 50px;
+
+    border-radius: 10px;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.login-btn:hover{
+    background: #40916c;
+
+    transform: scale(1.02);
+}
+
+/* Register Link */
+
+.register-link{
+    text-decoration: none;
+
+    color: #2d6a4f;
+
+    font-weight: 600;
+}
+
+.register-link:hover{
+    color: #1b4332;
 }
