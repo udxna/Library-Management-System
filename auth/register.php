@@ -1,78 +1,111 @@
 <?php
-include 'config/db.php';
+include '../config/db.php';
+
+$message = "";
 
 if(isset($_POST['register'])){
 
-    $userid = $_POST['userid'];
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $email = $_POST['email'];
+    $userid = trim($_POST['userid']);
+    $firstname = trim($_POST['firstname']);
+    $lastname = trim($_POST['lastname']);
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
+    $email = trim($_POST['email']);
 
-    // USER ID VALIDATION
-    if(!preg_match("/^U[0-9]{3}$/", $userid)){
-        echo "Invalid User ID Format";
-        exit();
+    if(!preg_match('/^U[0-9]{3}$/', $userid)){
+        $message = "User ID must be like U001";
     }
-
-    // PASSWORD VALIDATION
-    if(strlen($password) < 8){
-        echo "Password must be more than 8 characters";
-        exit();
+    elseif(strlen($password) < 8){
+        $message = "Password must be at least 8 characters";
     }
-
-    // EMAIL VALIDATION
-    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-        echo "Invalid Email";
-        exit();
+    elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        $message = "Invalid Email Format";
     }
+    else{
 
-    // HASH PASSWORD
-    $hashedPassword = md5($password);
+        $check = "SELECT * FROM users WHERE username='$username' OR email='$email'";
+        $result = mysqli_query($conn,$check);
 
-    $sql = "INSERT INTO users 
-    (userid, firstname, lastname, username, password, email)
-    VALUES
-    ('$userid','$firstname','$lastname','$username','$hashedPassword','$email')";
+        if(mysqli_num_rows($result) > 0){
+            $message = "Username or Email Already Exists";
+        }
+        else{
 
-    mysqli_query($conn,$sql);
+            $hashedPassword = md5($password);
 
-    echo "Registration Success";
+            $sql = "INSERT INTO users(userid,firstname,lastname,username,password,email)
+            VALUES('$userid','$firstname','$lastname','$username','$hashedPassword','$email')";
+
+            if(mysqli_query($conn,$sql)){
+                $message = "Registration Successful";
+            }
+            else{
+                $message = "Registration Failed";
+            }
+        }
+    }
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-<title>Register</title>
+<?php include '../includes/header.php'; ?>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<div class="container mt-5">
 
-</head>
-<body class="container mt-5">
+<div class="row justify-content-center">
+<div class="col-md-6">
 
-<h2>User Registration</h2>
+<div class="card shadow p-4">
+
+<h2 class="text-center mb-4">User Registration</h2>
+
+<?php if($message != ""){ ?>
+<div class="alert alert-info"><?php echo $message; ?></div>
+<?php } ?>
 
 <form method="POST">
 
-<input type="text" name="userid" class="form-control mb-3" placeholder="U001" required>
+<div class="mb-3">
+<label>User ID</label>
+<input type="text" name="userid" class="form-control" placeholder="U001" required>
+</div>
 
-<input type="text" name="firstname" class="form-control mb-3" placeholder="First Name" required>
+<div class="mb-3">
+<label>First Name</label>
+<input type="text" name="firstname" class="form-control" required>
+</div>
 
-<input type="text" name="lastname" class="form-control mb-3" placeholder="Last Name" required>
+<div class="mb-3">
+<label>Last Name</label>
+<input type="text" name="lastname" class="form-control" required>
+</div>
 
-<input type="text" name="username" class="form-control mb-3" placeholder="Username" required>
+<div class="mb-3">
+<label>Username</label>
+<input type="text" name="username" class="form-control" required>
+</div>
 
-<input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
+<div class="mb-3">
+<label>Password</label>
+<input type="password" name="password" class="form-control" required>
+</div>
 
-<input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
+<div class="mb-3">
+<label>Email</label>
+<input type="email" name="email" class="form-control" required>
+</div>
 
-<button type="submit" name="register" class="btn btn-primary">
+<button type="submit" name="register" class="btn btn-primary w-100">
 Register
 </button>
+<div class="text-center mt-3">
+<a href="login.php">Already have an account?</a>
+</div>
 
 </form>
 
-</body>
-</html>
+</div>
+</div>
+</div>
+</div>
+
+<?php include '../includes/footer.php'; ?>
