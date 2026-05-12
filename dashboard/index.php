@@ -77,6 +77,17 @@ if($checkFines->num_rows > 0){
 }
 
 ?>
+<style>
+    .dashboard-hover{
+    transition:0.3s;
+    cursor:pointer;
+}
+
+.dashboard-hover:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.2) !important;
+}
+</style>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -120,8 +131,10 @@ if($checkFines->num_rows > 0){
 
     <div class="col-md-3">
 
-        <div class="card shadow border-0 p-4 text-center">
+        <a href="../members/view.php"
+        class="text-decoration-none text-dark">
 
+        <div class="card shadow border-0 p-4 text-center dashboard-hover">
             <h1 class="text-primary">
 
                 <i class="bi bi-people-fill"></i>
@@ -137,14 +150,17 @@ if($checkFines->num_rows > 0){
             </p>
 
         </div>
-
+        </a>
     </div>
 
     <!-- Books -->
 
     <div class="col-md-3">
 
-        <div class="card shadow border-0 p-4 text-center">
+        <a href="../books/view.php"
+        class="text-decoration-none text-dark">
+
+        <div class="card shadow border-0 p-4 text-center dashboard-hover">
 
             <h1 class="text-success">
 
@@ -161,14 +177,17 @@ if($checkFines->num_rows > 0){
             </p>
 
         </div>
-
+        </a>
     </div>
 
     <!-- Borrow -->
 
     <div class="col-md-3">
 
-        <div class="card shadow border-0 p-4 text-center">
+        <a href="../borrow/view.php"
+        class="text-decoration-none text-dark">
+
+        <div class="card shadow border-0 p-4 text-center dashboard-hover">
 
             <h1 class="text-warning">
 
@@ -185,15 +204,17 @@ if($checkFines->num_rows > 0){
             </p>
 
         </div>
-
+        </a>
     </div>
 
     <!-- Fines -->
 
     <div class="col-md-3">
 
-        <div class="card shadow border-0 p-4 text-center">
+        <a href="../fines/view.php"
+        class="text-decoration-none text-dark">
 
+        <div class="card shadow border-0 p-4 text-center dashboard-hover">
             <h1 class="text-danger">
 
                 <i class="bi bi-cash-stack"></i>
@@ -209,7 +230,7 @@ if($checkFines->num_rows > 0){
             </p>
 
         </div>
-
+        </a>
     </div>
 
 </div>
