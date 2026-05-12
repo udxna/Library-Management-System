@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Modern Register UI</title>
+    <title>LMS Registeration</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -142,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             display:flex;
             justify-content:center;
             align-items:flex-end;
-            gap:10px;
+            gap:5px;
             padding-bottom:10px;
         }
 
@@ -180,7 +180,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         /* Register Card */
 
         .register-container{
-            width:420px;
+            width:500px;
             padding:40px;
             border-radius:25px;
             background:rgba(255,255,255,0.18);
@@ -231,11 +231,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             justify-content:center;
             align-items:center;
             border-radius:50%;
-            background:linear-gradient(135deg,#00c6a7,#0984e3);
+            background:linear-gradient(120deg,#00c6a7,#0984e3);
             color:white;
             font-size:34px;
             font-weight:bold;
-            box-shadow:0 5px 20px rgba(0,0,0,0.2);
+            box-shadow:0 5px 20px rgba(81, 235, 107, 0.9);
             overflow:hidden;
         }
 
@@ -282,7 +282,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding:14px;
             border:none;
             border-radius:12px;
-            background:linear-gradient(135deg,#00c9a7,#0984e3);
+            background:linear-gradient(130deg,#00c9a7,#0984e3);
             color:white;
             font-size:16px;
             font-weight:600;
