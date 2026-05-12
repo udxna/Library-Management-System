@@ -51,6 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Modern Login UI</title>
 
+    <?php if ($error): ?>
+        <p style="color:red;"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
+
+
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -287,7 +292,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <!-- Logo -->
         <div class="logo">
-            EV
+          <img src="logo.png" width="70">
         </div>
 
         <h2>Welcome Back</h2>
