@@ -1,345 +1,370 @@
 <?php
 session_start();
 
-if(!isset($_SESSION['username'])){
+if (!isset($_SESSION['username'])) {
     header("Location: login.php");
+    exit();
 }
 ?>
-
-<?php include '../includes/header.php'; ?>
-<?php include '../includes/navbar.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LMS Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS Dashboard</title>
 
-  <!-- Bootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+    <style>
 
-    body{
-      min-height:100vh;
-      background:
-        linear-gradient(rgba(7, 28, 39, 0.75), rgba(7, 28, 39, 0.75)),
-        url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1920&auto=format&fit=crop');
-      background-size:cover;
-      background-position:center;
-      background-attachment:fixed;
-      overflow-x:hidden;
-    }
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
 
-    /* NAVBAR */
-    .navbar{
-      background: rgba(255,255,255,0.08) !important;
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-      padding: 14px 30px;
-    }
+        body{
+            min-height:100vh;
+            background:
+                    linear-gradient(rgba(7,28,39,0.75), rgba(7,28,39,0.75)),
+                    url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1920&auto=format&fit=crop');
 
-    .navbar-brand{
-      color:#fff !important;
-      font-size:28px;
-      font-weight:700;
-      letter-spacing:1px;
-    }
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+        }
 
-    .nav-btn{
-      border:none;
-      padding:10px 18px;
-      border-radius:12px;
-      font-weight:500;
-      transition:0.3s;
-      color:#fff;
-    }
+        /* NAVBAR */
 
-    .dashboard-btn{
-      background: linear-gradient(45deg,#2bb6ff,#1de9b6);
-    }
+        .navbar{
+            background:rgba(255,255,255,0.08)!important;
+            backdrop-filter:blur(12px);
+            border-bottom:1px solid rgba(255,255,255,0.15);
+            padding:15px 30px;
+        }
 
-    .users-btn{
-      background: linear-gradient(45deg,#00c6ff,#0072ff);
-    }
+        .navbar-brand{
+            color:#fff !important;
+            font-size:28px;
+            font-weight:700;
+        }
 
-    .logout-btn{
-      background: linear-gradient(45deg,#ff416c,#ff4b2b);
-    }
+        .nav-link-btn{
+            text-decoration:none;
+            color:#fff;
+            padding:10px 18px;
+            border-radius:12px;
+            font-weight:500;
+            transition:0.3s;
+            display:inline-block;
+        }
 
-    .nav-btn:hover{
-      transform: translateY(-2px);
-      box-shadow:0 10px 20px rgba(0,0,0,0.2);
-    }
+        .dashboard-btn{
+            background:linear-gradient(45deg,#2bb6ff,#1de9b6);
+        }
 
-    /* MAIN WRAPPER */
-    .dashboard-wrapper{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      min-height:90vh;
-      padding:40px 20px;
-    }
+        .users-btn{
+            background:linear-gradient(45deg,#00c6ff,#0072ff);
+        }
 
-    /* GLASS CARD */
-    .glass-card{
-      width:100%;
-      max-width:950px;
-      background: rgba(255,255,255,0.12);
-      backdrop-filter: blur(16px);
-      border:1px solid rgba(255,255,255,0.2);
-      border-radius:30px;
-      padding:50px;
-      box-shadow:0 8px 32px rgba(0,0,0,0.25);
-      color:#fff;
-      position:relative;
-      overflow:hidden;
-    }
+        .logout-btn{
+            background:linear-gradient(45deg,#ff416c,#ff4b2b);
+        }
 
-    .glass-card::before{
-      content:'';
-      position:absolute;
-      width:250px;
-      height:250px;
-      background:rgba(0,255,200,0.15);
-      border-radius:50%;
-      top:-80px;
-      left:-80px;
-    }
+        .nav-link-btn:hover{
+            transform:translateY(-2px);
+            box-shadow:0 10px 20px rgba(0,0,0,0.25);
+            color:#fff;
+        }
 
-    .glass-card::after{
-      content:'';
-      position:absolute;
-      width:220px;
-      height:220px;
-      background:rgba(0,140,255,0.15);
-      border-radius:50%;
-      bottom:-90px;
-      right:-90px;
-    }
+        /* DASHBOARD */
 
-    .welcome-title{
-      font-size:52px;
-      font-weight:700;
-      margin-bottom:15px;
-    }
+        .dashboard-wrapper{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:90vh;
+            padding:40px 20px;
+        }
 
-    .welcome-user{
-      font-size:28px;
-      font-weight:500;
-      margin-bottom:10px;
-      color:#d8fff5;
-    }
+        .glass-card{
+            width:100%;
+            max-width:1000px;
+            background:rgba(255,255,255,0.12);
+            backdrop-filter:blur(16px);
+            border:1px solid rgba(255,255,255,0.2);
+            border-radius:30px;
+            padding:50px;
+            box-shadow:0 8px 32px rgba(0,0,0,0.25);
+            color:#fff;
+            position:relative;
+            overflow:hidden;
+        }
 
-    .subtitle{
-      color:#d9f3ff;
-      margin-bottom:40px;
-      font-size:17px;
-    }
+        .glass-card::before{
+            content:'';
+            position:absolute;
+            width:250px;
+            height:250px;
+            background:rgba(0,255,200,0.15);
+            border-radius:50%;
+            top:-80px;
+            left:-80px;
+        }
 
-    /* STATS */
-    .stat-box{
-      background: rgba(255,255,255,0.12);
-      border:1px solid rgba(255,255,255,0.15);
-      border-radius:20px;
-      padding:25px;
-      text-align:center;
-      transition:0.3s;
-      height:100%;
-    }
+        .glass-card::after{
+            content:'';
+            position:absolute;
+            width:220px;
+            height:220px;
+            background:rgba(0,140,255,0.15);
+            border-radius:50%;
+            bottom:-90px;
+            right:-90px;
+        }
 
-    .stat-box:hover{
-      transform:translateY(-5px);
-      background: rgba(255,255,255,0.18);
-    }
+        .welcome-title{
+            font-size:48px;
+            font-weight:700;
+            margin-bottom:15px;
+        }
 
-    .stat-icon{
-      font-size:35px;
-      margin-bottom:15px;
-      color:#8fffe3;
-    }
+        .welcome-user{
+            font-size:28px;
+            color:#d8fff5;
+            margin-bottom:10px;
+        }
 
-    .stat-number{
-      font-size:32px;
-      font-weight:700;
-    }
+        .subtitle{
+            color:#d9f3ff;
+            margin-bottom:40px;
+        }
 
-    .stat-text{
-      color:#d8ecff;
-      font-size:14px;
-    }
+        /* STATS */
 
-    /* BUTTONS */
-    .action-btn{
-      border:none;
-      padding:14px 30px;
-      border-radius:15px;
-      font-size:16px;
-      font-weight:600;
-      transition:0.3s;
-      margin:10px;
-      color:#fff;
-    }
+        .stat-box{
+            background:rgba(255,255,255,0.12);
+            border:1px solid rgba(255,255,255,0.15);
+            border-radius:20px;
+            padding:25px;
+            text-align:center;
+            transition:0.3s;
+            height:100%;
+        }
 
-    .manage-btn{
-      background: linear-gradient(45deg,#00c6ff,#0072ff);
-      box-shadow:0 8px 20px rgba(0,114,255,0.4);
-    }
+        .stat-box:hover{
+            transform:translateY(-5px);
+            background:rgba(255,255,255,0.18);
+        }
 
-    .books-btn{
-      background: linear-gradient(45deg,#1de9b6,#1dc4e9);
-      box-shadow:0 8px 20px rgba(29,233,182,0.4);
-    }
+        .stat-icon{
+            font-size:35px;
+            margin-bottom:15px;
+            color:#8fffe3;
+        }
 
-    .action-btn:hover{
-      transform:translateY(-3px) scale(1.02);
-    }
+        .stat-number{
+            font-size:32px;
+            font-weight:700;
+        }
 
-    /* RESPONSIVE */
-    @media(max-width:768px){
+        .stat-text{
+            color:#d8ecff;
+        }
 
-      .glass-card{
-        padding:35px 25px;
-      }
+        /* ACTION BUTTONS */
 
-      .welcome-title{
-        font-size:36px;
-      }
+        .action-btn{
+            text-decoration:none;
+            display:inline-block;
+            border:none;
+            padding:14px 30px;
+            border-radius:15px;
+            font-size:16px;
+            font-weight:600;
+            transition:0.3s;
+            margin:10px;
+            color:#fff;
+        }
 
-      .welcome-user{
-        font-size:22px;
-      }
-    }
+        .manage-btn{
+            background:linear-gradient(45deg,#00c6ff,#0072ff);
+            box-shadow:0 8px 20px rgba(0,114,255,0.4);
+        }
 
-  </style>
+        .books-btn{
+            background:linear-gradient(45deg,#1de9b6,#1dc4e9);
+            box-shadow:0 8px 20px rgba(29,233,182,0.4);
+        }
+
+        .action-btn:hover{
+            transform:translateY(-3px);
+            color:#fff;
+        }
+
+        @media(max-width:768px){
+
+            .glass-card{
+                padding:35px 25px;
+            }
+
+            .welcome-title{
+                font-size:34px;
+            }
+
+            .welcome-user{
+                font-size:22px;
+            }
+        }
+
+    </style>
+
 </head>
-
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg">
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg">
+
     <div class="container-fluid">
 
-      <a class="navbar-brand" href="#">
-        <i class="bi bi-book-half"></i> LMS
-      </a>
+        <a class="navbar-brand" href="#">
+            <i class="bi bi-book-half"></i> LMS
+        </a>
 
-      <div class="d-flex gap-2">
+        <div class="d-flex gap-2">
 
-        <button class="nav-btn dashboard-btn">
-          <i class="bi bi-speedometer2"></i> Dashboard
-        </button>
+            <a href="dashboard.php" class="nav-link-btn dashboard-btn">
+                <i class="bi bi-speedometer2"></i> Dashboard
+            </a>
 
-        <button class="nav-btn users-btn">
-          <i class="bi bi-people-fill"></i> Users
-        </button>
+            <a href="manage_users.php" class="nav-link-btn users-btn">
+                <i class="bi bi-people-fill"></i> Users
+            </a>
 
-        <button class="nav-btn logout-btn">
-          <i class="bi bi-box-arrow-right"></i> Logout
-        </button>
+            <a href="logout.php" class="nav-link-btn logout-btn">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
 
-      </div>
+        </div>
 
     </div>
-  </nav>
 
-  <!-- DASHBOARD -->
-  <section class="dashboard-wrapper">
+</nav>
+
+<!-- DASHBOARD -->
+
+<section class="dashboard-wrapper">
 
     <div class="glass-card text-center">
 
-      <h1 class="welcome-title">
-        Welcome to LMS Dashboard
-      </h1>
+        <h1 class="welcome-title">
+            Welcome to LMS Dashboard
+        </h1>
 
-      <h3 class="welcome-user">
-        Hello, Nimsara07 👋
-      </h3>
+        <h3 class="welcome-user">
+            Hello,
+            <?php echo $_SESSION['username']; ?> 👋
+        </h3>
 
-      <p class="subtitle">
-        Smart Library Management System with Modern Glassmorphism UI
-      </p>
+        <p class="subtitle">
+            Smart Library Management System with Modern Glassmorphism UI
+        </p>
 
-      <!-- STATS -->
-      <div class="row g-4 mb-5">
+        <!-- STATS -->
 
-        <div class="col-md-4">
-          <div class="stat-box">
-            <div class="stat-icon">
-              <i class="bi bi-book-fill"></i>
+        <div class="row g-4 mb-5">
+
+            <div class="col-md-4">
+
+                <div class="stat-box">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-book-fill"></i>
+                    </div>
+
+                    <div class="stat-number">1250</div>
+
+                    <div class="stat-text">
+                        Total Books
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="stat-number">1,250</div>
+            <div class="col-md-4">
 
-            <div class="stat-text">
-              Total Books
+                <div class="stat-box">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+
+                    <div class="stat-number">320</div>
+
+                    <div class="stat-text">
+                        Active Users
+                    </div>
+
+                </div>
+
             </div>
-          </div>
+
+            <div class="col-md-4">
+
+                <div class="stat-box">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-journal-check"></i>
+                    </div>
+
+                    <div class="stat-number">89</div>
+
+                    <div class="stat-text">
+                        Borrowed Books
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="col-md-4">
-          <div class="stat-box">
-            <div class="stat-icon">
-              <i class="bi bi-people-fill"></i>
-            </div>
+        <!-- BUTTONS -->
 
-            <div class="stat-number">320</div>
+        <div>
 
-            <div class="stat-text">
-              Active Users
-            </div>
-          </div>
+            <a href="manage_users.php" class="action-btn manage-btn">
+                <i class="bi bi-person-gear"></i>
+                Manage Users
+            </a>
+
+            <a href="manage_books.php" class="action-btn books-btn">
+                <i class="bi bi-book"></i>
+                Manage Books
+            </a>
+
         </div>
-
-        <div class="col-md-4">
-          <div class="stat-box">
-            <div class="stat-icon">
-              <i class="bi bi-journal-check"></i>
-            </div>
-
-            <div class="stat-number">89</div>
-
-            <div class="stat-text">
-              Borrowed Books
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- ACTION BUTTONS -->
-      <div>
-
-        <button class="action-btn manage-btn">
-          <i class="bi bi-person-gear"></i>
-          Manage Users
-        </button>
-
-        <button class="action-btn books-btn">
-          <i class="bi bi-book"></i>
-          Manage Books
-        </button>
-
-      </div>
 
     </div>
 
-  </section>
+</section>
+
+<!-- Bootstrap JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
-
-<?php include '../includes/footer.php'; ?>
