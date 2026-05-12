@@ -279,7 +279,7 @@ if (!isset($_SESSION['username'])) {
         </h3>
 
         <p class="subtitle">
-            Smart Library Management System with Modern Glassmorphism UI
+            Smart Library Management System
         </p>
 
         <!-- STATS -->
