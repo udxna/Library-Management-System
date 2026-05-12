@@ -198,7 +198,7 @@
 
     </a>
 
-    <a href="../books/view.php">
+    <a href="../books/.php">
 
         <i class="bi bi-book-fill"></i>
 
@@ -206,7 +206,7 @@
 
     </a>
 
-    <a href="../categories/view.php">
+    <a href="../categories/book_category.php">
 
         <i class="bi bi-tags-fill"></i>
 
