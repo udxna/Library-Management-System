@@ -1,6 +1,7 @@
 <?php
 include("../config/db.php");
-
+include("../dashboard/includes/global.php");
+include("../dashboard/includes/sidebar.php");
 $message = "";
 
 $id = $_GET['id'];
@@ -65,8 +66,8 @@ if(isset($_POST['update'])){
 
 </head>
 
-<body class="bg-light">
-
+<body>
+<div class="main-content" id="mainContent">
 <div class="container mt-5">
 
 <div class="row justify-content-center">
@@ -184,6 +185,6 @@ Update Member
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+</div>
 </body>
 </html>
