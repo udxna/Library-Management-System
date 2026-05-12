@@ -288,46 +288,51 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div class="shape2"></div>
 
     <!-- Login Form -->
-    <div class="login-container">
+<div class="login-container">
 
-        <!-- Logo -->
-        <div class="logo">
-          <img src="logo.png" width="70">
-        </div>
-
-        <h2>Welcome Back</h2>
-
-        <form>
-
-            <div class="input-box">
-                <input type="text" placeholder="Enter Username">
-            </div>
-
-            <div class="input-box">
-                <input type="password" placeholder="Enter Password">
-            </div>
-
-            <button class="login-btn">
-                Login
-            </button>
-
-        </form>
-
-        <div class="register">
-            Don’t have an account?
-            <a href="#">Register Here</a>
-        </div>
-
+    <!-- Logo -->
+    <div class="logo">
+        <img src="logo.png" width="70">
     </div>
 
-    <!-- Book Rack -->
-    <div class="book-rack">
-        <div class="book"></div>
-        <div class="book"></div>
-        <div class="book"></div>
-        <div class="book"></div>
-        <div class="book"></div>
+    <h2>Welcome Back</h2>
+
+    <!-- Error Message -->
+    <?php if ($error): ?>
+        <div class="error-msg">
+            <?= htmlspecialchars($error) ?>
+        </div>
+    <?php endif; ?>
+
+    <form method="POST">
+
+        <div class="input-box">
+            <input 
+                type="text" 
+                name="username"
+                placeholder="Enter Username"
+                required
+            >
+        </div>
+
+        <div class="input-box">
+            <input 
+                type="password" 
+                name="password"
+                placeholder="Enter Password"
+                required
+            >
+        </div>
+
+        <button type="submit" class="login-btn">
+            Login
+        </button>
+
+    </form>
+
+    <div class="register">
+        Don’t have an account?
+        <a href="register.php">Register Here</a>
     </div>
 
-</body>
-</html>
+</div>
