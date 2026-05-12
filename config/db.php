@@ -1,9 +1,9 @@
 <?php
 
-$conn = mysqli_connect("localhost","root","","library_system");
+$conn = mysqli_connect("localhost", "root", "", "library_system");
 
-if(!$conn){
-    die("Database Connection Failed");
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
 }
 
 ?>
