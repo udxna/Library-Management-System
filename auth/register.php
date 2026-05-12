@@ -12,6 +12,7 @@ if(isset($_POST['register'])){
     $password = trim($_POST['password']);
     $email = trim($_POST['email']);
 
+    // Validation
     if(!preg_match('/^U[0-9]{3}$/', $userid)){
         $message = "User ID must be like U001";
     }
@@ -23,29 +24,49 @@ if(isset($_POST['register'])){
     }
     else{
 
-        $check = "SELECT * FROM users WHERE username='$username' OR email='$email'";
-        $result = mysqli_query($conn,$check);
+        // Check existing username/email
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username=? OR email=?");
+        $stmt->bind_param("ss", $username, $email);
+        $stmt->execute();
 
-        if(mysqli_num_rows($result) > 0){
+        $result = $stmt->get_result();
+
+        if($result->num_rows > 0){
+
             $message = "Username or Email Already Exists";
-        }
-        else{
 
-            $hashedPassword = md5($password);
+        } else {
 
-            $sql = "INSERT INTO users(userid,firstname,lastname,username,password,email)
-            VALUES('$userid','$firstname','$lastname','$username','$hashedPassword','$email')";
+            // Secure password hash
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            if(mysqli_query($conn,$sql)){
+            // Insert data
+            $insert = $conn->prepare("INSERT INTO users(userid, firstname, lastname, username, password, email)
+            VALUES(?,?,?,?,?,?)");
+
+            $insert->bind_param(
+                "ssssss",
+                $userid,
+                $firstname,
+                $lastname,
+                $username,
+                $hashedPassword,
+                $email
+            );
+
+            if($insert->execute()){
+
                 $message = "Registration Successful";
-            }
-            else{
-                $message = "Registration Failed";
+
+            } else {
+
+                $message = "Registration Failed: " . $conn->error;
             }
         }
     }
 }
 ?>
+
 <?php include '../includes/header.php'; ?>
 
 <div class="container mt-5">
@@ -58,7 +79,9 @@ if(isset($_POST['register'])){
 <h2 class="text-center mb-4">User Registration</h2>
 
 <?php if($message != ""){ ?>
-<div class="alert alert-info"><?php echo $message; ?></div>
+<div class="alert alert-info">
+    <?php echo $message; ?>
+</div>
 <?php } ?>
 
 <form method="POST">
