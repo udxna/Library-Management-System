@@ -269,7 +269,7 @@ if($checkFines->num_rows > 0){
 
                 </a>
 
-                <a href="../categories/add.php"
+                <a href="../categories/category_handler.php"
                    class="btn btn-warning text-dark">
 
                     <i class="bi bi-tags-fill"></i>
