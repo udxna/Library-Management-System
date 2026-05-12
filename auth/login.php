@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <title>Login - Library System</title>
 </head>
-<body>
+<body bgcolor = "rgba(16, 219, 43, 0)">
     <h2>Login</h2>
 
     <?php if ($error): ?>
