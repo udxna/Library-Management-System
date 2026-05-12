@@ -3,7 +3,6 @@ include("../config/db.php");
 
 $sql = "SELECT * FROM member";
 $result = $conn->query($sql);
-
 ?>
 
 <!DOCTYPE html>
@@ -13,19 +12,30 @@ $result = $conn->query($sql);
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>View Members</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 </head>
 
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
+<?php include("../dashboard/includes/sidebar.php"); ?>
 
-    <div class="card shadow p-4 rounded-4">
+<div class="main-content" id="mainContent">
+
+<?php include("../dashboard/includes/navbar.php"); ?>
+
+<div class="container-fluid">
+
+    <div class="card shadow p-4 rounded-4 border-0">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
 
@@ -33,8 +43,11 @@ $result = $conn->query($sql);
                 Library Members
             </h2>
 
-            <a href="add.php" class="btn btn-primary">
+            <a href="add.php"
+               class="btn btn-primary">
+
                 Add Member
+
             </a>
 
         </div>
@@ -45,12 +58,17 @@ $result = $conn->query($sql);
 
                 <tr>
 
-                    <th class ="text-center">Member ID</th>
-                    <th class ="text-center">First Name</th>
-                    <th class ="text-center">Last Name</th>
-                    <th class ="text-center">Birthday</th>
-                    <th class ="text-center">Email</th>
-                    <th style="width: 1%;" class ="text-center">Action</th>
+                    <th class="text-center">Member ID</th>
+                    <th class="text-center">First Name</th>
+                    <th class="text-center">Last Name</th>
+                    <th class="text-center">Birthday</th>
+                    <th class="text-center">Email</th>
+                    <th style="width:1%;"
+                        class="text-center">
+
+                        Action
+
+                    </th>
 
                 </tr>
 
@@ -64,48 +82,75 @@ $result = $conn->query($sql);
 
                     while($row = $result->fetch_assoc()){
 
-                        echo "<tr>
+                        echo "
 
-                            <td class ='text-center'>".$row['member_id']."</td>
+                        <tr>
 
-                            <td class ='text-center'>".$row['first_name']."</td>
+                            <td class='text-center'>
+                                ".$row['member_id']."
+                            </td>
 
-                            <td class ='text-center'>".$row['last_name']."</td>
+                            <td class='text-center'>
+                                ".$row['first_name']."
+                            </td>
 
-                            <td class ='text-center'>".$row['birthday']."</td>
+                            <td class='text-center'>
+                                ".$row['last_name']."
+                            </td>
 
-                            <td class ='text-center'>".$row['email']."</td>
+                            <td class='text-center'>
+                                ".$row['birthday']."
+                            </td>
+
+                            <td class='text-center'>
+                                ".$row['email']."
+                            </td>
+
                             <td class='text-nowrap'>
 
                                 <div class='d-flex gap-1'>
 
                                     <a href='edit.php?id=".$row['member_id']."'
-                                    class='btn btn-warning btn-sm px-3'>
+                                       class='btn btn-warning btn-sm px-3'>
+
                                         Edit
+
                                     </a>
 
                                     <a href='delete.php?id=".$row['member_id']."'
-                                    class='btn btn-danger btn-sm px-3'
-                                    onclick=\"return confirm('Are you sure you want to delete this member?')\">
+                                       class='btn btn-danger btn-sm px-3'
+                                       onclick=\"return confirm('Are you sure you want to delete this member?')\">
+
                                         Delete
-                                     </a>
+
+                                    </a>
 
                                 </div>
 
                             </td>
-                            
 
-                        </tr>";
+                        </tr>
+
+                        ";
 
                     }
 
                 } else {
 
-                    echo "<tr>
-                            <td colspan='5' class='text-center'>
-                                No Members Found
-                            </td>
-                          </tr>";
+                    echo "
+
+                    <tr>
+
+                        <td colspan='6'
+                            class='text-center'>
+
+                            No Members Found
+
+                        </td>
+
+                    </tr>
+
+                    ";
 
                 }
 
@@ -118,6 +163,10 @@ $result = $conn->query($sql);
     </div>
 
 </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
