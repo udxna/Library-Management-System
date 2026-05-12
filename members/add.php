@@ -1,4 +1,5 @@
 <?php
+
 include("../config/db.php");
 
 $message = "";
@@ -11,7 +12,7 @@ if(isset($_POST['submit'])){
     $birthday = $_POST['birthday'];
     $email = $_POST['email'];
 
-    // Id validation
+    // ID validation
     if(!preg_match("/^M[0-9]{3}$/", $member_id)){
 
         $message = "Invalid Member ID Format! Example: M001";
@@ -27,7 +28,7 @@ if(isset($_POST['submit'])){
 
     else{
 
-        $sql = "INSERT INTO member 
+        $sql = "INSERT INTO member
         (member_id, first_name, last_name, birthday, email)
         VALUES
         ('$member_id', '$firstname', '$lastname', '$birthday', '$email')";
@@ -41,38 +42,30 @@ if(isset($_POST['submit'])){
             $message = "Database Error: " . $conn->error;
 
         }
+
     }
+
 }
+
+include("../dashboard/includes/sidebar.php");
+include("../dashboard/includes/global.php");
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Add Member</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-</head>
-
-<body class="bg-light">
-
+<body>
+<div class="main-content" id="mainContent">
 <div class="container mt-5">
+
+
 
     <div class="row justify-content-center">
 
         <div class="col-md-6">
 
-            <div class="card shadow p-4 rounded-4">
+            <div class="card shadow p-4 rounded-4 border-0">
 
                 <div class="text-center mb-4">
 
-                    <img src="../assets/images/logo.png" width="100">
+                    <img src="../assets/images/logo.png"
+                         width="100">
 
                     <h2 class="mt-3">
                         Add Library Member
@@ -80,20 +73,25 @@ if(isset($_POST['submit'])){
 
                 </div>
 
-                    <?php if($message != ""){ ?>
+                <!-- Alert -->
 
-                    <div class="alert alert-success alert-dismissible fade show"role="alert">
+                <?php if($message != ""){ ?>
 
-                    <?php echo $message; ?>
+                    <div class="alert alert-success alert-dismissible fade show"
+                         role="alert">
 
-                    <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-                    </button>
+                        <?php echo $message; ?>
 
-                </div>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert">
+                        </button>
+
+                    </div>
 
                 <?php } ?>
+
+                <!-- Form -->
 
                 <form method="POST">
 
@@ -181,6 +179,10 @@ if(isset($_POST['submit'])){
     </div>
 
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</div>
+</div>
 </body>
 </html>

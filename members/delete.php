@@ -1,5 +1,6 @@
 <?php
 include("../config/db.php");
+include("../dashboard/includes/global.php");
 
 if(isset($_GET['id'])){
 
