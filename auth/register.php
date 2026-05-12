@@ -1,8 +1,9 @@
 <?php
 // register.php
+
 session_start();
 
-// Database connection
+// Database Connection
 $host = "localhost";
 $dbname = "library_system";
 $username = "root";
@@ -15,41 +16,65 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
+$message = "";
 $error = "";
-$success = "";
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $userid    = trim($_POST['userid'] ?? '');
-    $firstname = trim($_POST['firstname'] ?? '');
-    $lastname  = trim($_POST['lastname'] ?? '');
-    $uname     = trim($_POST['username'] ?? '');
-    $email     = trim($_POST['email'] ?? '');
-    $pass      = $_POST['password'] ?? '';
+// Register Process
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Validate inputs
-    if (empty($userid) || empty($firstname) || empty($lastname) || empty($uname) || empty($email) || empty($pass)) {
+    $userid    = trim($_POST['userid']);
+    $firstname = trim($_POST['firstname']);
+    $lastname  = trim($_POST['lastname']);
+    $username  = trim($_POST['username']);
+    $email     = trim($_POST['email']);
+    $password  = $_POST['password'];
+
+    if (
+        empty($userid) ||
+        empty($firstname) ||
+        empty($lastname) ||
+        empty($username) ||
+        empty($email) ||
+        empty($password)
+    ) {
+
         $error = "All fields are required.";
-    } else {
-        // ✅ FIXED: Hash the password properly with PASSWORD_BCRYPT
-        $hashedPassword = password_hash($pass, PASSWORD_BCRYPT);
 
-        try {
-            $stmt = $pdo->prepare("INSERT INTO users (userid, firstname, lastname, username, password, email, created_at) 
-                                   VALUES (:userid, :firstname, :lastname, :username, :password, :email, NOW())");
-            $stmt->execute([
-                ':userid'    => $userid,
-                ':firstname' => $firstname,
-                ':lastname'  => $lastname,
-                ':username'  => $uname,
-                ':password'  => $hashedPassword,   // ✅ Hashed password saved to DB
-                ':email'     => $email,
+    } else {
+
+        // Check existing username
+        $check = $pdo->prepare("SELECT id FROM users WHERE username = ?");
+        $check->execute([$username]);
+
+        if ($check->rowCount() > 0) {
+
+            $error = "Username already exists.";
+
+        } else {
+
+            // Hash Password
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            // Insert User
+            $stmt = $pdo->prepare("
+                INSERT INTO users
+                (userid, firstname, lastname, username, email, password)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ");
+
+            $success = $stmt->execute([
+                $userid,
+                $firstname,
+                $lastname,
+                $username,
+                $email,
+                $hashedPassword
             ]);
-            $success = "Registration successful! <a href='login.php'>Login here</a>";
-        } catch (PDOException $e) {
-            if ($e->errorInfo[1] == 1062) {
-                $error = "Username or email already exists.";
+
+            if ($success) {
+                $message = "Registration Successful!";
             } else {
-                $error = "Error: " . $e->getMessage();
+                $error = "Registration Failed.";
             }
         }
     }
