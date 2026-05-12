@@ -1,97 +1,68 @@
+<?php
+// login.php
+session_start();
+
+// Database connection
+$host = "localhost";
+$dbname = "library_system";
+$username = "root";
+$password = "";
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
+
+$error = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $uname = trim($_POST['username'] ?? '');
+    $pass  = $_POST['password'] ?? '';
+
+    if (empty($uname) || empty($pass)) {
+        $error = "Username and password are required.";
+    } else {
+        // Fetch user by username
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username LIMIT 1");
+        $stmt->execute([':username' => $uname]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // ✅ FIXED: Use password_verify() to check against the hashed password in DB
+        if ($user && password_verify($pass, $user['password'])) {
+            $_SESSION['user_id']   = $user['id'];
+            $_SESSION['userid']    = $user['userid'];
+            $_SESSION['username']  = $user['username'];
+            $_SESSION['firstname'] = $user['firstname'];
+            $_SESSION['lastname']  = $user['lastname'];
+            header("Location: dashboard.php");
+            exit();
+        } else {
+            $error = "Invalid username or password.";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>LMS Login</title>
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- CSS File -->
-    <link rel="stylesheet" href="../assets/css/style.css">
-
+    <title>Login - Library System</title>
 </head>
 <body>
+    <h2>Login</h2>
 
-<div class="container">
+    <?php if ($error): ?>
+        <p style="color:red;"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
 
-    <div class="row justify-content-center align-items-center min-vh-100">
+    <form method="POST" action="login.php">
+        <label>Username: <input type="text" name="username" required></label><br><br>
+        <label>Password: <input type="password" name="password" required></label><br><br>
+        <button type="submit">Login</button>
+    </form>
 
-        <div class="col-md-5">
-
-            <div class="card login-card shadow-lg">
-
-                <div class="card-body p-5">
-
-                    <h2 class="text-center mb-4 login-title">
-                        LMS Login
-                    </h2>
-
-                    <p class="text-center text-muted mb-4">
-                        Welcome Back 📚
-                    </p>
-
-                    <form method="POST">
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Username
-                            </label>
-
-                            <input 
-                                type="text" 
-                                name="username"
-                                class="form-control custom-input"
-                                placeholder="Enter Username"
-                                required
-                            >
-
-                        </div>
-
-                        <div class="mb-4">
-
-                            <label class="form-label">
-                                Password
-                            </label>
-
-                            <input 
-                                type="password"
-                                name="password"
-                                class="form-control custom-input"
-                                placeholder="Enter Password"
-                                required
-                            >
-
-                        </div>
-
-                        <button type="submit" class="btn login-btn w-100">
-
-                            Login
-
-                        </button>
-
-                    </form>
-
-                    <div class="text-center mt-4">
-
-                        <a href="register.php" class="register-link">
-                            Create New Account
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
+    <p>Don't have an account? <a href="register.php">Register here</a></p>
 </body>
 </html>
