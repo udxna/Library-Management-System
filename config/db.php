@@ -1,14 +1,9 @@
 <?php
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "library_system";
+$conn = mysqli_connect("localhost","root","","library_system");
 
-$conn = mysqli_connect($host, $user, $pass, $db);
-
-if (!$conn) {
-    die("Database Connection Failed: " . mysqli_connect_error());
+if(!$conn){
+    die("Connection Failed: " . mysqli_connect_error());
 }
 
 ?>
