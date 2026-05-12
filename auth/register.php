@@ -15,10 +15,65 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
-/* ADD THIS */
 $message = "";
 $error = "";
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $userid    = trim($_POST['userid']);
+    $firstname = trim($_POST['firstname']);
+    $lastname  = trim($_POST['lastname']);
+    $username  = trim($_POST['username']);
+    $email     = trim($_POST['email']);
+    $password  = $_POST['password'];
+
+    if (
+        empty($userid) ||
+        empty($firstname) ||
+        empty($lastname) ||
+        empty($username) ||
+        empty($email) ||
+        empty($password)
+    ) {
+
+        $error = "All fields are required.";
+
+    } else {
+
+        $check = $pdo->prepare("SELECT id FROM users WHERE username = ?");
+        $check->execute([$username]);
+
+        if ($check->rowCount() > 0) {
+
+            $error = "Username already exists.";
+
+        } else {
+
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            $stmt = $pdo->prepare("
+                INSERT INTO users
+                (userid, firstname, lastname, username, email, password)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ");
+
+            $success = $stmt->execute([
+                $userid,
+                $firstname,
+                $lastname,
+                $username,
+                $email,
+                $hashedPassword
+            ]);
+
+            if ($success) {
+                $message = "Registration Successful!";
+            } else {
+                $error = "Registration Failed.";
+            }
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
