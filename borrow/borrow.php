@@ -39,7 +39,9 @@ function generateBorrowID($conn) {
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {
-       
+        $row = mysqli_fetch_assoc($result);
+        $lastID = $row['borrow_id']; 
+        
         
       
        
