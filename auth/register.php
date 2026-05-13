@@ -1,77 +1,44 @@
 <?php
-
 session_start();
-
-// Database Connection
-$host = "localhost";
-$dbname = "library_system";
-$username_db = "root";
-$password_db = "";
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username_db, $password_db);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
+require_once '../config/db.php';
 
 $message = "";
 $error = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $userid    = trim($_POST['userid'] ?? '');
+    $firstname = trim($_POST['firstname'] ?? '');
+    $lastname  = trim($_POST['lastname'] ?? '');
+    $username  = trim($_POST['username'] ?? '');
+    $email     = trim($_POST['email'] ?? '');
+    $password  = $_POST['password'] ?? '';
 
-    $userid    = trim($_POST['userid']);
-    $firstname = trim($_POST['firstname']);
-    $lastname  = trim($_POST['lastname']);
-    $username  = trim($_POST['username']);
-    $email     = trim($_POST['email']);
-    $password  = $_POST['password'];
-
-    if (
-        empty($userid) ||
-        empty($firstname) ||
-        empty($lastname) ||
-        empty($username) ||
-        empty($email) ||
-        empty($password)
-    ) {
+    if ($userid === '' || $firstname === '' || $lastname === '' || $username === '' || $email === '' || $password === '') {
         $error = "All fields are required.";
+    } elseif (!preg_match('/^U[0-9]{3}$/', $userid)) {
+        $error = "User ID must be like U001.";
+    } elseif (strlen($password) <= 8) {
+        $error = "Password must be more than 8 characters.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Invalid email format.";
     } else {
+        // IMPORTANT: table name is `user`; column name is user_id
+        $check = mysqli_prepare($conn, "SELECT user_id FROM `user` WHERE user_id = ? OR username = ? OR email = ? LIMIT 1");
+        mysqli_stmt_bind_param($check, "sss", $userid, $username, $email);
+        mysqli_stmt_execute($check);
+        $result = mysqli_stmt_get_result($check);
 
-        // Check duplicate userid, username, or email
-        $check = $pdo->prepare("SELECT * FROM users WHERE userid = ? OR username = ? OR email = ?");
-        $check->execute([$userid, $username, $email]);
-
-        if ($check->rowCount() > 0) {
+        if (mysqli_num_rows($result) > 0) {
             $error = "User ID, Username or Email already exists.";
         } else {
-
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = mysqli_prepare($conn, "INSERT INTO `user` (user_id, email, first_name, last_name, username, password) VALUES (?, ?, ?, ?, ?, ?)");
+            mysqli_stmt_bind_param($stmt, "ssssss", $userid, $email, $firstname, $lastname, $username, $hashedPassword);
 
-            try {
-                $stmt = $pdo->prepare("
-                    INSERT INTO users
-                    (userid, firstname, lastname, username, email, password)
-                    VALUES (?, ?, ?, ?, ?, ?)
-                ");
-
-                $stmt->execute([
-                    $userid,
-                    $firstname,
-                    $lastname,
-                    $username,
-                    $email,
-                    $hashedPassword
-                ]);
-
-                $message = "Registration Successful!";
-
-            } catch (PDOException $e) {
-                if ($e->getCode() == 23000) {
-                    $error = "This user already exists. Please use another User ID, Username or Email.";
-                } else {
-                    $error = "Registration Failed.";
-                }
+            if (mysqli_stmt_execute($stmt)) {
+                $message = "Registration Successful! Now you can login.";
+            } else {
+                $error = "Registration failed. Please try again.";
             }
         }
     }
