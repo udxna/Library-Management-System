@@ -26,9 +26,9 @@ if (isset($_POST['update'])) {
         <p>Borrow ID: <b><?php echo $data['borrow_id']; ?></b></p>
         <div class="mb-3">
             <label>Borrow Status</label>
-            <select name="" class="">
-               
-                
+            <select name="status" class="form-control">
+                <option value="borrowed" >Borrowed</option>
+                <option value="available" >Available</option>
             </select>
         </div>
         <button type="submit" name="update" class="btn btn-success">Update</button>
