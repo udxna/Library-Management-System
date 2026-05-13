@@ -66,7 +66,7 @@ function generateBorrowID($conn) {
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body class=container mt-5>
+<body class="container mt-5">
     <h2>Borrow Book Details</h2>
      <form method="POST" class="card p-4 mb-5">
         <div class="mb-3">
