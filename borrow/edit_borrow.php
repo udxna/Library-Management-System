@@ -4,7 +4,7 @@ $id = $_GET['id'];
 $data = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM bookborrower WHERE borrow_id='$id'"));
 
 if (isset($_POST['update'])) {
-
+    $status = $_POST['status'];
    
     
 
