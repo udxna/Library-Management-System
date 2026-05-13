@@ -289,7 +289,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .user-table{
-    width: 100%;
+    width: 90%;
 
     border-collapse: collapse;
 
@@ -369,18 +369,18 @@ $result = mysqli_query($conn, $sql);
       background:#ffd60a;
       color:#000;
       border:none;
-      border-radius:2px;
-      padding:2px 10px;
-      font-weight:400;
+      border-radius:5px;
+      padding:5px 10px;
+      font-weight:500;
     }
 
     .btn-delete{
       background:#ef233c;
       color:#fff;
       border:none;
-      border-radius:2px;
-      padding:2px 10px;
-      font-weight:400;
+      border-radius:5px;
+      padding:5px 10px;
+      font-weight:500;
     }
 
     .btn-edit:hover,
@@ -543,7 +543,7 @@ $result = mysqli_query($conn, $sql);
 
     <div class="table-wrapper">
       <h3 class="text-white mb-3"><i class="bi bi-people-fill"></i> Registered Users</h3>
-      <<table class="table user-table">>
+      <table class="table user-table">
         <thead>
           <tr>
             <th>User ID</th>
