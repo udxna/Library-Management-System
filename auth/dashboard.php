@@ -249,7 +249,7 @@ if (!isset($_SESSION['username'])) {
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
 
-            <a href="manage_users.php" class="nav-link-btn users-btn">
+            <a href="view_users.php" class="nav-link-btn users-btn">
                 <i class="bi bi-people-fill"></i> Users
             </a>
 
