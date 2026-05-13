@@ -244,6 +244,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             margin-bottom:25px;
             font-weight:600;
         }
+        .input-box{
+          width: 100%;
+          height: 52px;
+          border: none;
+          outline: none;
+          border-radius: 12px;
+          padding: 0 18px;
+          margin-bottom: 15px;
+          background: rgba(72, 219, 147, 0.45);
+          color: #1b4d5f;
+          font-size: 16px;
+          font-weight: 600;
+      }
+
+       .input-box::placeholder{
+          color: rgba(27, 77, 95, 0.65);
+     }
+
+       .input-box[readonly]{
+          cursor: not-allowed;
+     }
 
         .input-box{
             margin-bottom:15px;
@@ -364,11 +385,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <form method="POST">
 
-            <div class="form-control">
+            <div>
                 <input type="text"
-                       name="user_id"
-                       value="<?php echo $newUserID; ?>"
-                       readonly>
+                   name="user_id"
+                   class="form-control input-box"
+                   value="<?php echo $newUserID; ?>"
+                   readonly>
             </div>
 
             <div class="input-box">
