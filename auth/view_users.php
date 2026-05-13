@@ -289,7 +289,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .user-table{
-    width: 75%;
+    width: 50%;
 
     border-collapse: collapse;
 
