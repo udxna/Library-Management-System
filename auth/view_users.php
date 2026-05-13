@@ -224,7 +224,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .glass-table{
-    width: 50%;
+    width: 100%;
 
     border-collapse: collapse;
 
@@ -289,7 +289,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .user-table{
-    width: 40%;
+    width: 100%;
 
     border-collapse: collapse;
 
