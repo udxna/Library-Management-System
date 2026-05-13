@@ -351,9 +351,9 @@ if (!isset($_SESSION['username'])) {
                 Manage Users
             </a>
 
-            <a href="manage_books.php" class="action-btn books-btn">
+            <a href="update_user.php" class="action-btn books-btn">
                 <i class="bi bi-book"></i>
-                Manage Books
+                Update User
             </a>
 
         </div>
