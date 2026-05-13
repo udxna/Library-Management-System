@@ -9,7 +9,7 @@ if (isset($_POST['update'])) {
     
     $update_query = "UPDATE bookborrower SET borrow_status='$status', borrower_date_modified='$date' WHERE borrow_id='$id'";
     if (mysqli_query($conn, $update_query)) {
-       
+        header('location: borrow.php');
     }
 }
 ?>
