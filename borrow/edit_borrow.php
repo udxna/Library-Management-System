@@ -17,7 +17,7 @@ if (isset($_POST['update'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Edit Borrow Detail</title>
    
 </head>
 <body class="container mt-5">
