@@ -374,7 +374,7 @@ $result = mysqli_query($conn, $sql);
     text-shadow: 0 2px 10px rgba(0,0,0,0.35);
 }
 .user-table-box{
-  width: 100%;
+  width: 75%;
   margin-top: 20px;
   border-radius: 18px;
   overflow-x: auto;
@@ -383,7 +383,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .user-table{
-  width: 100%;
+  width: 75%;
   min-width: 1180px;
   margin-bottom: 0;
   border-collapse: collapse;
@@ -412,7 +412,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .user-table tbody tr:hover{
-  background: #eafff7;
+  background: #2b53c483;
 }
 
 .password-col{
@@ -431,7 +431,7 @@ $result = mysqli_query($conn, $sql);
 
 .btn-edit,
 .btn-delete{
-  width: 75px;
+  width: 80px;
   height: 38px;
   display: inline-flex;
   align-items: center;
