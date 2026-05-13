@@ -338,7 +338,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
         <?php endif; ?>
 
-        <form method="POST">4
+        <form method="POST">
 
             <div class="input-box">
                 <input type="text" name="user_id" class="form-control" placeholder="User ID" readonly>
