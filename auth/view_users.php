@@ -369,7 +369,7 @@ $result = mysqli_query($conn, $sql);
 
     align-items:center;
 
-    gap:8px;
+    gap:10px;
 
     white-space:nowrap;
 }
@@ -383,11 +383,11 @@ $result = mysqli_query($conn, $sql);
 
     border:1px solid #ccc;
 
-    border-radius:6px;
+    border-radius:5px;
 
-    padding:8px 18px;
+    padding:6px 20px;
 
-    font-weight:700;
+    font-weight:500;
 
     text-decoration:none;
 
@@ -409,11 +409,11 @@ $result = mysqli_query($conn, $sql);
 
     border:1px solid #ccc;
 
-    border-radius:6px;
+    border-radius:5px;
 
-    padding:8px 18px;
+    padding:6px 20px;
 
-    font-weight:700;
+    font-weight:500;
 
     text-decoration:none;
 
