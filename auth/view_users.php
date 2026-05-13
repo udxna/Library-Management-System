@@ -373,7 +373,88 @@ $result = mysqli_query($conn, $sql);
 
     text-shadow: 0 2px 10px rgba(0,0,0,0.35);
 }
+.user-table-box{
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 18px;
+  overflow-x: auto;
+  border: 2px solid rgba(255,255,255,0.35);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
 
+.user-table{
+  width: 100%;
+  min-width: 1180px;
+  margin-bottom: 0;
+  border-collapse: collapse;
+  background: rgba(255,255,255,0.96);
+}
+
+.user-table th,
+.user-table td{
+  text-align: center;
+  vertical-align: middle;
+  padding: 16px 14px;
+  border: 1px solid #d6d6d6;
+  font-weight: 600;
+}
+
+.user-table thead th{
+  background: linear-gradient(135deg, #00c896, #00e5a8);
+  color: white;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.user-table tbody td{
+  color: #111;
+  font-size: 15px;
+}
+
+.user-table tbody tr:hover{
+  background: #eafff7;
+}
+
+.password-col{
+  max-width: 430px;
+  word-break: break-all;
+  font-size: 13px !important;
+}
+
+.action-btn-group{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.btn-edit,
+.btn-delete{
+  width: 85px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 800;
+  color: white;
+}
+
+.btn-edit{
+  background: linear-gradient(135deg, #00b4ff, #4cc9f0);
+}
+
+.btn-delete{
+  background: linear-gradient(135deg, #daa520, #ffd700);
+}
+
+.btn-edit:hover,
+.btn-delete:hover{
+  color: white;
+  transform: translateY(-2px);
+}
     /* Buttons */
 
     .btn-edit{
@@ -552,7 +633,8 @@ $result = mysqli_query($conn, $sql);
 
 
 
-    <div class="table-wrapper">
+   <div class="table-responsive user-table-box">
+     <table class="table user-table">
       <h3 class="text-white mb-3"><i class="bi bi-people-fill"></i> Registered Users</h3>
       <table class="table table-hover">
         <thead>
@@ -587,6 +669,7 @@ $result = mysqli_query($conn, $sql);
           <?php endif; ?>
         </tbody>
       </table>
+     </table>
     </div>
     <div class="footer">
       © 2025 Library Management System | Designed by CG Product Developer
