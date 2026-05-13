@@ -393,6 +393,7 @@ $result = mysqli_query($conn, $sql);
       border-radius:5px;
       padding:6px 20px;
       font-weight:500;
+      gap:10px;
     }
 
     .btn-edit:hover,
