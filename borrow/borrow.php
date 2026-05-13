@@ -13,6 +13,27 @@ include("../config/db.php");
 </head>
 <body class=container mt-5>
     <h2>Borrow Book Details</h2>
-    
+     <form method="POST" class="card p-4 mb-5">
+        <div class="mb-3">
+            <label>Borrow ID (Format: BR001)</label>
+            <input type="text" name="borrow_id" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Book ID (Format: B001)</label>
+            <input type="text" name="book_id" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Member ID (Format: M001)</label>
+            <input type="text" name="member_id" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Borrow Status</label>
+            <select name="status" class="form-control">
+                <option value="borrowed">Borrowed</option>
+                <option value="available">Available</option>
+            </select>
+        </div>
+        <button type="submit" name="submit" class="btn btn-primary">Add Record</button>
+    </form> 
 </body>
 </html>
