@@ -370,8 +370,8 @@ $result = mysqli_query($conn, $sql);
       color:#000;
       border:none;
       border-radius:5px;
-      padding:6px 20px;
-      font-weight:500;
+      padding:5px 10px;
+      font-weight:400;
     }
 
     .btn-delete{
@@ -379,8 +379,8 @@ $result = mysqli_query($conn, $sql);
       color:#fff;
       border:none;
       border-radius:5px;
-      padding:6px 20px;
-      font-weight:500;
+      padding:5px 10px;
+      font-weight:400;
     }
 
     .btn-edit:hover,
