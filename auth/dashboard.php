@@ -358,14 +358,16 @@ if (!isset($_SESSION['username'])) {
 
         </div>
 
-        <div class="footer">
-           © 2025 Library Management System | Designed by CG Product Developer
-        </div>
-
+        
     </div>
  
 
 </section>
+
+           <div class="footer">
+                  © 2025 Library Management System | Designed by CG Product Developer
+           </div>
+
 
 <!-- Bootstrap JS -->
 
