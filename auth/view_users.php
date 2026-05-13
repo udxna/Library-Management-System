@@ -224,7 +224,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .glass-table{
-    width: 100%;
+    width: 500%;
 
     border-collapse: collapse;
 
@@ -673,7 +673,7 @@ $result = mysqli_query($conn, $sql);
    </table>
   </div>
     <div class="footer">
-      © 2025 Library Management System | Designed by CG Product Developer
+      © 2026 Library Management System | Designed by CG Product Developer | All Rights Reserved
     </div>
 
   </div>
