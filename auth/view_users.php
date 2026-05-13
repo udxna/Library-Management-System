@@ -356,6 +356,8 @@ $result = mysqli_query($conn, $sql);
 
     min-width: 95px;
 
+    gap: 10px;
+
     text-align: center;
 
     box-shadow: 0 4px 15px rgba(255,215,0,0.35);
@@ -363,7 +365,7 @@ $result = mysqli_query($conn, $sql);
     transition: 0.3s ease;
 }
 .table-title{
-    color: blue;
+    color: White;
 
     font-size: 34px;
 
