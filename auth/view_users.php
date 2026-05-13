@@ -1,27 +1,31 @@
-<?php
-session_start();
+<tbody>
 
-if(!isset($_SESSION['username'])){
-    header("Location: login.php");
-}
+<?php while($row = mysqli_fetch_assoc($result)){ ?>
 
-include '../config/db.php';
+<tr>
+  <td><?php echo $row['id']; ?></td>
+  <td><?php echo $row['userid']; ?></td>
+  <td><?php echo $row['firstname']; ?></td>
+  <td><?php echo $row['lastname']; ?></td>
+  <td><?php echo $row['username']; ?></td>
+  <td><?php echo $row['email']; ?></td>
 
-$sql = "SELECT * FROM users";
-$result = mysqli_query($conn,$sql);
-?>
+  <td>
+    <a href="update_user.php?id=<?php echo $row['id']; ?>" class="btn btn-edit btn-sm">
+      Edit
+    </a>
 
-<?php include '../includes/header.php'; ?>
-<?php include '../includes/navbar.php'; ?>
+    <a href="delete_user.php?id=<?php echo $row['id']; ?>"
+       class="btn btn-delete btn-sm"
+       onclick="return confirm('Are you sure you want to delete this user?');">
+      Delete
+    </a>
+  </td>
+</tr>
 
+<?php } ?>
 
-
-</table>
-
-</div>
-</div>
-
-<?php include '../includes/footer.php'; ?>
+</tbody>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -430,82 +434,10 @@ $result = mysqli_query($conn,$sql);
 
       </div>
 
-      <!-- User Table -->
-
-      <div class="table-wrapper">
-
-        <h4 class="text-white mb-4">
-          <i class="bi bi-person-lines-fill"></i>
-          User List
-        </h4>
-
-        <table class="table align-middle">
-
-          <thead>
-
-            <tr>
-              <th>ID</th>
-              <th>User ID</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Actions</th>
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            <tr>
-              <td>1</td>
-              <td>U001</td>
-              <td>Chamod</td>
-              <td>Nimsara</td>
-              <td>Chamod07</td>
-              <td>chamod@gmail.com</td>
-              <td>
-                <button class="btn btn-edit btn-sm">Edit</button>
-                <button class="btn btn-delete btn-sm">Delete</button>
-              </td>
-            </tr>
-
-            <tr>
-              <td>2</td>
-              <td>U002</td>
-              <td>Sithum</td>
-              <td>Nimsara</td>
-              <td>Sithum25</td>
-              <td>sithum@gmail.com</td>
-              <td>
-                <button class="btn btn-edit btn-sm">Edit</button>
-                <button class="btn btn-delete btn-sm">Delete</button>
-              </td>
-            </tr>
-
-            <tr>
-              <td>3</td>
-              <td>U003</td>
-              <td>Nawodya</td>
-              <td>Sathsarani</td>
-              <td>Nawodya19</td>
-              <td>nawodya@gmail.com</td>
-              <td>
-                <button class="btn btn-edit btn-sm">Edit</button>
-                <button class="btn btn-delete btn-sm">Delete</button>
-              </td>
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
     </div>
 
     <div class="footer">
-      © 2025 Library Management System • Modern Virtual Library UI
+      © 2025 Library Management System 
     </div>
 
   </div>
