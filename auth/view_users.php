@@ -371,7 +371,7 @@ $result = mysqli_query($conn, $sql);
       border:1px solid #ccc;
       border-radius:0.5px;
       padding:6px 20px;
-      font-weight:700;
+      font-weight:500;
       
       
     }
@@ -382,7 +382,7 @@ $result = mysqli_query($conn, $sql);
       border:1px solid #ccc;
       border-radius:0.5px;
       padding:6px 20px;
-      font-weight:700;
+      font-weight:500;
       
     }
 
