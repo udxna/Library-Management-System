@@ -372,7 +372,7 @@ $result = mysqli_query($conn, $sql);
       border-radius:5px;
       padding:5px 10px;
       font-weight:500;
-      gap:5px;
+      gap:50px;
     }
 
     .btn-delete{
@@ -382,7 +382,7 @@ $result = mysqli_query($conn, $sql);
       border-radius:5px;
       padding:5px 10px;
       font-weight:500;
-      gap:5px;
+      gap:50px;
     }
 
     .btn-edit:hover,
