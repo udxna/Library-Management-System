@@ -227,16 +227,7 @@ if (!isset($_SESSION['username'])) {
                 font-size:22px;
             }
      }
-         /* Footer */
-
-            .footer{
-               text-align:Bottom;
-               color:#cde;
-               padding:20px;
-               margin-top:30px;
-               font-size:14px;
-         }
-
+         
 
     </style>
 
@@ -371,10 +362,6 @@ if (!isset($_SESSION['username'])) {
         
     </div>
 
-    <div class="footer">
-      © 2025 Library Management System | Designed by CG Product Developer
-    </div>
- 
 
 </section>
 
