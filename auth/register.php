@@ -168,10 +168,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         .register-container::before{
             content:'';
             position:absolute;
-            top: 5px;;
+            top: 5px;
             left:-75%;
-            width:50%;
-            height:100%;
+            width:75%;
+            height:75%;
             background:linear-gradient(
                 120deg,
                 rgba(255,255,255,0.1),
