@@ -373,88 +373,7 @@ $result = mysqli_query($conn, $sql);
 
     text-shadow: 0 2px 10px rgba(0,0,0,0.35);
 }
-.user-table-box{
-  width: 50%;
-  margin-top: 20px;
-  border-radius: 18px;
-  overflow-x: auto;
-  border: 2px solid rgba(255,255,255,0.35);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-}
 
-.user-table{
-  width: 50%;
-  min-width: 750px;
-  margin-bottom: 0;
-  border-collapse: collapse;
-  background: rgba(255,255,255,0.96);
-}
-
-.user-table th,
-.user-table td{
-  text-align: center;
-  vertical-align: middle;
-  padding: 16px 14px;
-  border: 1px solid #d6d6d6;
-  font-weight: 600;
-}
-
-.user-table thead th{
-  background: linear-gradient(135deg, #00c896, #00e5a8);
-  color: white;
-  font-weight: 800;
-  font-size: 16px;
-}
-
-.user-table tbody td{
-  color: #111;
-  font-size: 15px;
-}
-
-.user-table tbody tr:hover{
-  background: #2b53c483;
-}
-
-.password-col{
-  max-width: 430px;
-  word-break: break-all;
-  font-size: 13px !important;
-}
-
-.action-btn-group{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: nowrap;
-}
-
-.btn-edit,
-.btn-delete{
-  width: 30px;
-  height: 10px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 800;
-  color: white;
-}
-
-.btn-edit{
-  background: linear-gradient(135deg, #00b4ff, #4cc9f0);
-}
-
-.btn-delete{
-  background: linear-gradient(135deg, #daa520, #ffd700);
-}
-
-.btn-edit:hover,
-.btn-delete:hover{
-  color: white;
-  transform: translateY(-2px);
-}
     /* Buttons */
 
     .btn-edit{
@@ -633,22 +552,22 @@ $result = mysqli_query($conn, $sql);
 
 
 
-  <div class="table-responsive user-table-box">
-   <table class="table user-table">
-    <thead>
-      <tr>
-        <th>User ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Username</th>
-        <th>Password</th>
-        <th>Email</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <?php if (mysqli_num_rows($result) > 0): ?>
+    <div class="table-wrapper">
+      <h3 class="text-white mb-3"><i class="bi bi-people-fill"></i> Registered Users</h3>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php if (mysqli_num_rows($result) > 0): ?>
             <?php while($row = mysqli_fetch_assoc($result)): ?>
               <tr>
                 <td><?php echo htmlspecialchars($row['user_id']); ?></td>
@@ -664,16 +583,13 @@ $result = mysqli_query($conn, $sql);
               </tr>
             <?php endwhile; ?>
           <?php else: ?>
-
-        <tr>
-          <td colspan="7" class="text-center">No users found</td>
-        </tr>
-      <?php endif; ?>
-    </tbody>
-   </table>
-  </div>
+            <tr><td colspan="7" class="text-center">No users found</td></tr>
+          <?php endif; ?>
+        </tbody>
+      </table>
+    </div>
     <div class="footer">
-      © 2026 Library Management System | Designed by CG Product Developer | All Rights Reserved
+      © 2025 Library Management System | Designed by CG Product Developer
     </div>
 
   </div>
