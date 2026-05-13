@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-include '../config/db.php';
+require_once '../config/db.php';
 
 if(!isset($_SESSION['username'])){
     header("Location: login.php");
     exit();
 }
 
-$sql = "SELECT * FROM users";
+$sql = "SELECT * FROM `user` ORDER BY user_id ASC";
 $result = mysqli_query($conn, $sql);
 ?>
 <!DOCTYPE html>
@@ -16,7 +16,7 @@ $result = mysqli_query($conn, $sql);
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LMS Dashboard</title>
+  <title>Modern LMS Dashboard</title>
 
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -329,17 +329,17 @@ $result = mysqli_query($conn, $sql);
 
       <div class="d-flex">
 
-        <button class="btn btn-light nav-btn">
+        <a href="dashboard.php" class="btn btn-light nav-btn text-decoration-none">
           <i class="bi bi-speedometer2"></i> Dashboard
-        </button>
+        </a>
 
-        <button class="btn btn-warning nav-btn">
+        <a href="view_users.php" class="btn btn-warning nav-btn text-decoration-none">
           <i class="bi bi-people-fill"></i> Users
-        </button>
+        </a>
 
-        <button class="btn btn-danger nav-btn">
+        <a href="logout.php" class="btn btn-danger nav-btn text-decoration-none">
           <i class="bi bi-box-arrow-right"></i> Logout
-        </button>
+        </a>
 
       </div>
 
@@ -382,7 +382,7 @@ $result = mysqli_query($conn, $sql);
 
           <div class="stat-card bg-blue">
 
-            <div class="stat-number">25</div>
+            <div class="stat-number">350</div>
             <div class="stat-title">Active Users</div>
 
             <i class="bi bi-people-fill"></i>
@@ -395,7 +395,7 @@ $result = mysqli_query($conn, $sql);
 
           <div class="stat-card bg-teal">
 
-            <div class="stat-number">15</div>
+            <div class="stat-number">84</div>
             <div class="stat-title">Books Borrowed</div>
 
             <i class="bi bi-journal-check"></i>
@@ -421,8 +421,46 @@ $result = mysqli_query($conn, $sql);
 
     </div>
 
+
+
+    <div class="table-wrapper">
+      <h3 class="text-white mb-3"><i class="bi bi-people-fill"></i> Registered Users</h3>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php if (mysqli_num_rows($result) > 0): ?>
+            <?php while($row = mysqli_fetch_assoc($result)): ?>
+              <tr>
+                <td><?php echo htmlspecialchars($row['user_id']); ?></td>
+                <td><?php echo htmlspecialchars($row['first_name']); ?></td>
+                <td><?php echo htmlspecialchars($row['last_name']); ?></td>
+                <td><?php echo htmlspecialchars($row['username']); ?></td>
+                <td><?php echo htmlspecialchars($row['password']); ?></td>
+                <td><?php echo htmlspecialchars($row['email']); ?></td>
+                <td>
+                  <a class="btn-edit text-decoration-none" href="update_user.php?id=<?php echo urlencode($row['user_id']); ?>">Edit</a>
+                  <a class="btn-delete text-decoration-none" href="delete_user.php?id=<?php echo urlencode($row['user_id']); ?>" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                </td>
+              </tr>
+            <?php endwhile; ?>
+          <?php else: ?>
+            <tr><td colspan="7" class="text-center">No users found</td></tr>
+          <?php endif; ?>
+        </tbody>
+      </table>
+    </div>
     <div class="footer">
-      © 2025 Library Management System | Designed by cgproductdevelper
+      © 2025 Library Management System 
     </div>
 
   </div>
