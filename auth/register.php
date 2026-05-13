@@ -386,11 +386,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <form method="POST">
 
             <div>
-                <input type="text"
-                   name="user_id"
-                   class="form-control input-box"
-                   value="<?php echo $newUserID; ?>"
-                   readonly>
+                <h4>Last Registration UserID</h4>
+                <input type="text" name="user_id"
+                       class="form-control input-box"
+                       value="<?php echo $newUserID; ?>"
+                       readonly>
             </div>
 
             <div class="input-box">
