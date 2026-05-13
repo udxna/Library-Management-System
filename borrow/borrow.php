@@ -49,7 +49,8 @@ include("../config/db.php");
         </thead>
         <tbody>
             <?php
-            ?>
+            $result = mysqli_query($conn, "SELECT * FROM bookborrower");
+            while ($row = mysqli_fetch_assoc($result)) { ?>
                 <tr>
                     <td></td>
                     <td></td>
