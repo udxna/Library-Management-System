@@ -28,7 +28,7 @@ if (isset($_POST['update'])) {
             <label>Borrow Status</label>
             <select name="status" class="form-control">
                 <option value="borrowed" <?php if($data['borrow_status'] == 'borrowed') echo 'selected'; ?>>Borrowed</option>
-                <option value="available" >Available</option>
+                <option value="available" <?php if($data['borrow_status'] == 'available') echo 'selected'; ?>>Available</option>
             </select>
         </div>
         <button type="submit" name="update" class="btn btn-success">Update</button>
