@@ -4,7 +4,9 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: ../auth/login.php");
     exit();
 }
-?> 
+ include("../dashboard/includes/sidebar.php"); 
+ ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,17 +14,11 @@ if (!isset($_SESSION['user_id'])) {
     <title>Book Category</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-light p-4">
+<body>
+<div class="main-content" id="mainContent">    
 <div class="container">
-
-    <div class="d-flex justify-content-between mb-4">
-        <h4>Book Category Management</h4>
-        <div>
-            <span class="text-muted me-3">Welcome, <?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?></span>
-            <a href="../dashboard/dashboard.php" class="btn btn-secondary btn-sm">Dashboard</a>
-            <a href="../auth/logout.php" class="btn btn-danger btn-sm ms-2">Logout</a>
-        </div>
-    </div>
+<?php include("../dashboard/includes/navbar.php"); ?>
+    
 
     <div id="msg" class="mb-3"></div>
 
@@ -201,5 +197,6 @@ if (!isset($_SESSION['user_id'])) {
 
     document.addEventListener('DOMContentLoaded', loadTable);
 </script>
+</div>
 </body>
 </html>

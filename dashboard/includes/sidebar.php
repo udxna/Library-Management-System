@@ -43,6 +43,8 @@
             transition:0.3s;
             z-index:1000;
             overflow:hidden;
+            display:flex;
+            flex-direction:column;
         }
 
         .sidebar.collapsed{
@@ -189,7 +191,13 @@
         <span>Dashboard</span>
 
     </a>
+    <a href="../auth/view_users.php">
 
+    <i class="bi bi-person-badge-fill"></i>
+
+    <span>Users</span>
+
+    </a>
     <a href="../members/view.php">
 
         <i class="bi bi-people-fill"></i>
@@ -229,7 +237,20 @@
         <span>Fines</span>
 
     </a>
+    <!-- Logout Button -->
 
+    <div class="position-absolute bottom-0 start-0 w-100 p-3">
+
+        <a href="../auth/logout.php"
+            class="btn btn-danger w-100 d-flex align-items-center justify-content-center gap-2 rounded-3">
+
+            <i class="bi bi-box-arrow-right"></i>
+
+            <span>Logout</span>
+
+        </a>
+
+    </div>
     <!-- Profile -->
 
     <div class="text-center text-white mt-4">

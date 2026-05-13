@@ -32,11 +32,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // ✅ FIXED: Use password_verify() to check against the hashed password in DB
         if ($user && password_verify($pass, $user['password'])) {
             $_SESSION['user_id']   = $user['id'];
-            $_SESSION['userid']    = $user['userid'];
+            $_SESSION['user_id']    = $user['user_id'];
             $_SESSION['username']  = $user['username'];
             $_SESSION['firstname'] = $user['firstname'];
             $_SESSION['lastname']  = $user['lastname'];
-            header("Location: dashboard.php");
+            header("Location: ../dashboard/index.php");
             exit();
         } else {
             $error = "Invalid username or password.";
