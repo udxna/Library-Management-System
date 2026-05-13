@@ -43,9 +43,11 @@ function generateBorrowID($conn) {
         $lastID = $row['borrow_id']; 
         
         
-      
+        $number = (int)substr($lastID, 2); 
+        $newNumber = $number + 1;
+        
        
-       
+        return "BR" . str_pad($newNumber, 3, "0", STR_PAD_LEFT);
     } else {
         
        
