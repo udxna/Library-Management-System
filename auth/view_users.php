@@ -649,26 +649,22 @@ $result = mysqli_query($conn, $sql);
 
     <tbody>
       <?php if (mysqli_num_rows($result) > 0): ?>
-        <?php while($row = mysqli_fetch_assoc($result)): ?>
-          <tr>
-            <td><?php echo htmlspecialchars($row['user_id']); ?></td>
-            <td><?php echo htmlspecialchars($row['first_name']); ?></td>
-            <td><?php echo htmlspecialchars($row['last_name']); ?></td>
-            <td><?php echo htmlspecialchars($row['username']); ?></td>
-            <td class="password-col"><?php echo htmlspecialchars($row['password']); ?></td>
-            <td><?php echo htmlspecialchars($row['email']); ?></td>
+            <?php while($row = mysqli_fetch_assoc($result)): ?>
+              <tr>
+                <td><?php echo htmlspecialchars($row['user_id']); ?></td>
+                <td><?php echo htmlspecialchars($row['first_name']); ?></td>
+                <td><?php echo htmlspecialchars($row['last_name']); ?></td>
+                <td><?php echo htmlspecialchars($row['username']); ?></td>
+                <td><?php echo htmlspecialchars($row['password']); ?></td>
+                <td><?php echo htmlspecialchars($row['email']); ?></td>
+                <td>
+                  <a class="btn-edit text-decoration-none" href="update_user.php?id=<?php echo urlencode($row['user_id']); ?>">Edit</a>
+                  <a class="btn-delete text-decoration-none" href="delete_user.php?id=<?php echo urlencode($row['user_id']); ?>" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                </td>
+              </tr>
+            <?php endwhile; ?>
+          <?php else: ?>
 
-            <td>
-              <div class="action-btn-group">
-                <a class="btn-edit" href="update_user.php?user_id=<?php echo urlencode($row['user_id']); ?>">Edit</a>
-
-                <a class="btn-delete" href="delete_user.php?user_id=<?php echo urlencode($row['user_id']); ?>" 
-                   onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
-              </div>
-            </td>
-          </tr>
-        <?php endwhile; ?>
-      <?php else: ?>
         <tr>
           <td colspan="7" class="text-center">No users found</td>
         </tr>
