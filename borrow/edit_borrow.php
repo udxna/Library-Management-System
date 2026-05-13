@@ -5,7 +5,7 @@
 <head>
     <title></title>
 </head>
-<body >
+<body class="container mt-5">
 
 </body>
 </html>
