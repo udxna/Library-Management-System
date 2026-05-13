@@ -374,7 +374,7 @@ $result = mysqli_query($conn, $sql);
     text-shadow: 0 2px 10px rgba(0,0,0,0.35);
 }
 .user-table-box{
-  width: 100%;
+  width: 50%;
   margin-top: 20px;
   border-radius: 18px;
   overflow-x: auto;
@@ -383,8 +383,8 @@ $result = mysqli_query($conn, $sql);
 }
 
 .user-table{
-  width: 100%;
-  min-width: 1180px;
+  width: 50%;
+  min-width: 750px;
   margin-bottom: 0;
   border-collapse: collapse;
   background: rgba(255,255,255,0.96);
@@ -431,12 +431,12 @@ $result = mysqli_query($conn, $sql);
 
 .btn-edit,
 .btn-delete{
-  width: 50px;
-  height: 30px;
+  width: 30px;
+  height: 10px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 5px;
   text-decoration: none;
   font-weight: 800;
   color: white;
