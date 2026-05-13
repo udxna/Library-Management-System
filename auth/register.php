@@ -159,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             box-shadow:
                 0 8px 32px rgba(0,0,0,0.15),
                 inset 0 0 10px rgba(255,255,255,0.3);
-            position:relative;
+            position:center;
             z-index:10;
         }
 
