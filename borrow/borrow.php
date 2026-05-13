@@ -50,7 +50,7 @@ function generateBorrowID($conn) {
         return "BR" . str_pad($newNumber, 3, "0", STR_PAD_LEFT);
     } else {
         
-       
+        return "BR001";
     }
 }
 
