@@ -10,24 +10,20 @@ if (isset($_POST['submit'])) {
     $date = date("Y-m-d H:i:s");
 
    
-    $borrow_pattern = "/^BR[0-9]{3}$/";
-    $book_pattern = "/^B[0-9]{3}$/";
-    $member_pattern = "/^M[0-9]{3}$/";
-
-    if (!preg_match($borrow_pattern, $borrow_id)) {
-        echo "<script>alert('Invalid Borrow ID! Format: BR001');</script>";
-    } elseif (!preg_match($book_pattern, $book_id)) {
-        echo "<script>alert('Invalid Book ID! Format: B001');</script>";
-    } elseif (!preg_match($member_pattern, $member_id)) {
-        echo "<script>alert('Invalid Member ID! Format: M001');</script>";
+    if (!preg_match("/^BR[0-9]{3}$/", $borrow_id)) {
+        echo "<script>alert('Invalid Borrow ID!');</script>";
     } else {
-        $query = "INSERT INTO bookborrower (borrow_id, book_id, member_id, borrow_status, borrower_date_modified) 
-                  VALUES ('$borrow_id', '$book_id', '$member_id', '$status', '$date')";
         
-        if (mysqli_query($conn, $query)) {
-            echo "<script>alert('Record added successfully!'); window.location='borrow.php';</script>";
-        } else {
-            echo "Error: " . mysqli_error($conn);
+        $stmt = $conn->prepare("INSERT INTO bookborrower (borrow_id, book_id, member_id, borrow_status, borrower_date_modified) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $borrow_id, $book_id, $member_id, $status, $date);
+
+        try {
+            if ($stmt->execute()) {
+                echo "<script>alert('Record added successfully!'); window.location='borrow.php';</script>";
+            }
+        } catch (mysqli_sql_exception $e) {
+           
+            echo "<script>alert('Error: The Book or Member ID entered does not exist in the system.');</script>";
         }
     }
 }
@@ -38,6 +34,27 @@ if (isset($_GET['delete'])) {
     mysqli_query($conn, "DELETE FROM bookborrower WHERE borrow_id='$id'");
     header('location: borrow.php');
 }
+function generateBorrowID($conn) {
+    $query = "SELECT borrow_id FROM bookborrower ORDER BY borrow_id DESC LIMIT 1";
+    $result = mysqli_query($conn, $query);
+
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $lastID = $row['borrow_id']; 
+        
+        
+        $number = (int)substr($lastID, 2); 
+        $newNumber = $number + 1;
+        
+       
+        return "BR" . str_pad($newNumber, 3, "0", STR_PAD_LEFT);
+    } else {
+        
+        return "BR001";
+    }
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -49,21 +66,44 @@ if (isset($_GET['delete'])) {
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body class=container mt-5>
+<body class="container mt-5">
     <h2>Borrow Book Details</h2>
      <form method="POST" class="card p-4 mb-5">
         <div class="mb-3">
-            <label>Borrow ID (Format: BR001)</label>
-            <input type="text" name="borrow_id" class="form-control" required>
+            <label>Borrow ID</label>
+    <input type="text" name="borrow_id" class="form-control" value="<?php echo $next_borrow_id = generateBorrowID($conn); ?>" readonly>
         </div>
         <div class="mb-3">
-            <label>Book ID (Format: B001)</label>
-            <input type="text" name="book_id" class="form-control" required>
+            <label>Select Book</label>
+    <select name="book_id" class="form-control" required>
+        <?php
+        $books = mysqli_query($conn, "SELECT book_id, book_name FROM book");
+        while ($b = mysqli_fetch_assoc($books)) {
+            echo "<option value='{$b['book_id']}'>{$b['book_id']} - {$b['book_name']}</option>";
+        }
+        ?>
+    </select>
         </div>
-        <div class="mb-3">
-            <label>Member ID (Format: M001)</label>
-            <input type="text" name="member_id" class="form-control" required>
-        </div>
+       <div class="mb-3">
+    <label>Select Member</label>
+    <select name="member_id" class="form-control" required>
+        <option value="">-- Select Member --</option>
+        <?php
+        // member_name kiyala column ekak nathi nisa first_name, last_name use karanna
+        $members = mysqli_query($conn, "SELECT member_id, first_name, last_name FROM member");
+        
+        if ($members) {
+            while ($m = mysqli_fetch_assoc($members)) {
+                // Name eka hadaganne mehemai
+                $fullName = $m['first_name'] . " " . $m['last_name'];
+                echo "<option value='{$m['member_id']}'>{$m['member_id']} - {$fullName}</option>";
+            }
+        } else {
+            echo "<option>No members found</option>";
+        }
+        ?>
+    </select>
+         </div>
         <div class="mb-3">
             <label>Borrow Status</label>
             <select name="status" class="form-control">
@@ -105,3 +145,6 @@ if (isset($_GET['delete'])) {
     </table>
 </body>
 </html>
+
+
+
