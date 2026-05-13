@@ -144,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             border-radius:25px;
             background:rgba(255,255,255,0.18);
             backdrop-filter:blur(18px);
-            border:1px solid rgba(189, 15, 15, 0.3);
+            border:1px solid rgba(15, 85, 189, 0.3);
             box-shadow:
                 0 8px 32px rgba(0,0,0,0.15),
                 inset 0 0 10px rgba(255,255,255,0.3);
