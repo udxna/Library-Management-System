@@ -7,7 +7,7 @@ if (isset($_POST['update'])) {
     $status = $_POST['status'];
     $date = date("Y-m-d H:i:s");
     
-
+    $update_query = "UPDATE bookborrower SET borrow_status='$status', borrower_date_modified='$date' WHERE borrow_id='$id'";
    
 }
 ?>
