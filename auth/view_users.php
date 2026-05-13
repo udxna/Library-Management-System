@@ -209,7 +209,7 @@ $result = mysqli_query($conn, $sql);
     /* Table */
 
     .table-wrapper{
-    margin-top: 40px;
+    margin-top: 50px;
     padding: 25px;
 
     background: rgba(0, 255, 170, 0.12);
