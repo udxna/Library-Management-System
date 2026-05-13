@@ -287,7 +287,73 @@ $result = mysqli_query($conn, $sql);
 
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
+.user-table{
+    width: 100%;
 
+    border-collapse: collapse;
+
+    background: #1e3a5f;
+
+    border: 3px solid #00c896;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+}
+.user-table thead{
+    background: #00c896;
+}
+
+.user-table thead th{
+    color: white;
+
+    text-align: center;
+
+    padding: 18px;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.user-table tbody td{
+    background: #24476f;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 18px;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    font-size: 15px;
+
+    font-weight: 600;
+}
+
+.user-table tbody tr:hover{
+    background: #2f5f91;
+
+    transition: 0.3s;
+}
+.user-table-box{
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+
+    margin-top: 20px;
+}
+.no-user{
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+}
 
 
     /* Buttons */
@@ -472,7 +538,7 @@ $result = mysqli_query($conn, $sql);
 
     <div class="table-wrapper">
       <h3 class="text-white mb-3"><i class="bi bi-people-fill"></i> Registered Users</h3>
-      <table class="table table-hover">
+      <table class="table user-table">
         <thead>
           <tr>
             <th>User ID</th>
@@ -501,7 +567,7 @@ $result = mysqli_query($conn, $sql);
               </tr>
             <?php endwhile; ?>
           <?php else: ?>
-            <tr><td colspan="7" class="text-center">No users found</td></tr>
+            <tr><td colspan="7" class="no-user">No users found</td></tr>
           <?php endif; ?>
         </tbody>
       </table>
