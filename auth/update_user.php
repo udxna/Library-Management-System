@@ -174,7 +174,7 @@ body{
 
     <div>
         <a href="dashboard.php" class="btn btn-light nav-btn">Dashboard</a>
-        <a href="update_user.php" class="btn btn-warning nav-btn">Users</a>
+        <a href="view_users.php" class="btn btn-warning nav-btn">Users</a>
         <a href="logout.php" class="btn btn-danger nav-btn">Logout</a>
     </div>
 </nav>
