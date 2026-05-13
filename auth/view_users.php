@@ -244,7 +244,7 @@ $result = mysqli_query($conn, $sql);
 .glass-table thead th{
     padding: 18px;
 
-    color: white;
+    color: green;
 
     font-size: 18px;
 
@@ -279,7 +279,7 @@ $result = mysqli_query($conn, $sql);
 
     text-align: center;
 
-    color: white;
+    color: blue;
 
     font-size: 16px;
 
@@ -355,8 +355,6 @@ $result = mysqli_query($conn, $sql);
     text-decoration: none;
 
     min-width: 95px;
-
-    gap: 10px;
 
     text-align: center;
 
