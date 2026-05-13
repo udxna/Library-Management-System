@@ -38,7 +38,16 @@ function generateBorrowID($conn) {
     $query = "SELECT borrow_id FROM bookborrower ORDER BY borrow_id DESC LIMIT 1";
     $result = mysqli_query($conn, $query);
 
-   
+    if (mysqli_num_rows($result) > 0) {
+       
+        
+      
+       
+       
+    } else {
+        
+       
+    }
 }
 
 
