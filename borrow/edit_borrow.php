@@ -24,7 +24,13 @@ if (isset($_POST['update'])) {
     <h2>Update Borrow Status</h2>
     <form method="POST" class="card p-4">
         <p>Borrow ID: <b><?php echo $data['borrow_id']; ?></b></p>
-        
+        <div class="mb-3">
+            <label>Borrow Status</label>
+            <select name="" class="">
+               
+                
+            </select>
+        </div>
         <button type="submit" name="update" class="btn btn-success">Update</button>
         <a href="borrow.php" class="btn btn-secondary">Cancel</a>
     </form>
