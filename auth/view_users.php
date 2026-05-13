@@ -1,52 +1,16 @@
-<div class="table-wrapper">
+<?php
+session_start();
 
-  <h2 class="text-white mb-3">
-    <i class="bi bi-people-fill"></i> Registered Users
-  </h2>
+require_once '../config/db.php';
 
-  <div class="table-responsive">
-    <table class="table table-hover align-middle glass-table">
-      <thead>
-        <tr>
-          <th>User ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
-          <th>Password</th>
-          <th>Email</th>
-          <th class="text-center">Manage User</th>
-        </tr>
-      </thead>
+if(!isset($_SESSION['username'])){
+    header("Location: login.php");
+    exit();
+}
 
-      <tbody>
-        <?php while($row = mysqli_fetch_assoc($result)){ ?>
-          <tr>
-            <td><?php echo htmlspecialchars($row['user_id']); ?></td>
-            <td><?php echo htmlspecialchars($row['first_name']); ?></td>
-            <td><?php echo htmlspecialchars($row['last_name']); ?></td>
-            <td><?php echo htmlspecialchars($row['username']); ?></td>
-            <td class="password-cell"><?php echo htmlspecialchars($row['password']); ?></td>
-            <td><?php echo htmlspecialchars($row['email']); ?></td>
-
-            <td class="text-center action-buttons">
-              <a href="update_user.php?user_id=<?php echo urlencode($row['user_id']); ?>" 
-                 class="btn btn-edit btn-sm">
-                <i class="bi bi-pencil-square"></i> Edit
-              </a>
-
-              <a href="delete_user.php?user_id=<?php echo urlencode($row['user_id']); ?>" 
-                 class="btn btn-delete btn-sm"
-                 onclick="return confirm('Are you sure you want to delete this user?');">
-                <i class="bi bi-trash-fill"></i> Delete
-              </a>
-            </td>
-          </tr>
-        <?php } ?>
-      </tbody>
-    </table>
-  </div>
-
-</div>
+$sql = "SELECT * FROM `user` ORDER BY user_id ASC";
+$result = mysqli_query($conn, $sql);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -245,82 +209,77 @@
     /* Table */
 
     .table-wrapper{
-  margin-top:40px;
-  background:rgba(255,255,255,0.14);
-  backdrop-filter:blur(18px);
-  border:1px solid rgba(255,255,255,0.25);
-  border-radius:22px;
-  padding:22px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.28);
-}
+      margin-top:40px;
+      background:rgba(255,255,255,0.08);
+      border-radius:20px;
+      overflow:hidden;
+      padding:20px;
+    }
 
-.glass-table{
-  color:#fff;
-  margin-bottom:0;
-  border-radius:15px;
-  overflow:hidden;
-}
+    .table{
+      color:#fff;
+      margin-bottom:0;
+    }
 
-.glass-table thead{
-  background:rgba(255,255,255,0.22);
-  color:#fff;
-}
+    .table thead{
+      background:rgba(0,0,0,0.35);
+    }
 
-.glass-table thead th{
-  border:none;
-  padding:16px;
-  font-weight:600;
-}
+    .table thead th{
+      border:none;
+      padding:18px;
+      font-weight:600;
+    }
 
-.glass-table tbody tr{
-  background:rgba(255,255,255,0.10);
-  transition:0.3s;
-}
+    .table tbody tr{
+      transition:0.3s;
+    }
 
-.glass-table tbody tr:hover{
-  background:rgba(255,255,255,0.22);
-}
+    .table tbody tr:hover{
+      background:rgba(255,255,255,0.08);
+    }
 
-.glass-table td{
-  border-color:rgba(255,255,255,0.12);
-  padding:15px;
-  vertical-align:middle;
-}
+    .table td{
+      border-color:rgba(255,255,255,0.08);
+      padding:16px;
+      vertical-align:middle;
+    }
 
-.password-cell{
-  max-width:300px;
-  word-break:break-all;
-  font-size:13px;
-}
+    /* Buttons */
 
-.action-buttons{
-  white-space:nowrap;
-}
+    .btn-edit{
+      background:#ffd60a;
+      color:#000;
+      border:none;
+      border-radius:10px;
+      padding:6px 14px;
+      font-weight:500;
+    }
 
-.btn-edit{
-  background:linear-gradient(135deg,#ffd60a,#ffb703);
-  color:#000;
-  border:none;
-  border-radius:10px;
-  padding:7px 13px;
-  font-weight:600;
-  margin-right:6px;
-}
+    .btn-delete{
+      background:#ef233c;
+      color:#fff;
+      border:none;
+      border-radius:10px;
+      padding:6px 14px;
+      font-weight:500;
+    }
 
-.btn-delete{
-  background:linear-gradient(135deg,#ff4d6d,#c9184a);
-  color:#fff;
-  border:none;
-  border-radius:10px;
-  padding:7px 13px;
-  font-weight:600;
-}
+    .btn-edit:hover,
+    .btn-delete:hover{
+      opacity:0.9;
+      transform:scale(1.03);
+    }
 
-.btn-edit:hover,
-.btn-delete:hover{
-  transform:translateY(-2px);
-  opacity:0.9;
-}
+    /* Footer */
+
+    .footer{
+      text-align:center;
+      color:#cde;
+      padding:20px;
+      margin-top:30px;
+      font-size:14px;
+    }
 
     /* Responsive */
 
