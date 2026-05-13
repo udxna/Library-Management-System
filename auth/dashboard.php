@@ -359,6 +359,9 @@ if (!isset($_SESSION['username'])) {
         </div>
 
     </div>
+  <div class="footer">
+      © 2025 Library Management System | Designed by CG Product Developer
+  </div>
 
 </section>
 
