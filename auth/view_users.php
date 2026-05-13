@@ -219,7 +219,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .glass-table{
-  color:#fff;
+  color:#00FF7F;
   margin-bottom:0;
   border-radius:15px;
   overflow:hidden;
@@ -292,8 +292,8 @@ $result = mysqli_query($conn, $sql);
       background:#ffd60a;
       color:#000;
       border:none;
-      border-radius:10px;
-      padding:6px 14px;
+      border-radius:5px;
+      padding:6px 20px;
       font-weight:500;
     }
 
@@ -301,8 +301,8 @@ $result = mysqli_query($conn, $sql);
       background:#ef233c;
       color:#fff;
       border:none;
-      border-radius:10px;
-      padding:6px 14px;
+      border-radius:5px;
+      padding:6px 20px;
       font-weight:500;
     }
 
