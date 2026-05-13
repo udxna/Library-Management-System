@@ -209,81 +209,169 @@ $result = mysqli_query($conn, $sql);
     /* Table */
 
     .table-wrapper{
-  margin-top:40px;
-  background:rgba(255,255,255,0.14);
-  backdrop-filter:blur(18px);
-  border:1px solid rgba(255,255,255,0.25);
-  border-radius:22px;
-  padding:22px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.28);
+    margin-top: 40px;
+    padding: 25px;
+
+    background: rgba(0, 255, 170, 0.12);
+
+    backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    border-radius: 24px;
+
+    box-shadow: 0 8px 35px rgba(0,0,0,0.35);
 }
 
 .glass-table{
-  color:#00FF7F;
-  margin-bottom:0;
-  border-radius:15px;
-  overflow:hidden;
+    width: 100%;
+
+    border-collapse: collapse;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.08);
+
+    color: white;
 }
+
 
 .glass-table thead{
-  background:rgba(255,255,255,0.22);
-  color:#fff;
+    background: linear-gradient(135deg,#00c896,#00e5a8);
+}
+.glass-table thead th{
+    padding: 18px;
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+    border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 
-.glass-table thead th{
-  border:none;
-  padding:16px;
-  font-weight:600;
-}
 
 .glass-table tbody tr{
-  background:rgba(255,255,255,0.10);
-  transition:0.3s;
+    transition: 0.3s ease;
+}
+
+.glass-table tbody tr:nth-child(even){
+    background: rgba(255,255,255,0.06);
+}
+
+.glass-table tbody tr:nth-child(odd){
+    background: rgba(255,255,255,0.12);
 }
 
 .glass-table tbody tr:hover{
-  background:rgba(255,255,255,0.22);
+    background: rgba(0,255,170,0.18);
+
+    transform: scale(1.005);
 }
 
 .glass-table td{
-  border-color:rgba(255,255,255,0.12);
-  padding:15px;
-  vertical-align:middle;
+    padding: 18px;
+
+    text-align: center;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .password-cell{
-  max-width:300px;
-  word-break:break-all;
-  font-size:13px;
-}
+    max-width: 350px;
 
+    word-break: break-all;
+
+    font-size: 13px;
+
+    color: #eafff7;
+}
 .action-buttons{
-  white-space:nowrap;
-}
+    display: flex;
 
+    justify-content: center;
+
+    gap: 10px;
+}
 .btn-edit{
-  background:linear-gradient(135deg,#ffd60a,#ffb703);
-  color:#000;
-  border:none;
-  border-radius:10px;
-  padding:7px 13px;
-  font-weight:600;
-  margin-right:6px;
+    background: linear-gradient(135deg,#00b4ff,#4cc9f0);
+
+    color: white;
+
+    border: none;
+
+    border-radius: 12px;
+
+    padding: 10px 22px;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    text-decoration: none;
+
+    min-width: 95px;
+
+    text-align: center;
+
+    box-shadow: 0 4px 15px rgba(0,180,255,0.35);
+
+    transition: 0.3s ease;
 }
 
+.btn-edit:hover{
+    transform: translateY(-2px);
+
+    background: linear-gradient(135deg,#0096ff,#00c6ff);
+
+    color: white;
+}
 .btn-delete{
-  background:linear-gradient(135deg,#ff4d6d,#c9184a);
-  color:#fff;
-  border:none;
-  border-radius:10px;
-  padding:7px 13px;
-  font-weight:600;
-}
+    background: linear-gradient(135deg,#daa520,#ffd700);
 
-.btn-edit:hover,
-.btn-delete:hover{
-  transform:translateY(-2px);
-  opacity:0.9;
+    color: white;
+
+    border: none;
+
+    border-radius: 12px;
+
+    padding: 10px 22px;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    text-decoration: none;
+
+    min-width: 95px;
+
+    text-align: center;
+
+    box-shadow: 0 4px 15px rgba(255,215,0,0.35);
+
+    transition: 0.3s ease;
+}
+.table-title{
+    color: white;
+
+    font-size: 34px;
+
+    font-weight: bold;
+
+    margin-bottom: 25px;
+
+    text-shadow: 0 2px 10px rgba(0,0,0,0.35);
 }
 
     /* Buttons */
