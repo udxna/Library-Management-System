@@ -14,7 +14,16 @@ if (isset($_POST['submit'])) {
     $book_pattern = "/^B[0-9]{3}$/";
     $member_pattern = "/^M[0-9]{3}$/";
 
-  
+    if (!preg_match($borrow_pattern, $borrow_id)) {
+        echo "<script>alert('Invalid Borrow ID! Format: BR001');</script>";
+    } elseif (!preg_match($book_pattern, $book_id)) {
+        echo "<script>alert('Invalid Book ID! Format: B001');</script>";
+    } elseif (!preg_match($member_pattern, $member_id)) {
+        echo "<script>alert('Invalid Member ID! Format: M001');</script>";
+    } else {
+        $query = "INSERT INTO bookborrower (borrow_id, book_id, member_id, borrow_status, borrower_date_modified) 
+                  VALUES ('$borrow_id', '$book_id', '$member_id', '$status', '$date')";
+
 
 
 
