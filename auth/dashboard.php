@@ -346,7 +346,7 @@ if (!isset($_SESSION['username'])) {
 
         <div>
 
-            <a href="manage_users.php" class="action-btn manage-btn">
+            <a href="view_users.php" class="action-btn manage-btn">
                 <i class="bi bi-person-gear"></i>
                 Manage Users
             </a>
