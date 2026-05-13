@@ -1,4 +1,16 @@
+<?php
+session_start();
 
+include '../config/db.php';
+
+if(!isset($_SESSION['username'])){
+    header("Location: login.php");
+    exit();
+}
+
+$sql = "SELECT * FROM users";
+$result = mysqli_query($conn, $sql);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
