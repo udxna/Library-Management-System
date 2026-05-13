@@ -1,60 +1,138 @@
 <?php
 
+include("../dashboard/includes/global.php");
 include("../config/db.php");
 
 $message = "";
+$alertType = "";
 
 if(isset($_POST['submit'])){
 
-    $member_id = $_POST['member_id'];
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $birthday = $_POST['birthday'];
-    $email = $_POST['email'];
+    $member_id = trim($_POST['member_id']);
+    $firstname = trim($_POST['firstname']);
+    $lastname  = trim($_POST['lastname']);
+    $birthday  = trim($_POST['birthday']);
+    $email     = trim($_POST['email']);
 
-    // ID validation
+    /* MEMBER ID VALIDATION */
+
     if(!preg_match("/^M[0-9]{3}$/", $member_id)){
 
         $message = "Invalid Member ID Format! Example: M001";
+        $alertType = "danger";
 
     }
 
-    // Email validation
+    /* NAME VALIDATION */
+
+    elseif(
+        !preg_match("/^[a-zA-Z ]+$/", $firstname) ||
+        !preg_match("/^[a-zA-Z ]+$/", $lastname)
+    ){
+
+        $message = "Names should contain only letters.";
+        $alertType = "danger";
+
+    }
+
+    /* EMAIL VALIDATION */
+
     elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 
         $message = "Invalid Email Format!";
+        $alertType = "danger";
 
     }
 
     else{
 
-        $sql = "INSERT INTO member
-        (member_id, first_name, last_name, birthday, email)
-        VALUES
-        ('$member_id', '$firstname', '$lastname', '$birthday', '$email')";
+        /* CHECK DUPLICATE MEMBER ID */
 
-        if($conn->query($sql)){
+        $check = $conn->prepare("
+            SELECT member_id
+            FROM member
+            WHERE member_id = ?
+        ");
 
-            $message = "Member Added Successfully!";
+        $check->bind_param("s", $member_id);
+        $check->execute();
+        $check->store_result();
+
+        if($check->num_rows > 0){
+
+            $message = "Member ID already exists!";
+            $alertType = "warning";
 
         } else {
 
-            $message = "Database Error: " . $conn->error;
+            /* INSERT MEMBER */
+
+            $stmt = $conn->prepare("
+                INSERT INTO member
+                (member_id, first_name, last_name, birthday, email)
+                VALUES (?, ?, ?, ?, ?)
+            ");
+
+            $stmt->bind_param(
+                "sssss",
+                $member_id,
+                $firstname,
+                $lastname,
+                $birthday,
+                $email
+            );
+
+            if($stmt->execute()){
+
+                $message = "Member Added Successfully!";
+                $alertType = "success";
+
+            } else {
+
+                $message = "Database Error: " . $stmt->error;
+                $alertType = "danger";
+
+            }
+
+            $stmt->close();
 
         }
+
+        $check->close();
 
     }
 
 }
 
 include("../dashboard/includes/sidebar.php");
-include("../dashboard/includes/global.php");
+
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Add Member</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+
 <body>
+
 <div class="main-content" id="mainContent">
+
 <div class="container mt-5">
-
-
 
     <div class="row justify-content-center">
 
@@ -73,11 +151,11 @@ include("../dashboard/includes/global.php");
 
                 </div>
 
-                <!-- Alert -->
+                <!-- ALERT MESSAGE -->
 
                 <?php if($message != ""){ ?>
 
-                    <div class="alert alert-success alert-dismissible fade show"
+                    <div class="alert alert-<?php echo $alertType; ?> alert-dismissible fade show"
                          role="alert">
 
                         <?php echo $message; ?>
@@ -91,7 +169,7 @@ include("../dashboard/includes/global.php");
 
                 <?php } ?>
 
-                <!-- Form -->
+                <!-- FORM -->
 
                 <form method="POST">
 
@@ -106,6 +184,10 @@ include("../dashboard/includes/global.php");
                                class="form-control"
                                placeholder="M001"
                                required>
+
+                        <small class="text-muted">
+                            Format: M001
+                        </small>
 
                     </div>
 
@@ -166,6 +248,8 @@ include("../dashboard/includes/global.php");
                             name="submit"
                             class="btn btn-primary w-100">
 
+                        <i class="bi bi-person-plus-fill"></i>
+
                         Add Member
 
                     </button>
@@ -180,9 +264,9 @@ include("../dashboard/includes/global.php");
 
 </div>
 
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-</div>
-</div>
 </body>
 </html>
