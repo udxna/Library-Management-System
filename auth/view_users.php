@@ -372,6 +372,7 @@ $result = mysqli_query($conn, $sql);
       border-radius:5px;
       padding:6px 20px;
       font-weight:100;
+      gap:50px;
       
     }
 
