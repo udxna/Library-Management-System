@@ -5,7 +5,7 @@ $data = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM bookborrower WHERE
 
 if (isset($_POST['update'])) {
     $status = $_POST['status'];
-   
+    $date = date("Y-m-d H:i:s");
     
 
    
