@@ -373,7 +373,88 @@ $result = mysqli_query($conn, $sql);
 
     text-shadow: 0 2px 10px rgba(0,0,0,0.35);
 }
+.user-table-box{
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 18px;
+  overflow-x: auto;
+  border: 2px solid rgba(255,255,255,0.35);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
 
+.user-table{
+  width: 100%;
+  min-width: 1180px;
+  margin-bottom: 0;
+  border-collapse: collapse;
+  background: rgba(255,255,255,0.96);
+}
+
+.user-table th,
+.user-table td{
+  text-align: center;
+  vertical-align: middle;
+  padding: 16px 14px;
+  border: 1px solid #d6d6d6;
+  font-weight: 600;
+}
+
+.user-table thead th{
+  background: linear-gradient(135deg, #00c896, #00e5a8);
+  color: white;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.user-table tbody td{
+  color: #111;
+  font-size: 15px;
+}
+
+.user-table tbody tr:hover{
+  background: #eafff7;
+}
+
+.password-col{
+  max-width: 430px;
+  word-break: break-all;
+  font-size: 13px !important;
+}
+
+.action-btn-group{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.btn-edit,
+.btn-delete{
+  width: 85px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 800;
+  color: white;
+}
+
+.btn-edit{
+  background: linear-gradient(135deg, #00b4ff, #4cc9f0);
+}
+
+.btn-delete{
+  background: linear-gradient(135deg, #daa520, #ffd700);
+}
+
+.btn-edit:hover,
+.btn-delete:hover{
+  color: white;
+  transform: translateY(-2px);
+}
     /* Buttons */
 
     .btn-edit{
@@ -498,7 +579,7 @@ $result = mysqli_query($conn, $sql);
 
           <div class="stat-card bg-green">
 
-            <div class="stat-number">1,250</div>
+            <div class="stat-number">1,500 +</div>
             <div class="stat-title">Books Available</div>
 
             <i class="bi bi-book-fill"></i>
@@ -511,7 +592,7 @@ $result = mysqli_query($conn, $sql);
 
           <div class="stat-card bg-blue">
 
-            <div class="stat-number">350</div>
+            <div class="stat-number">350 +</div>
             <div class="stat-title">Active Users</div>
 
             <i class="bi bi-people-fill"></i>
@@ -524,7 +605,7 @@ $result = mysqli_query($conn, $sql);
 
           <div class="stat-card bg-teal">
 
-            <div class="stat-number">84</div>
+            <div class="stat-number">80 +</div>
             <div class="stat-title">Books Borrowed</div>
 
             <i class="bi bi-journal-check"></i>
@@ -537,7 +618,7 @@ $result = mysqli_query($conn, $sql);
 
           <div class="stat-card bg-darkblue">
 
-            <div class="stat-number">26</div>
+            <div class="stat-number">40 +</div>
             <div class="stat-title">New Arrivals</div>
 
             <i class="bi bi-stars"></i>
@@ -552,44 +633,51 @@ $result = mysqli_query($conn, $sql);
 
 
 
-    <div class="table-wrapper">
-      <h3 class="text-white mb-3"><i class="bi bi-people-fill"></i> Registered Users</h3>
-      <table class="table table-hover">
-        <thead>
+  <div class="table-responsive user-table-box">
+   <table class="table user-table">
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Email</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <?php if (mysqli_num_rows($result) > 0): ?>
+        <?php while($row = mysqli_fetch_assoc($result)): ?>
           <tr>
-            <th>User ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Email</th>
-            <th>Action</th>
+            <td><?php echo htmlspecialchars($row['user_id']); ?></td>
+            <td><?php echo htmlspecialchars($row['first_name']); ?></td>
+            <td><?php echo htmlspecialchars($row['last_name']); ?></td>
+            <td><?php echo htmlspecialchars($row['username']); ?></td>
+            <td class="password-col"><?php echo htmlspecialchars($row['password']); ?></td>
+            <td><?php echo htmlspecialchars($row['email']); ?></td>
+
+            <td>
+              <div class="action-btn-group">
+                <a class="btn-edit" href="update_user.php?user_id=<?php echo urlencode($row['user_id']); ?>">Edit</a>
+
+                <a class="btn-delete" href="delete_user.php?user_id=<?php echo urlencode($row['user_id']); ?>" 
+                   onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+              </div>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          <?php if (mysqli_num_rows($result) > 0): ?>
-            <?php while($row = mysqli_fetch_assoc($result)): ?>
-              <tr>
-                <td><?php echo htmlspecialchars($row['user_id']); ?></td>
-                <td><?php echo htmlspecialchars($row['first_name']); ?></td>
-                <td><?php echo htmlspecialchars($row['last_name']); ?></td>
-                <td><?php echo htmlspecialchars($row['username']); ?></td>
-                <td><?php echo htmlspecialchars($row['password']); ?></td>
-                <td><?php echo htmlspecialchars($row['email']); ?></td>
-                <td>
-                  <a class="btn-edit text-decoration-none" href="update_user.php?id=<?php echo urlencode($row['user_id']); ?>">Edit</a>
-                  <a class="btn-delete text-decoration-none" href="delete_user.php?id=<?php echo urlencode($row['user_id']); ?>" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
-                </td>
-              </tr>
-            <?php endwhile; ?>
-          <?php else: ?>
-            <tr><td colspan="7" class="text-center">No users found</td></tr>
-          <?php endif; ?>
-        </tbody>
-      </table>
-    </div>
+        <?php endwhile; ?>
+      <?php else: ?>
+        <tr>
+          <td colspan="7" class="text-center">No users found</td>
+        </tr>
+      <?php endif; ?>
+    </tbody>
+   </table>
+  </div>
     <div class="footer">
-      © 2025 Library Management System 
+      © 2025 Library Management System | Designed by CG Product Developer
     </div>
 
   </div>
