@@ -168,7 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         .register-container::before{
             content:'';
             position:absolute;
-            top:0;
+            top: 5px;;
             left:-75%;
             width:50%;
             height:100%;
