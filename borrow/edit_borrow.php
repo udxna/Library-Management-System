@@ -25,7 +25,7 @@ if (isset($_POST['update'])) {
     <form method="POST" class="card p-4">
         <p>Borrow ID: <b><?php echo $data['borrow_id']; ?></b></p>
         
-       
+        <button type="submit" name="update" class="btn btn-success">Update</button>
         <a href="borrow.php" class="btn btn-secondary">Cancel</a>
     </form>
 </body>
