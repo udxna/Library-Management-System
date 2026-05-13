@@ -70,8 +70,8 @@ function generateBorrowID($conn) {
     <h2>Borrow Book Details</h2>
      <form method="POST" class="card p-4 mb-5">
         <div class="mb-3">
-            <label>Borrow ID (Format: BR001)</label>
-            <input type="text" name="borrow_id" class="form-control" required>
+            <label>Borrow ID</label>
+    <input type="text" name="borrow_id" class="form-control" value="<?php echo $next_borrow_id; ?>" readonly>
         </div>
         <div class="mb-3">
             <label>Select Book</label>
