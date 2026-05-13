@@ -35,5 +35,6 @@ include("../config/db.php");
         </div>
         <button type="submit" name="submit" class="btn btn-primary">Add Record</button>
     </form> 
+    <h3>Borrowed Books List</h3>
 </body>
 </html>
