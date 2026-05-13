@@ -35,7 +35,8 @@ if (isset($_GET['delete'])) {
     header('location: borrow.php');
 }
 function generateBorrowID($conn) {
-   
+    $query = "SELECT borrow_id FROM bookborrower ORDER BY borrow_id DESC LIMIT 1";
+    $result = mysqli_query($conn, $query);
 
    
 }
