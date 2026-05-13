@@ -341,7 +341,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <form method="POST">
 
             <div class="input-box">
-                <input type="text" name="user_id" class="form-control" placeholder="User ID" readonly>
+                <input type="text" name="user_id" class="form-control" placeholder="User ID" required>
             </div>
 
             <div class="input-box">
