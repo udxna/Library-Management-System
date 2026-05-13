@@ -2,31 +2,6 @@
 session_start();
 require_once '../config/db.php';
 
-
-
-// AUTO GENERATE USER ID
-
-$query = "SELECT user_id FROM user ORDER BY user_id DESC LIMIT 1";
-
-$resultID = mysqli_query($conn, $query);
-
-$newUserID = "U001";
-
-if(mysqli_num_rows($resultID) > 0){
-
-    $row = mysqli_fetch_assoc($resultID);
-
-    $lastID = $row['user_id'];
-
-    $number = intval(substr($lastID, 1));
-
-    $number++;
-
-    $newUserID = "U" . str_pad($number, 3, "0", STR_PAD_LEFT);
-}
-
-
-
 $message = "";
 $error = "";
 
@@ -244,27 +219,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             margin-bottom:25px;
             font-weight:600;
         }
-        .input-box{
-          width: 100%;
-          height: 52px;
-          border: none;
-          outline: none;
-          border-radius: 12px;
-          padding: 0 18px;
-          margin-bottom: 15px;
-          background: rgba(72, 219, 147, 0.45);
-          color: #1b4d5f;
-          font-size: 16px;
-          font-weight: 600;
-      }
-
-       .input-box::placeholder{
-          color: rgba(27, 77, 95, 0.65);
-     }
-
-       .input-box[readonly]{
-          cursor: not-allowed;
-     }
+       
 
         .input-box{
             margin-bottom:15px;
@@ -384,15 +339,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <?php endif; ?>
 
         <form method="POST">
-
-            <div>
-                <h4>Last Registration UserID</h4>
-                <input type="text" name="user_id"
-                       class="form-control input-box"
-                       value="<?php echo $newUserID; ?>"
-                       readonly>
-            </div>
-
             <div class="input-box">
                 <input type="text" name="firstname" placeholder="First Name" required>
             </div>
