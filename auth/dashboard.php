@@ -270,7 +270,7 @@ if (!isset($_SESSION['username'])) {
     <div class="glass-card text-center">
 
         <h1 class="welcome-title">
-            Welcome to LMS Dashboard
+            Welcome to Our LMS Dashboard
         </h1>
 
         <h3 class="welcome-user">
@@ -294,7 +294,7 @@ if (!isset($_SESSION['username'])) {
                         <i class="bi bi-book-fill"></i>
                     </div>
 
-                    <div class="stat-number">1250</div>
+                    <div class="stat-number">1500 +</div>
 
                     <div class="stat-text">
                         Total Books
@@ -312,7 +312,7 @@ if (!isset($_SESSION['username'])) {
                         <i class="bi bi-people-fill"></i>
                     </div>
 
-                    <div class="stat-number">320</div>
+                    <div class="stat-number">350 +</div>
 
                     <div class="stat-text">
                         Active Users
@@ -330,7 +330,7 @@ if (!isset($_SESSION['username'])) {
                         <i class="bi bi-journal-check"></i>
                     </div>
 
-                    <div class="stat-number">89</div>
+                    <div class="stat-number">80 +</div>
 
                     <div class="stat-text">
                         Borrowed Books
