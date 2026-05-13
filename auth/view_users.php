@@ -313,7 +313,7 @@ $result = mysqli_query($conn, $sql);
 
     padding: 18px;
 
-    font-size: 18px;
+    font-size: 14px;
 
     font-weight: bold;
 
@@ -331,7 +331,7 @@ $result = mysqli_query($conn, $sql);
 
     border: 1px solid rgba(119,118,118,0.4);
 
-    font-size: 15px;
+    font-size: 12px;
 
     font-weight: 600;
 }
@@ -345,7 +345,7 @@ $result = mysqli_query($conn, $sql);
 
 
 .user-table-box{
-    border-radius: 18px;
+    border-radius: 14px;
 
     overflow: hidden;
 
@@ -358,7 +358,7 @@ $result = mysqli_query($conn, $sql);
 .no-user{
     color: Black;
 
-    font-size: 18px;
+    font-size: 14px;
 
     font-weight: bold;
 }
