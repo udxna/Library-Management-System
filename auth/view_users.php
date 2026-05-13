@@ -212,7 +212,7 @@ $result = mysqli_query($conn, $sql);
     margin-top: 40px;
     padding: 25px;
 
-    background: rgba(234, 241, 239, 0.57);
+    background: rgba(0, 255, 170, 0.12);
 
     backdrop-filter: blur(18px);
 
@@ -220,7 +220,7 @@ $result = mysqli_query($conn, $sql);
 
     border-radius: 24px;
 
-    box-shadow: 0 8px 35px rgba(219, 208, 208, 0.35);
+    box-shadow: 0 8px 35px rgba(0,0,0,0.35);
 }
 
 .glass-table{
@@ -232,7 +232,7 @@ $result = mysqli_query($conn, $sql);
 
     border-radius: 18px;
 
-    background: rgba(216, 223, 231, 0.48);
+    background: rgba(255,255,255,0.08);
 
     color: white;
 }
@@ -252,7 +252,7 @@ $result = mysqli_query($conn, $sql);
 
     text-align: center;
 
-    border-bottom: 1px solid rgba(15, 15, 15, 0.2);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 
 
@@ -553,8 +553,7 @@ $result = mysqli_query($conn, $sql);
 
 
     <div class="table-wrapper">
-     
-     <h3 class="text-white mb-3"><i class="bi bi-people-fill"></i> Registered Users</h3>
+      <h3 class="text-white mb-3"><i class="bi bi-people-fill"></i> Registered Users</h3>
       <table class="table table-hover">
         <thead>
           <tr>
@@ -590,7 +589,7 @@ $result = mysqli_query($conn, $sql);
       </table>
     </div>
     <div class="footer">
-      © 2026 Library Management System | Designed by CG Product Developer
+      © 2025 Library Management System | Designed by CG Product Developer
     </div>
 
   </div>
