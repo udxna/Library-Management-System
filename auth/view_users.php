@@ -371,7 +371,7 @@ $result = mysqli_query($conn, $sql);
 
     margin-bottom: 25px;
 
-    text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+    text-shadow: 0 2px 10px rgba(136, 42, 42, 0.64);
 }
 
     /* Buttons */
