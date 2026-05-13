@@ -270,13 +270,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
          /* Footer */
 
-         .footer{
-           text-align:center;
-           color:#cde;
-           padding:20px;
-           margin-top:30px;
-           font-size:14px;
-        }
+           .footer{
+              text-align:center;
+              color:#cde;
+              padding:20px;
+              margin-top:30px;
+              font-size:14px;
+            }
 
     </style>
 </head>
