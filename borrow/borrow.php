@@ -9,11 +9,11 @@ if (isset($_POST['submit'])) {
     $status = $_POST['status'];
     $date = date("Y-m-d H:i:s");
 
-    // Regex Validation
+   
     if (!preg_match("/^BR[0-9]{3}$/", $borrow_id)) {
         echo "<script>alert('Invalid Borrow ID!');</script>";
     } else {
-        // Use Prepared Statements to prevent SQL errors and injections
+        
         $stmt = $conn->prepare("INSERT INTO bookborrower (borrow_id, book_id, member_id, borrow_status, borrower_date_modified) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssss", $borrow_id, $book_id, $member_id, $status, $date);
 
@@ -22,7 +22,7 @@ if (isset($_POST['submit'])) {
                 echo "<script>alert('Record added successfully!'); window.location='borrow.php';</script>";
             }
         } catch (mysqli_sql_exception $e) {
-            // This catches the Foreign Key error and explains it nicely
+           
             echo "<script>alert('Error: The Book or Member ID entered does not exist in the system.');</script>";
         }
     }
@@ -34,6 +34,13 @@ if (isset($_GET['delete'])) {
     mysqli_query($conn, "DELETE FROM bookborrower WHERE borrow_id='$id'");
     header('location: borrow.php');
 }
+function generateBorrowID($conn) {
+   
+
+   
+}
+
+
 ?>
 
 <!DOCTYPE html>
