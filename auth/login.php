@@ -283,7 +283,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <img src="logo.png" width="70">
     </div>
 
-    <h2>Welcome Back</h2>
+    <h2>Welcome to Our LMS</h2>
 
     <!-- Error Message -->
     <?php if ($error): ?>
