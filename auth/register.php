@@ -160,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 0 8px 32px rgba(0,0,0,0.15),
                 inset 0 0 10px rgba(255,255,255,0.3);
             position:relative;
-            z-index:10;
+            z-index:5;
         }
 
         /* Shine Animation */
