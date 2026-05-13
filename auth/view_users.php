@@ -223,70 +223,7 @@ $result = mysqli_query($conn, $sql);
     box-shadow: 0 8px 35px rgba(0,0,0,0.35);
 }
 
-.glass-table{
-    width: 100%;
 
-    border-collapse: collapse;
-
-    overflow: hidden;
-
-    border-radius: 18px;
-
-    background: rgba(255,255,255,0.08);
-
-    color: white;
-}
-
-
-.glass-table thead{
-    background: linear-gradient(135deg,#00c896,#00e5a8);
-}
-.glass-table thead th{
-    padding: 18px;
-
-    color: white;
-
-    font-size: 18px;
-
-    font-weight: bold;
-
-    text-align: center;
-
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-}
-
-
-.glass-table tbody tr{
-    transition: 0.3s ease;
-}
-
-.glass-table tbody tr:nth-child(even){
-    background: rgba(34, 22, 141, 0.06);
-}
-
-.glass-table tbody tr:nth-child(odd){
-    background: rgba(18, 138, 38, 0.12);
-}
-
-.glass-table tbody tr:hover{
-    background: rgba(0,255,170,0.18);
-
-    transform: scale(1.005);
-}
-
-.glass-table td{
-    padding: 18px;
-
-    text-align: center;
-
-    color: blue;
-
-    font-size: 16px;
-
-    font-weight: 600;
-
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-}
 .user-table{
     width: 100%;
 
