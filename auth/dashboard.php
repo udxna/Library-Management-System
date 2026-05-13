@@ -352,11 +352,8 @@ if (!isset($_SESSION['username'])) {
                 Manage Users
             </a>
 
-           <a href="update_user.php" class="action-btn books-btn">
-                <i class="bi bi-book"></i>
-                Update User
-            </a>
-
+    
+            
         </div>
 
         
