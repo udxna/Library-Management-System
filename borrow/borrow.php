@@ -2,7 +2,15 @@
 include("../config/db.php");
 
 
+if (isset($_POST['submit'])) {
+    $borrow_id = $_POST['borrow_id'];
+    $book_id = $_POST['book_id'];
+    $member_id = $_POST['member_id'];
+    $status = $_POST['status'];
+    $date = date("Y-m-d H:i:s");
 
+   
+   
 
 
 
