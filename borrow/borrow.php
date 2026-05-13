@@ -63,17 +63,26 @@ if (isset($_GET['delete'])) {
         ?>
     </select>
         </div>
-        <div class="mb-3">
+       <div class="mb-3">
     <label>Select Member</label>
     <select name="member_id" class="form-control" required>
+        <option value="">-- Select Member --</option>
         <?php
-        $members = mysqli_query($conn, "SELECT member_id, member_name FROM member");
-        while ($m = mysqli_fetch_assoc($members)) {
-            echo "<option value='{$m['member_id']}'>{$m['member_id']} - {$m['member_name']}</option>";
+        // member_name kiyala column ekak nathi nisa first_name, last_name use karanna
+        $members = mysqli_query($conn, "SELECT member_id, first_name, last_name FROM member");
+        
+        if ($members) {
+            while ($m = mysqli_fetch_assoc($members)) {
+                // Name eka hadaganne mehemai
+                $fullName = $m['first_name'] . " " . $m['last_name'];
+                echo "<option value='{$m['member_id']}'>{$m['member_id']} - {$fullName}</option>";
+            }
+        } else {
+            echo "<option>No members found</option>";
         }
         ?>
     </select>
-</div>
+         </div>
         <div class="mb-3">
             <label>Borrow Status</label>
             <select name="status" class="form-control">
