@@ -23,7 +23,14 @@ if (isset($_POST['submit'])) {
     } else {
         $query = "INSERT INTO bookborrower (borrow_id, book_id, member_id, borrow_status, borrower_date_modified) 
                   VALUES ('$borrow_id', '$book_id', '$member_id', '$status', '$date')";
-
+        
+        if (mysqli_query($conn, $query)) {
+            echo "<script>alert('Record added successfully!'); window.location='borrow.php';</script>";
+        } else {
+            echo "Error: " . mysqli_error($conn);
+        }
+    }
+}
 
 
 
