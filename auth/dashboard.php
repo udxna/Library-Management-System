@@ -364,11 +364,6 @@ if (!isset($_SESSION['username'])) {
 
 </section>
 
-           <div class="footer">
-                  © 2025 Library Management System | Designed by CG Product Developer
-           </div>
-
-
 <!-- Bootstrap JS -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
