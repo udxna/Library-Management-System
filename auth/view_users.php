@@ -209,7 +209,7 @@ $result = mysqli_query($conn, $sql);
     /* Table */
 
     .table-wrapper{
-    margin-top: 50px;
+    margin-top: 40px;
     padding: 25px;
 
     background: rgba(0, 255, 170, 0.12);
@@ -224,7 +224,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .glass-table{
-    width: 500%;
+    width: 100%;
 
     border-collapse: collapse;
 
