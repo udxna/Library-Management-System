@@ -349,11 +349,11 @@ if (!isset($_SESSION['username'])) {
 
             <a href="view_users.php" class="action-btn manage-btn">
                 <i class="bi bi-person-gear"></i>
-                Manage Users
+                Update Users
             </a>
 
     
-            
+
         </div>
 
         
