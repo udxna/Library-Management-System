@@ -23,7 +23,7 @@ if (isset($_POST['update'])) {
 <body class="container mt-5">
     <h2>Update Borrow Status</h2>
     <form method="POST" class="card p-4">
-        <p>Borrow ID: <b></b></p>
+        <p>Borrow ID: <b><?php echo $data['borrow_id']; ?></b></p>
         
        
        
