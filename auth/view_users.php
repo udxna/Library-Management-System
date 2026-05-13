@@ -374,20 +374,20 @@ $result = mysqli_query($conn, $sql);
     text-shadow: 0 2px 10px rgba(0,0,0,0.35);
 }
 .user-table-box{
-  width: 75%;
+  width: 100%;
   margin-top: 20px;
   border-radius: 18px;
   overflow-x: auto;
-  border: 2px solid rgba(58, 146, 187, 0.35);
-  box-shadow: 0 10px 30px rgba(41, 156, 60, 0.25);
+  border: 2px solid rgba(247, 250, 252, 0.35);
+  box-shadow: 0 10px 30px rgba(52, 127, 170, 0.25);
 }
 
 .user-table{
-  width: 75%;
+  width: 100%;
   min-width: 1180px;
   margin-bottom: 0;
   border-collapse: collapse;
-  background: rgba(47, 45, 163, 0.96);
+  background: rgba(52, 127, 170, 0.25);
 }
 
 .user-table th,
@@ -407,12 +407,12 @@ $result = mysqli_query($conn, $sql);
 }
 
 .user-table tbody td{
-  color: #111;
+  color: #ebdddd;
   font-size: 15px;
 }
 
 .user-table tbody tr:hover{
-  background: #eafff7;
+  background: #263ea8;
 }
 
 .password-col{
