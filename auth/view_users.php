@@ -374,7 +374,7 @@ $result = mysqli_query($conn, $sql);
     text-shadow: 0 2px 10px rgba(0,0,0,0.35);
 }
 .user-table-box{
-  width: 75%;
+  width: 100%;
   margin-top: 20px;
   border-radius: 18px;
   overflow-x: auto;
@@ -383,7 +383,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .user-table{
-  width: 75%;
+  width: 100%;
   min-width: 1180px;
   margin-bottom: 0;
   border-collapse: collapse;
