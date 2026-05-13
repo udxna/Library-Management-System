@@ -8,33 +8,52 @@ if(isset($_POST['submit'])){
     $bookname = $_POST['bookname'];
     $category = $_POST['category'];
 
-    // Validate Book ID
+    // 1. Book ID validation
     if(!preg_match("/^B[0-9]{3}$/",$bookid)){
 
         echo "<div class='alert alert-danger text-center'>
-        Invalid Book ID Format
+        Invalid Book ID Format (Example: B001)
         </div>";
 
     } else {
 
-        // check category exists in DB
-        $check = mysqli_query($conn, "SELECT * FROM bookcategory WHERE category_id='$category'");
+        // 2. Check duplicate book_id
+        $checkBook = mysqli_query($conn, "SELECT * FROM book WHERE book_id='$bookid'");
 
-        if(mysqli_num_rows($check) == 0){
+        if(mysqli_num_rows($checkBook) > 0){
+
             echo "<div class='alert alert-danger text-center'>
-            Invalid Category ❌
+            Book ID already exists ❌
             </div>";
+
         } else {
 
-            $sql = "INSERT INTO book(book_id,book_name,category_id)
-            VALUES('$bookid','$bookname','$category')";
+            // 3. Check category exists (foreign key safety)
+            $checkCat = mysqli_query($conn, "SELECT * FROM bookcategory WHERE category_id='$category'");
 
-            if(mysqli_query($conn,$sql)){
-                echo "<div class='alert alert-success text-center'>
-                Book Added Successfully ✅
+            if(mysqli_num_rows($checkCat) == 0){
+
+                echo "<div class='alert alert-danger text-center'>
+                Invalid Category ❌
                 </div>";
+
             } else {
-                echo mysqli_error($conn);
+
+                // 4. Insert book
+                $sql = "INSERT INTO book(book_id, book_name, category_id)
+                        VALUES('$bookid','$bookname','$category')";
+
+                if(mysqli_query($conn,$sql)){
+
+                    echo "<div class='alert alert-success text-center'>
+                    Book Added Successfully ✅
+                    </div>";
+
+                } else {
+                    echo "<div class='alert alert-danger text-center'>
+                    Error: ".mysqli_error($conn)."
+                    </div>";
+                }
             }
         }
     }
@@ -46,6 +65,7 @@ if(isset($_POST['submit'])){
 <html>
 
 <head>
+
 <title>Book Registration</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -54,6 +74,7 @@ if(isset($_POST['submit'])){
 body{
     background:#d4f5d1;
 }
+
 .card{
     margin-top:50px;
     padding:30px;
@@ -67,7 +88,9 @@ body{
 <body>
 
 <div class="container">
+
 <div class="row justify-content-center">
+
 <div class="col-md-6">
 
 <div class="card">
@@ -84,11 +107,11 @@ body{
 
 <label class="mt-3">Category</label>
 
-<!-- FIXED: now using category_id -->
 <select name="category" class="form-control" required>
 
 <?php
 $result = mysqli_query($conn,"SELECT * FROM bookcategory");
+
 while($row = mysqli_fetch_assoc($result)){
 ?>
     <option value="<?php echo $row['category_id']; ?>">
@@ -115,7 +138,9 @@ View Books
 </div>
 
 </div>
+
 </div>
+
 </div>
 
 </body>
