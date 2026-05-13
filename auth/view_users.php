@@ -369,7 +369,7 @@ $result = mysqli_query($conn, $sql);
 
     align-items:center;
 
-    gap:20px;
+    gap:50px;
 
     white-space:nowrap;
 }
@@ -387,7 +387,7 @@ $result = mysqli_query($conn, $sql);
 
     padding:6px 20px;
 
-    font-weight:350;
+    font-weight:500;
 
     text-decoration:none;
 
@@ -413,7 +413,7 @@ $result = mysqli_query($conn, $sql);
 
     padding:6px 20px;
 
-    font-weight:350;
+    font-weight:500;
 
     text-decoration:none;
 
