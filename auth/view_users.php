@@ -431,7 +431,7 @@ $result = mysqli_query($conn, $sql);
 
 .btn-edit,
 .btn-delete{
-  width: 85px;
+  width: 75px;
   height: 38px;
   display: inline-flex;
   align-items: center;
