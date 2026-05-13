@@ -212,7 +212,7 @@ $result = mysqli_query($conn, $sql);
     margin-top: 40px;
     padding: 25px;
 
-    background: rgba(107, 109, 108, 0.12);
+    background: rgba(0, 255, 170, 0.12);
 
     backdrop-filter: blur(18px);
 
@@ -223,26 +223,91 @@ $result = mysqli_query($conn, $sql);
     box-shadow: 0 8px 35px rgba(0,0,0,0.35);
 }
 
+.glass-table{
+    width: 100%;
+
+    border-collapse: collapse;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.08);
+
+    color: white;
+}
+
+
+.glass-table thead{
+    background: linear-gradient(135deg,#00c896,#00e5a8);
+}
+.glass-table thead th{
+    padding: 18px;
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+
+.glass-table tbody tr{
+    transition: 0.3s ease;
+}
+
+.glass-table tbody tr:nth-child(even){
+    background: rgba(255,255,255,0.06);
+}
+
+.glass-table tbody tr:nth-child(odd){
+    background: rgba(255,255,255,0.12);
+}
+
+.glass-table tbody tr:hover{
+    background: rgba(0,255,170,0.18);
+
+    transform: scale(1.005);
+}
+
+.glass-table td{
+    padding: 18px;
+
+    text-align: center;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
 
 .user-table{
     width: 100%;
 
     border-collapse: collapse;
 
-    background: #1e3a5f;
+    background: #486fa3d5;
 
-    border: 3px solid #00c896;
+    border: 3px solid #00c86b;
 
     border-radius: 15px;
 
     overflow: hidden;
 }
+
 .user-table thead{
     background: #00c896;
 }
 
 .user-table thead th{
-    color: white;
+    color: Black;
 
     text-align: center;
 
@@ -252,29 +317,33 @@ $result = mysqli_query($conn, $sql);
 
     font-weight: bold;
 
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(119, 118, 118, 0.4);
 }
-.user-table tbody td{
-    background: #24476f;
 
-    color: white;
+.user-table tbody td{
+    background: #486fa3d5;
+
+    color: Black;
 
     text-align: center;
 
     padding: 18px;
 
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid rgba(119,118,118,0.4);
 
     font-size: 15px;
 
     font-weight: 600;
 }
 
+
 .user-table tbody tr:hover{
-    background: #2f5f91;
+    background: #486fa3d5;
 
     transition: 0.3s;
 }
+
+
 .user-table-box{
     border-radius: 18px;
 
@@ -284,14 +353,15 @@ $result = mysqli_query($conn, $sql);
 
     margin-top: 20px;
 }
+
+
 .no-user{
-    color: white;
+    color: Black;
 
     font-size: 18px;
 
     font-weight: bold;
 }
-
 
     /* Buttons */
 
@@ -302,7 +372,6 @@ $result = mysqli_query($conn, $sql);
       border-radius:5px;
       padding:6px 20px;
       font-weight:500;
-      gap:50px;
     }
 
     .btn-delete{
@@ -312,7 +381,6 @@ $result = mysqli_query($conn, $sql);
       border-radius:5px;
       padding:6px 20px;
       font-weight:500;
-      gap:50px;
     }
 
     .btn-edit:hover,
@@ -475,7 +543,7 @@ $result = mysqli_query($conn, $sql);
 
     <div class="table-wrapper">
       <h3 class="text-white mb-3"><i class="bi bi-people-fill"></i> Registered Users</h3>
-      <table class="table user-table">
+      <<table class="table user-table">>
         <thead>
           <tr>
             <th>User ID</th>
