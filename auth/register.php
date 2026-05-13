@@ -151,8 +151,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         .register-container{
             width:700px;
-            padding:100px;
-            border-radius:50px;
+            padding:60px;
+            border-radius:40px;
             background:rgba(255,255,255,0.18);
             backdrop-filter:blur(18px);
             border:1px solid rgba(15, 85, 189, 0.3);
