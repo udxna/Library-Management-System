@@ -209,7 +209,7 @@ $result = mysqli_query($conn, $sql);
     /* Table */
 
     .table-wrapper{
-    margin-top: 40px;
+    margin-top: 100px;
     padding: 25px;
 
     background: rgba(0, 255, 170, 0.12);
@@ -578,7 +578,7 @@ $result = mysqli_query($conn, $sql);
       </table>
     </div>
     <div class="footer">
-      © 2025 Library Management System | Designed by CG Product Developer
+      © 2025 Library Management System | Designed by CG Software Developer
     </div>
 
   </div>
