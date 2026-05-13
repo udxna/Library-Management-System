@@ -1,19 +1,6 @@
 <?php
-// login.php
 session_start();
-
-// Database connection
-$host = "localhost";
-$dbname = "library_system";
-$username = "root";
-$password = "";
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
+require_once '../config/db.php';
 
 $error = "";
 
@@ -21,22 +8,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $uname = trim($_POST['username'] ?? '');
     $pass  = $_POST['password'] ?? '';
 
-    if (empty($uname) || empty($pass)) {
+    if ($uname === '' || $pass === '') {
         $error = "Username and password are required.";
     } else {
-        // Fetch user by username
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username LIMIT 1");
-        $stmt->execute([':username' => $uname]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        // IMPORTANT: database table name is `user`, not `users`
+        $stmt = mysqli_prepare($conn, "SELECT * FROM `user` WHERE username = ? LIMIT 1");
+        mysqli_stmt_bind_param($stmt, "s", $uname);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $user = mysqli_fetch_assoc($result);
 
-        // ✅ FIXED: Use password_verify() to check against the hashed password in DB
-        if ($user && password_verify($pass, $user['password'])) {
-            $_SESSION['user_id']   = $user['id'];
-            $_SESSION['user_id']    = $user['user_id'];
-            $_SESSION['username']  = $user['username'];
-            $_SESSION['firstname'] = $user['firstname'];
-            $_SESSION['lastname']  = $user['lastname'];
-            header("Location: ../dashboard/index.php");
+        // Works for hashed passwords and old plain text password admin123
+        if ($user && (password_verify($pass, $user['password']) || $pass === $user['password'])) {
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['first_name'] = $user['first_name'];
+            $_SESSION['last_name'] = $user['last_name'];
+            header("Location: dashboard.php");
             exit();
         } else {
             $error = "Invalid username or password.";
