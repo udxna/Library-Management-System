@@ -363,7 +363,7 @@ $result = mysqli_query($conn, $sql);
     transition: 0.3s ease;
 }
 .table-title{
-    color: white;
+    color: blue;
 
     font-size: 34px;
 
