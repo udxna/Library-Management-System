@@ -150,12 +150,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         /* Register Card */
 
         .register-container{
-            width:550px;
-            padding:60px;
-            border-radius:40px;
+            width:500px;
+            padding:40px;
+            border-radius:25px;
             background:rgba(255,255,255,0.18);
             backdrop-filter:blur(18px);
-            border:1px solid rgba(15, 85, 189, 0.3);
+            border:1px solid rgba(255,255,255,0.3);
             box-shadow:
                 0 8px 32px rgba(0,0,0,0.15),
                 inset 0 0 10px rgba(255,255,255,0.3);
@@ -219,7 +219,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             margin-bottom:25px;
             font-weight:600;
         }
-       
 
         .input-box{
             margin-bottom:15px;
@@ -231,7 +230,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             border:none;
             outline:none;
             border-radius:12px;
-            background:rgba(14, 199, 69, 0.35);
+            background:rgba(255,255,255,0.35);
             color:#134b5f;
             font-size:15px;
             transition:0.3s;
@@ -341,7 +340,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <form method="POST">
 
             <div class="input-box">
-                <input type="text" name="user_id" class="form-control" placeholder="User ID" required>
+                <input type="text" name="userid" placeholder="User ID" required>
             </div>
 
             <div class="input-box">
