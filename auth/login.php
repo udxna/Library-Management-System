@@ -97,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             bottom:0;
             width:100%;
             height:120px;
-            background:linear-gradient(to top,#2c3e50,#3f5873);
+            background:linear-gradient(135deg,#00c6a7,#0984e3);
             display:flex;
             justify-content:center;
             align-items:flex-end;
