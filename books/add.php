@@ -115,7 +115,7 @@ $result = mysqli_query($conn,"SELECT * FROM bookcategory");
 while($row = mysqli_fetch_assoc($result)){
 ?>
     <option value="<?php echo $row['category_id']; ?>">
-        <?php echo $row['category_name']; ?>
+        <?php echo $row['category_id']; ?>
     </option>
 <?php } ?>
 
