@@ -232,7 +232,7 @@ $result = mysqli_query($conn, $sql);
 
     border-radius: 18px;
 
-    background: rgba(255,255,255,0.08);
+    background: rgba(43, 103, 172, 0.48);
 
     color: white;
 }
@@ -244,7 +244,7 @@ $result = mysqli_query($conn, $sql);
 .glass-table thead th{
     padding: 18px;
 
-    color: white;
+    color: blue;
 
     font-size: 18px;
 
@@ -252,7 +252,7 @@ $result = mysqli_query($conn, $sql);
 
     text-align: center;
 
-    border-bottom: 1px solid rgba(255,255,255,0.2);
+    border-bottom: 1px solid rgba(15, 15, 15, 0.2);
 }
 
 
@@ -302,7 +302,7 @@ $result = mysqli_query($conn, $sql);
 
     justify-content: center;
 
-    gap: 10px;
+    gap: 20px;
 }
 .btn-edit{
     background: linear-gradient(135deg,#00b4ff,#4cc9f0);
