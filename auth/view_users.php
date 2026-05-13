@@ -224,7 +224,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .glass-table{
-    width: 100%;
+    width: 50%;
 
     border-collapse: collapse;
 
