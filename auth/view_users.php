@@ -244,7 +244,7 @@ $result = mysqli_query($conn, $sql);
 .glass-table thead th{
     padding: 18px;
 
-    color: green;
+    color: white;
 
     font-size: 18px;
 
@@ -261,11 +261,11 @@ $result = mysqli_query($conn, $sql);
 }
 
 .glass-table tbody tr:nth-child(even){
-    background: rgba(255,255,255,0.06);
+    background: rgba(34, 22, 141, 0.06);
 }
 
 .glass-table tbody tr:nth-child(odd){
-    background: rgba(255,255,255,0.12);
+    background: rgba(18, 138, 38, 0.12);
 }
 
 .glass-table tbody tr:hover{
