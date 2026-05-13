@@ -17,7 +17,7 @@ if(isset($_POST['update'])){
 
     $update = "UPDATE book
     SET book_name='$bookname',
-    category='$category'
+    category_id='$category'
     WHERE book_id='$id'";
 
     mysqli_query($conn,$update);
@@ -78,7 +78,7 @@ class="form-control">
 
 <input type="text"
 name="category"
-value="<?php echo $row['category']; ?>"
+value="<?php echo $row['category_id']; ?>"
 class="form-control">
 
 <br>

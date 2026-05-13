@@ -17,7 +17,7 @@ if(isset($_POST['submit'])){
 
     }else{
 
-        $sql = "INSERT INTO book(book_id,book_name,category)
+        $sql = "INSERT INTO book(book_id,book_name,category_id)
         VALUES('$bookid','$bookname','$category')";
 
         mysqli_query($conn,$sql);

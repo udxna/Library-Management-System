@@ -43,7 +43,7 @@ body{
 
 <th>Book ID</th>
 <th>Book Name</th>
-<th>Category</th>
+<th>Category ID</th>
 <th>Action</th>
 
 </tr>
@@ -60,7 +60,7 @@ while($row=mysqli_fetch_assoc($result)){
 
 <td><?php echo $row['book_name']; ?></td>
 
-<td><?php echo $row['category']; ?></td>
+<td><?php echo $row['category_id']; ?></td>
 
 <td>
 
