@@ -268,16 +268,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             text-decoration:underline;
         }
 
-         /* Footer */
-
-           .footer{
-              text-align:center;
-              color:#cde;
-              padding:20px;
-              margin-top:30px;
-              font-size:14px;
-            }
-
+    
     </style>
 </head>
 <body>
@@ -334,9 +325,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <a href="register.php">Register Here</a>
     </div>
 
-</div>
-
-
-<div class="footer">
-      © 2025 Library Management System | Designed by CG Software Developer
 </div>
