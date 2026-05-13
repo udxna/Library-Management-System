@@ -22,6 +22,11 @@ if (isset($_POST['update'])) {
 </head>
 <body class="container mt-5">
     <h2>Update Borrow Status</h2>
-   
+    <form method="POST" class="card p-4">
+        
+        
+       
+       
+    </form>
 </body>
 </html>
