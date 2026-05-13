@@ -224,7 +224,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .glass-table{
-    width: 100%;
+    width: 90%;
 
     border-collapse: collapse;
 
@@ -372,6 +372,7 @@ $result = mysqli_query($conn, $sql);
       border-radius:5px;
       padding:5px 10px;
       font-weight:500;
+      gap:5px;
     }
 
     .btn-delete{
@@ -381,6 +382,7 @@ $result = mysqli_query($conn, $sql);
       border-radius:5px;
       padding:5px 10px;
       font-weight:500;
+      gap:5px;
     }
 
     .btn-edit:hover,
