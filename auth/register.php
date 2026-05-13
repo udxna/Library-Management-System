@@ -230,7 +230,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             border:none;
             outline:none;
             border-radius:12px;
-            background:rgba(255,255,255,0.35);
+            background:rgba(14, 199, 69, 0.35);
             color:#134b5f;
             font-size:15px;
             transition:0.3s;
