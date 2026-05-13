@@ -9,25 +9,21 @@ if (isset($_POST['submit'])) {
     $status = $_POST['status'];
     $date = date("Y-m-d H:i:s");
 
-   
-    $borrow_pattern = "/^BR[0-9]{3}$/";
-    $book_pattern = "/^B[0-9]{3}$/";
-    $member_pattern = "/^M[0-9]{3}$/";
-
-    if (!preg_match($borrow_pattern, $borrow_id)) {
-        echo "<script>alert('Invalid Borrow ID! Format: BR001');</script>";
-    } elseif (!preg_match($book_pattern, $book_id)) {
-        echo "<script>alert('Invalid Book ID! Format: B001');</script>";
-    } elseif (!preg_match($member_pattern, $member_id)) {
-        echo "<script>alert('Invalid Member ID! Format: M001');</script>";
+    // Regex Validation
+    if (!preg_match("/^BR[0-9]{3}$/", $borrow_id)) {
+        echo "<script>alert('Invalid Borrow ID!');</script>";
     } else {
-        $query = "INSERT INTO bookborrower (borrow_id, book_id, member_id, borrow_status, borrower_date_modified) 
-                  VALUES ('$borrow_id', '$book_id', '$member_id', '$status', '$date')";
-        
-        if (mysqli_query($conn, $query)) {
-            echo "<script>alert('Record added successfully!'); window.location='borrow.php';</script>";
-        } else {
-            echo "Error: " . mysqli_error($conn);
+        // Use Prepared Statements to prevent SQL errors and injections
+        $stmt = $conn->prepare("INSERT INTO bookborrower (borrow_id, book_id, member_id, borrow_status, borrower_date_modified) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $borrow_id, $book_id, $member_id, $status, $date);
+
+        try {
+            if ($stmt->execute()) {
+                echo "<script>alert('Record added successfully!'); window.location='borrow.php';</script>";
+            }
+        } catch (mysqli_sql_exception $e) {
+            // This catches the Foreign Key error and explains it nicely
+            echo "<script>alert('Error: The Book or Member ID entered does not exist in the system.');</script>";
         }
     }
 }
@@ -68,9 +64,16 @@ if (isset($_GET['delete'])) {
     </select>
         </div>
         <div class="mb-3">
-            <label>Member ID (Format: M001)</label>
-            <input type="text" name="member_id" class="form-control" required>
-        </div>
+    <label>Select Member</label>
+    <select name="member_id" class="form-control" required>
+        <?php
+        $members = mysqli_query($conn, "SELECT member_id, member_name FROM member");
+        while ($m = mysqli_fetch_assoc($members)) {
+            echo "<option value='{$m['member_id']}'>{$m['member_id']} - {$m['member_name']}</option>";
+        }
+        ?>
+    </select>
+</div>
         <div class="mb-3">
             <label>Borrow Status</label>
             <select name="status" class="form-control">
