@@ -150,8 +150,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         /* Register Card */
 
         .register-container{
-            width:500px;
-            padding:40px;
+            width:750px;
+            padding:60px;
             border-radius:25px;
             background:rgba(255,255,255,0.18);
             backdrop-filter:blur(18px);
@@ -167,7 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         .register-container::before{
             content:'';
-            position:top:0;
+            position:absolute;
             top:0;
             left:-75%;
             width:50%;
