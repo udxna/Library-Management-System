@@ -362,35 +362,77 @@ $result = mysqli_query($conn, $sql);
 
     font-weight: bold;
 }
+.action-buttons{
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:8px;
+
+    white-space:nowrap;
+}
 
     /* Buttons */
 
     .btn-edit{
-      background:#ffd60a;
-      color:#000;
-      border:1px solid #ccc;
-      border-radius:0.5px;
-      padding:6px 20px;
-      font-weight:500;
-      
-      
-    }
+    background:#ffd60a;
 
-    .btn-delete{
-      background:#ef233c;
-      color:#fff;
-      border:1px solid #ccc;
-      border-radius:0.5px;
-      padding:6px 20px;
-      font-weight:500;
-      
-    }
+    color:#000;
 
+    border:1px solid #ccc;
+
+    border-radius:6px;
+
+    padding:8px 18px;
+
+    font-weight:700;
+
+    text-decoration:none;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:80px;
+
+    transition:0.3s;
+}
+
+   .btn-delete{
+    background:#ef233c;
+
+    color:#fff;
+
+    border:1px solid #ccc;
+
+    border-radius:6px;
+
+    padding:8px 18px;
+
+    font-weight:700;
+
+    text-decoration:none;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:80px;
+
+    transition:0.3s;
+}
     .btn-edit:hover,
     .btn-delete:hover{
-      opacity:0.9;
-      transform:scale(1.03);
-    }
+      background:#d90429;
+
+    transform:translateY(-2px);
+}
 
     /* Footer */
 
