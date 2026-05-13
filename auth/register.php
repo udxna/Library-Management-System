@@ -338,7 +338,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
         <?php endif; ?>
 
-        <form method="POST">
+        <form method="POST">4
+
+            <div class="input-box">
+                <input type="text" name="user_id" class="form-control" placeholder="User ID" readonly>
+            </div>
+
             <div class="input-box">
                 <input type="text" name="firstname" placeholder="First Name" required>
             </div>
