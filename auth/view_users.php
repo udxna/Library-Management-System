@@ -212,7 +212,7 @@ $result = mysqli_query($conn, $sql);
     margin-top: 40px;
     padding: 25px;
 
-    background: rgba(0, 255, 170, 0.12);
+    background: rgba(107, 109, 108, 0.12);
 
     backdrop-filter: blur(18px);
 
