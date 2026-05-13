@@ -369,9 +369,9 @@ $result = mysqli_query($conn, $sql);
       background:#ffd60a;
       color:#000;
       border:1px solid #ccc;
-      border-radius:10px;
-      padding:5px 5px;
-      font-weight:100;
+      border-radius:0.5px;
+      padding:6px 20px;
+      font-weight:700;
       
       
     }
@@ -380,9 +380,9 @@ $result = mysqli_query($conn, $sql);
       background:#ef233c;
       color:#fff;
       border:1px solid #ccc;
-      border-radius:10px;
-      padding:5px 5px;
-      font-weight:100;
+      border-radius:0.5px;
+      padding:6px 20px;
+      font-weight:700;
       
     }
 
