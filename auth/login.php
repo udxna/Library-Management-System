@@ -334,8 +334,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <a href="register.php">Register Here</a>
     </div>
 
-    <div class="footer">
-      © 2025 Library Management System | Designed by CG Software Developer
-    </div>
+</div>
 
+
+<div class="footer">
+      © 2025 Library Management System | Designed by CG Software Developer
 </div>
