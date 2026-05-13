@@ -36,7 +36,7 @@ include("../config/db.php");
         <button type="submit" name="submit" class="btn btn-primary">Add Record</button>
     </form> 
     <h3>Borrowed Books List</h3>
-    <table class="table table-bordered">
+     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Borrow ID</th>
@@ -52,11 +52,11 @@ include("../config/db.php");
             $result = mysqli_query($conn, "SELECT * FROM bookborrower");
             while ($row = mysqli_fetch_assoc($result)) { ?>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><?php echo $row['borrow_id']; ?></td>
+                    <td><?php echo $row['book_id']; ?></td>
+                    <td><?php echo $row['member_id']; ?></td>
+                    <td><?php echo $row['borrow_status']; ?></td>
+                    <td><?php echo $row['borrower_date_modified']; ?></td>
                     <td>
                         <a href="edit_borrow.php?id=<?php echo $row['borrow_id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                         <a href="borrow.php?delete=<?php echo $row['borrow_id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
