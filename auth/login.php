@@ -97,11 +97,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             bottom:0;
             width:100%;
             height:120px;
-            background:linear-gradient(135deg,#00c6a7,#0984e3);
+            background:linear-gradient(to top,#2c3e50,#3f5873);
             display:flex;
             justify-content:center;
             align-items:flex-end;
-            gap:10px;
+            gap:5px;
             padding-bottom:10px;
         }
 
@@ -135,6 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             height:95px;
             background:#74b9ff;
         }
+
 
         /* Login Card */
 
