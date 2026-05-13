@@ -14,7 +14,7 @@ $result = mysqli_query($conn,$sql);
 <?php include '../includes/header.php'; ?>
 <?php include '../includes/navbar.php'; ?>
 
-<?php } ?>
+
 
 </table>
 
