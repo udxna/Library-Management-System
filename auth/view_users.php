@@ -1,31 +1,4 @@
-<tbody>
 
-<?php while($row = mysqli_fetch_assoc($result)){ ?>
-
-<tr>
-  <td><?php echo $row['id']; ?></td>
-  <td><?php echo $row['userid']; ?></td>
-  <td><?php echo $row['firstname']; ?></td>
-  <td><?php echo $row['lastname']; ?></td>
-  <td><?php echo $row['username']; ?></td>
-  <td><?php echo $row['email']; ?></td>
-
-  <td>
-    <a href="update_user.php?id=<?php echo $row['id']; ?>" class="btn btn-edit btn-sm">
-      Edit
-    </a>
-
-    <a href="delete_user.php?id=<?php echo $row['id']; ?>"
-       class="btn btn-delete btn-sm"
-       onclick="return confirm('Are you sure you want to delete this user?');">
-      Delete
-    </a>
-  </td>
-</tr>
-
-<?php } ?>
-
-</tbody>
 <!DOCTYPE html>
 <html lang="en">
 <head>
