@@ -623,7 +623,7 @@ $result = mysqli_query($conn, $sql);
       </table>
     </div>
     <div class="footer">
-      © 2026 Library Management System | Designed by CG Software Developer| All Rights Reserved.
+      © 2026 Library Management System | Designed by CG Software Developer | All Rights Reserved.
     </div>
 
   </div>
