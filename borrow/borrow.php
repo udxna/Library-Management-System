@@ -36,5 +36,33 @@ include("../config/db.php");
         <button type="submit" name="submit" class="btn btn-primary">Add Record</button>
     </form> 
     <h3>Borrowed Books List</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Borrow ID</th>
+                <th>Book ID</th>
+                <th>Member ID</th>
+                <th>Status</th>
+                <th>Modified Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            ?>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <a href="edit_borrow.php?id=<?php echo $row['borrow_id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="borrow.php?delete=<?php echo $row['borrow_id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+            <?php } ?>
+        </tbody>
+    </table>
 </body>
 </html>
