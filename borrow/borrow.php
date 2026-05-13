@@ -33,7 +33,11 @@ if (isset($_POST['submit'])) {
 }
 
 
-
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    mysqli_query($conn, "DELETE FROM bookborrower WHERE borrow_id='$id'");
+    header('location: borrow.php');
+}
 ?>
 
 <!DOCTYPE html>
