@@ -10,7 +10,11 @@ if (isset($_POST['submit'])) {
     $date = date("Y-m-d H:i:s");
 
    
-   
+    $borrow_pattern = "/^BR[0-9]{3}$/";
+    $book_pattern = "/^B[0-9]{3}$/";
+    $member_pattern = "/^M[0-9]{3}$/";
+
+  
 
 
 
