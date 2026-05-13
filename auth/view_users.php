@@ -16,7 +16,7 @@ $result = mysqli_query($conn, $sql);
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Modern LMS Dashboard</title>
+  <title>LMS Dashboard</title>
 
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -382,7 +382,7 @@ $result = mysqli_query($conn, $sql);
 
           <div class="stat-card bg-blue">
 
-            <div class="stat-number">350</div>
+            <div class="stat-number">25</div>
             <div class="stat-title">Active Users</div>
 
             <i class="bi bi-people-fill"></i>
@@ -395,7 +395,7 @@ $result = mysqli_query($conn, $sql);
 
           <div class="stat-card bg-teal">
 
-            <div class="stat-number">84</div>
+            <div class="stat-number">15</div>
             <div class="stat-title">Books Borrowed</div>
 
             <i class="bi bi-journal-check"></i>
@@ -422,7 +422,7 @@ $result = mysqli_query($conn, $sql);
     </div>
 
     <div class="footer">
-      © 2025 Library Management System 
+      © 2025 Library Management System | Designed by cgproductdevelper
     </div>
 
   </div>
