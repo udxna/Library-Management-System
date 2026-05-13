@@ -293,9 +293,9 @@ $result = mysqli_query($conn, $sql);
 
     border-collapse: collapse;
 
-    background: #5ba1c260;
+    background: #4390d860;
 
-    border: 3px solid #00c86b;
+    border: 3px solid #697570;
 
     border-radius: 15px;
 
@@ -303,7 +303,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .user-table thead{
-    background: #00c86b;
+    background: #697570;
 }
 
 .user-table thead th{
@@ -321,7 +321,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .user-table tbody td{
-    background: #5ba1c260;
+    background: #4390d860;
 
     color: Black;
 
@@ -338,7 +338,7 @@ $result = mysqli_query($conn, $sql);
 
 
 .user-table tbody tr:hover{
-    background: #5ba1c260;
+    background: #4390d860;
 
     transition: 0.3s;
 }
