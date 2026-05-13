@@ -230,7 +230,7 @@ if (!isset($_SESSION['username'])) {
          /* Footer */
 
             .footer{
-               text-align:center;
+               text-align:Bottom;
                color:#cde;
                padding:20px;
                margin-top:30px;
