@@ -368,20 +368,20 @@ $result = mysqli_query($conn, $sql);
     .btn-edit{
       background:#ffd60a;
       color:#000;
-      border:none;
-      border-radius:1px;
-      padding:1px 10px;
-      font-weight:750;
+      border:1px solid #ccc;
+      border-radius:5px;
+      padding:6px 20px;
+      font-weight:500;
       
     }
 
     .btn-delete{
       background:#ef233c;
       color:#fff;
-      border:none;
-      border-radius:1px;
-      padding:1px 10px;
-      font-weight:750;
+      border:1px solid #ccc;
+      border-radius:5px;
+      padding:6px 20px;
+      font-weight:500;
       
     }
 
