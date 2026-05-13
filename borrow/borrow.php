@@ -57,8 +57,15 @@ if (isset($_GET['delete'])) {
             <input type="text" name="borrow_id" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label>Book ID (Format: B001)</label>
-            <input type="text" name="book_id" class="form-control" required>
+            <label>Select Book</label>
+    <select name="book_id" class="form-control" required>
+        <?php
+        $books = mysqli_query($conn, "SELECT book_id, book_name FROM book");
+        while ($b = mysqli_fetch_assoc($books)) {
+            echo "<option value='{$b['book_id']}'>{$b['book_id']} - {$b['book_name']}</option>";
+        }
+        ?>
+    </select>
         </div>
         <div class="mb-3">
             <label>Member ID (Format: M001)</label>
@@ -105,3 +112,6 @@ if (isset($_GET['delete'])) {
     </table>
 </body>
 </html>
+
+
+
