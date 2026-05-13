@@ -5,11 +5,11 @@ session_start();
 // Database Connection
 $host = "localhost";
 $dbname = "library_system";
-$username = "root";
-$password = "";
+$username_db = "root";
+$password_db = "";
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username_db, $password_db);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
@@ -35,45 +35,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         empty($email) ||
         empty($password)
     ) {
-
         $error = "All fields are required.";
-
     } else {
 
-        $check = $pdo->prepare("SELECT id FROM users WHERE username = ?");
-        $check->execute([$username]);
+        // Check duplicate userid, username, or email
+        $check = $pdo->prepare("SELECT * FROM users WHERE userid = ? OR username = ? OR email = ?");
+        $check->execute([$userid, $username, $email]);
 
         if ($check->rowCount() > 0) {
-
-            $error = "Username already exists.";
-
+            $error = "User ID, Username or Email already exists.";
         } else {
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            $stmt = $pdo->prepare("
-                INSERT INTO users
-                (userid, firstname, lastname, username, email, password)
-                VALUES (?, ?, ?, ?, ?, ?)
-            ");
+            try {
+                $stmt = $pdo->prepare("
+                    INSERT INTO users
+                    (userid, firstname, lastname, username, email, password)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                ");
 
-            $success = $stmt->execute([
-                $userid,
-                $firstname,
-                $lastname,
-                $username,
-                $email,
-                $hashedPassword
-            ]);
+                $stmt->execute([
+                    $userid,
+                    $firstname,
+                    $lastname,
+                    $username,
+                    $email,
+                    $hashedPassword
+                ]);
 
-            if ($success) {
                 $message = "Registration Successful!";
-            } else {
-                $error = "Registration Failed.";
+
+            } catch (PDOException $e) {
+                if ($e->getCode() == 23000) {
+                    $error = "This user already exists. Please use another User ID, Username or Email.";
+                } else {
+                    $error = "Registration Failed.";
+                }
             }
         }
     }
 }
+?>
 ?>
 <!DOCTYPE html>
 <html lang="en">
