@@ -1,47 +1,58 @@
 <?php
 session_start();
-include '../config/db.php';
+require_once '../config/db.php';
 
-if(!isset($_SESSION['username'])){
+if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
 
-if(!isset($_GET['id']) || empty($_GET['id'])){
+if (!isset($_GET['id']) || $_GET['id'] === '') {
     header("Location: view_users.php");
     exit();
 }
 
-$id = intval($_GET['id']);
+$user_id = $_GET['id'];
+$error = "";
 
-$sql = "SELECT * FROM users WHERE id = $id";
-$result = mysqli_query($conn, $sql);
+$stmt = mysqli_prepare($conn, "SELECT * FROM `user` WHERE user_id = ? LIMIT 1");
+mysqli_stmt_bind_param($stmt, "s", $user_id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
-if(mysqli_num_rows($result) == 0){
+if (mysqli_num_rows($result) == 0) {
     header("Location: view_users.php");
     exit();
 }
 
 $row = mysqli_fetch_assoc($result);
 
-if(isset($_POST['update'])){
+if (isset($_POST['update'])) {
+    $firstname = trim($_POST['firstname'] ?? '');
+    $lastname  = trim($_POST['lastname'] ?? '');
+    $username  = trim($_POST['username'] ?? '');
+    $email     = trim($_POST['email'] ?? '');
 
-    $firstname = mysqli_real_escape_string($conn, $_POST['firstname']);
-    $lastname  = mysqli_real_escape_string($conn, $_POST['lastname']);
-    $username  = mysqli_real_escape_string($conn, $_POST['username']);
-    $email     = mysqli_real_escape_string($conn, $_POST['email']);
+    if ($firstname === '' || $lastname === '' || $username === '' || $email === '') {
+        $error = "All fields are required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Invalid email format.";
+    } else {
+        $check = mysqli_prepare($conn, "SELECT user_id FROM `user` WHERE (username = ? OR email = ?) AND user_id != ? LIMIT 1");
+        mysqli_stmt_bind_param($check, "sss", $username, $email, $user_id);
+        mysqli_stmt_execute($check);
+        $checkResult = mysqli_stmt_get_result($check);
 
-    $update = "UPDATE users SET
-        firstname='$firstname',
-        lastname='$lastname',
-        username='$username',
-        email='$email'
-        WHERE id=$id";
-
-    mysqli_query($conn, $update);
-
-    header("Location: view_users.php");
-    exit();
+        if (mysqli_num_rows($checkResult) > 0) {
+            $error = "Username or Email already exists.";
+        } else {
+            $update = mysqli_prepare($conn, "UPDATE `user` SET first_name = ?, last_name = ?, username = ?, email = ? WHERE user_id = ?");
+            mysqli_stmt_bind_param($update, "sssss", $firstname, $lastname, $username, $email, $user_id);
+            mysqli_stmt_execute($update);
+            header("Location: view_users.php");
+            exit();
+        }
+    }
 }
 ?>
 
@@ -175,15 +186,17 @@ body{
         <h2><i class="bi bi-pencil-square"></i> Update User</h2>
         <p>Edit user details using the LMS dashboard theme.</p>
 
+        <?php if($error): ?><div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div><?php endif; ?>
+
         <form method="POST">
 
             <label class="form-label">First Name</label>
             <input type="text" name="firstname" class="form-control"
-                   value="<?php echo htmlspecialchars($row['firstname']); ?>" required>
+                   value="<?php echo htmlspecialchars($row['first_name']); ?>" required>
 
             <label class="form-label">Last Name</label>
             <input type="text" name="lastname" class="form-control"
-                   value="<?php echo htmlspecialchars($row['lastname']); ?>" required>
+                   value="<?php echo htmlspecialchars($row['last_name']); ?>" required>
 
             <label class="form-label">Username</label>
             <input type="text" name="username" class="form-control"
