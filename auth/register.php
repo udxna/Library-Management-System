@@ -2,6 +2,31 @@
 session_start();
 require_once '../config/db.php';
 
+<?php
+
+// AUTO GENERATE USER ID
+
+$query = "SELECT user_id FROM user ORDER BY user_id DESC LIMIT 1";
+
+$resultID = mysqli_query($conn, $query);
+
+$newUserID = "U001";
+
+if(mysqli_num_rows($resultID) > 0){
+
+    $row = mysqli_fetch_assoc($resultID);
+
+    $lastID = $row['user_id'];
+
+    $number = intval(substr($lastID, 1));
+
+    $number++;
+
+    $newUserID = "U" . str_pad($number, 3, "0", STR_PAD_LEFT);
+}
+
+
+
 $message = "";
 $error = "";
 
@@ -339,8 +364,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <form method="POST">
 
-            <div class="input-box">
-                <input type="text" name="userid" placeholder="User ID" required>
+            <div class="form-control">
+                <input type="text"
+                       name="user_id"
+                       value="<?php echo $newUserID; ?>"
+                       readonly>
             </div>
 
             <div class="input-box">
