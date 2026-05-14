@@ -1,6 +1,19 @@
 <?php
+// login.php
 session_start();
-require_once '../config/db.php';
+
+// Database connection
+$host = "localhost";
+$dbname = "library_system";
+$username = "root";
+$password = "";
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
 
 $error = "";
 
@@ -8,23 +21,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $uname = trim($_POST['username'] ?? '');
     $pass  = $_POST['password'] ?? '';
 
-    if ($uname === '' || $pass === '') {
+    if (empty($uname) || empty($pass)) {
         $error = "Username and password are required.";
     } else {
-        // IMPORTANT: database table name is `user`, not `users`
-        $stmt = mysqli_prepare($conn, "SELECT * FROM `user` WHERE username = ? LIMIT 1");
-        mysqli_stmt_bind_param($stmt, "s", $uname);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        $user = mysqli_fetch_assoc($result);
+        // Fetch user by username
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username LIMIT 1");
+        $stmt->execute([':username' => $uname]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Works for hashed passwords and old plain text password admin123
-        if ($user && (password_verify($pass, $user['password']) || $pass === $user['password'])) {
-            $_SESSION['user_id'] = $user['user_id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['first_name'] = $user['first_name'];
-            $_SESSION['last_name'] = $user['last_name'];
-            header("Location: dashboard.php");
+        // ✅ FIXED: Use password_verify() to check against the hashed password in DB
+        if ($user && password_verify($pass, $user['password'])) {
+            $_SESSION['user_id']   = $user['id'];
+            $_SESSION['user_id']    = $user['user_id'];
+            $_SESSION['username']  = $user['username'];
+            $_SESSION['firstname'] = $user['firstname'];
+            $_SESSION['lastname']  = $user['lastname'];
+            header("Location: dashboard/index.php");
             exit();
         } else {
             $error = "Invalid username or password.";
@@ -101,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             display:flex;
             justify-content:center;
             align-items:flex-end;
-            gap:5px;
+            gap:10px;
             padding-bottom:10px;
         }
 
@@ -136,7 +148,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             background:#74b9ff;
         }
 
-
         /* Login Card */
 
         .login-container{
@@ -145,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             border-radius:25px;
             background:rgba(255,255,255,0.18);
             backdrop-filter:blur(18px);
-            border:1px solid rgba(15, 85, 189, 0.3);
+            border:1px solid rgba(255,255,255,0.3);
             box-shadow:
                 0 8px 32px rgba(0,0,0,0.15),
                 inset 0 0 10px rgba(255,255,255,0.3);
@@ -215,7 +226,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             border:none;
             outline:none;
             border-radius:12px;
-            background:rgba(14, 199, 69, 0.35);
+            background:rgba(255,255,255,0.35);
             color:#134b5f;
             font-size:15px;
             transition:0.3s;
@@ -268,7 +279,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             text-decoration:underline;
         }
 
-    
     </style>
 </head>
 <body>
@@ -285,7 +295,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <img src="logo.png" width="70">
     </div>
 
-    <h2>Welcome to Our LMS</h2>
+    <h2>Welcome Back</h2>
 
     <!-- Error Message -->
     <?php if ($error): ?>

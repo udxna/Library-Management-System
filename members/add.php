@@ -3,29 +3,46 @@
 include("../dashboard/includes/global.php");
 include("../config/db.php");
 
+/* AUTO GENERATE MEMBER ID */
+
+$result = $conn->query("
+    SELECT member_id
+    FROM member
+    ORDER BY member_id DESC
+    LIMIT 1
+");
+
+if($result->num_rows > 0){
+
+    $row = $result->fetch_assoc();
+
+    $last_id = $row['member_id'];
+
+    $number = (int) substr($last_id, 1);
+
+    $number++;
+
+    $member_id = "M" . str_pad($number, 3, "0", STR_PAD_LEFT);
+
+} else {
+
+    $member_id = "M001";
+
+}
+
 $message = "";
 $alertType = "";
 
 if(isset($_POST['submit'])){
 
-    $member_id = trim($_POST['member_id']);
     $firstname = trim($_POST['firstname']);
     $lastname  = trim($_POST['lastname']);
     $birthday  = trim($_POST['birthday']);
     $email     = trim($_POST['email']);
 
-    /* MEMBER ID VALIDATION */
-
-    if(!preg_match("/^M[0-9]{3}$/", $member_id)){
-
-        $message = "Invalid Member ID Format! Example: M001";
-        $alertType = "danger";
-
-    }
-
     /* NAME VALIDATION */
 
-    elseif(
+    if(
         !preg_match("/^[a-zA-Z ]+$/", $firstname) ||
         !preg_match("/^[a-zA-Z ]+$/", $lastname)
     ){
@@ -86,6 +103,12 @@ if(isset($_POST['submit'])){
 
                 $message = "Member Added Successfully!";
                 $alertType = "success";
+
+                /* GENERATE NEXT MEMBER ID */
+
+                $number++;
+
+                $member_id = "M" . str_pad($number, 3, "0", STR_PAD_LEFT);
 
             } else {
 
@@ -182,12 +205,8 @@ include("../dashboard/includes/sidebar.php");
                         <input type="text"
                                name="member_id"
                                class="form-control"
-                               placeholder="M001"
-                               required>
-
-                        <small class="text-muted">
-                            Format: M001
-                        </small>
+                               value="<?php echo $member_id; ?>"
+                               readonly>
 
                     </div>
 
