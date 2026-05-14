@@ -8,7 +8,7 @@ if(isset($_POST['submit'])){
     $bookname = $_POST['bookname'];
     $category = $_POST['category'];
 
-    // 1. Book ID validation
+    // Book ID validation
     if(!preg_match("/^B[0-9]{3}$/",$bookid)){
 
         echo "<div class='alert alert-danger text-center'>
@@ -17,7 +17,7 @@ if(isset($_POST['submit'])){
 
     } else {
 
-        // 2. Check duplicate book_id
+        //  Check duplicate book_id
         $checkBook = mysqli_query($conn, "SELECT * FROM book WHERE book_id='$bookid'");
 
         if(mysqli_num_rows($checkBook) > 0){
@@ -28,7 +28,7 @@ if(isset($_POST['submit'])){
 
         } else {
 
-            // 3. Check category exists (foreign key safety)
+            // Check category exists 
             $checkCat = mysqli_query($conn, "SELECT * FROM bookcategory WHERE category_id='$category'");
 
             if(mysqli_num_rows($checkCat) == 0){
@@ -39,7 +39,7 @@ if(isset($_POST['submit'])){
 
             } else {
 
-                // 4. Insert book
+                //Insert book
                 $sql = "INSERT INTO book(book_id, book_name, category_id)
                         VALUES('$bookid','$bookname','$category')";
 
