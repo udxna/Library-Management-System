@@ -60,6 +60,7 @@ if(isset($_POST['submit'])){
 }
 
 ?>
+<?php include("../dashboard/includes/sidebar.php"); ?>
 
 <!DOCTYPE html>
 <html>

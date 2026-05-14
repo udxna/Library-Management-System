@@ -112,8 +112,26 @@ if (!isset($_SESSION['user_id'])) {
                             <td>${c.category_Name}</td>
                             <td>${c.date_modified}</td>
                             <td>
-                                <button class="btn btn-warning btn-sm" onclick="openEdit('${c.category_id}','${c.category_Name}')">Edit</button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteCategory('${c.category_id}')">Delete</button>
+                                <a href="category_books.php?id=${c.category_id}"
+       class="btn btn-info btn-sm">
+
+       View Books
+
+    </a>
+
+    <button class="btn btn-warning btn-sm"
+            onclick="openEdit('${c.category_id}','${c.category_Name}')">
+
+        Edit
+
+    </button>
+
+    <button class="btn btn-danger btn-sm"
+            onclick="deleteCategory('${c.category_id}')">
+
+        Delete
+
+    </button>
                             </td>
                         </tr>`).join('');
                 } else {

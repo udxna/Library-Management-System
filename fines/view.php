@@ -4,7 +4,70 @@ include("../dashboard/includes/global.php");
 include("../config/db.php");
 include("../dashboard/includes/sidebar.php");
 
-$sql = "SELECT * FROM fine";
+/* PAY FINE */
+
+if(isset($_GET['pay'])){
+
+    $id = $_GET['pay'];
+
+    $stmt = $conn->prepare("
+    UPDATE fine
+    SET status='Paid'
+    WHERE fine_id=?
+    ");
+
+    $stmt->bind_param("s", $id);
+
+    $stmt->execute();
+
+    header("Location: view.php");
+
+}
+
+/* FETCH FINES WITH AUTO UPDATED FINE */
+
+$sql = "
+SELECT
+    fine.*,
+
+    bb.due_date,
+
+    CASE
+        WHEN
+            fine.status = 'Unpaid'
+            AND DATEDIFF(CURDATE(), bb.due_date) > 0
+
+        THEN
+            DATEDIFF(CURDATE(), bb.due_date) * 10
+
+        ELSE
+            fine.fine_amount
+
+    END AS updated_fine,
+
+    CASE
+        WHEN
+            fine.status = 'Unpaid'
+            AND DATEDIFF(CURDATE(), bb.due_date) > 0
+
+        THEN
+            DATEDIFF(CURDATE(), bb.due_date)
+
+        ELSE
+            fine.overdue_days
+
+    END AS updated_days
+
+FROM fine
+
+LEFT JOIN bookborrower bb
+ON
+    fine.book_id = bb.book_id
+    AND fine.member_id = bb.member_id
+
+ORDER BY fine.fine_date_modified DESC
+";
+
 $result = $conn->query($sql);
 
 ?>
@@ -14,166 +77,191 @@ $result = $conn->query($sql);
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    <title>View Fines</title>
+<title>View Fines</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet">
 
 </head>
 
 <body>
 
 <div class="main-content" id="mainContent">
+
 <?php include("../dashboard/includes/navbar.php"); ?>
 
 <div class="container-fluid">
 
-    <div class="card shadow p-4 rounded-4 border-0">
+<div class="card shadow p-4 rounded-4 border-0">
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-            <h2>
-                Library Fines
-            </h2>
+<h2>
+    Library Fines
+</h2>
 
-            <a href="add.php"
-               class="btn btn-primary">
+<a href="add.php"
+   class="btn btn-primary">
 
-                Add Fine
+    Add Fine
 
-            </a>
+</a>
 
-        </div>
+</div>
 
-        <table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover">
 
-            <thead class="table-dark">
+<thead class="table-dark">
 
-                <tr>
+<tr>
 
-                    <th class="text-center">Fine ID</th>
-                    <th class="text-center">Book ID</th>
-                    <th class="text-center">Member ID</th>
-                    <th class="text-center">Overdue Days</th>
-                    <th class="text-center">Fine Amount</th>
-                    <th class="text-center">Status</th>
-                    <th class="text-center">Date Modified</th>
-                    <th class="text-center">Action</th>
+<th class="text-center">Fine ID</th>
+<th class="text-center">Book ID</th>
+<th class="text-center">Member ID</th>
+<th class="text-center">Overdue Days</th>
+<th class="text-center">Fine Amount</th>
+<th class="text-center">Status</th>
+<th class="text-center">Date Modified</th>
+<th class="text-center">Action</th>
 
-                </tr>
+</tr>
 
-            </thead>
+</thead>
 
-            <tbody>
+<tbody>
 
-            <?php
+<?php
 
-            if($result->num_rows > 0){
+if($result->num_rows > 0){
 
-                while($row = $result->fetch_assoc()){
+while($row = $result->fetch_assoc()){
 
-                    ?>
+?>
 
-                    <tr>
+<tr>
 
-                        <td class="text-center">
-                            <?php echo $row['fine_id']; ?>
-                        </td>
+<td class="text-center">
 
-                        <td class="text-center">
-                            <?php echo $row['book_id']; ?>
-                        </td>
+<?php echo $row['fine_id']; ?>
 
-                        <td class="text-center">
-                            <?php echo $row['member_id']; ?>
-                        </td>
+</td>
 
-                        <td class="text-center">
-                            <?php echo $row['overdue_days']; ?>
-                        </td>
+<td class="text-center">
 
-                        <td class="text-center">
-                            Rs. <?php echo $row['fine_amount']; ?>
-                        </td>
+<?php echo $row['book_id']; ?>
 
-                        <td class="text-center">
+</td>
 
-                            <?php if($row['status'] == 'Paid'){ ?>
+<td class="text-center">
 
-                                <span class="badge bg-success">
-                                    Paid
-                                </span>
+<?php echo $row['member_id']; ?>
 
-                            <?php } else { ?>
+</td>
 
-                                <span class="badge bg-danger">
-                                    Unpaid
-                                </span>
+<td class="text-center">
 
-                            <?php } ?>
+<?php echo $row['updated_days']; ?>
 
-                        </td>
+</td>
 
-                        <td class="text-center">
-                            <?php echo $row['fine_date_modified']; ?>
-                        </td>
+<td class="text-center">
 
-                        <td class="text-center text-nowrap">
+Rs. <?php echo $row['updated_fine']; ?>
 
-                            <a href="edit.php?id=<?php echo $row['fine_id']; ?>"
-                               class="btn btn-warning btn-sm">
+</td>
 
-                                Edit
+<td class="text-center">
 
-                            </a>
+<?php if($row['status'] == 'Paid'){ ?>
 
-                            <a href="delete.php?id=<?php echo $row['fine_id']; ?>"
-                               class="btn btn-danger btn-sm"
-                               onclick="return confirm('Delete this fine?')">
+<span class="badge bg-success">
 
-                                Delete
+Paid
 
-                            </a>
+</span>
 
-                        </td>
+<?php } else { ?>
 
-                    </tr>
+<span class="badge bg-danger">
 
-                    <?php
+Unpaid
 
-                }
+</span>
 
-            } else {
+<?php } ?>
 
-                ?>
+</td>
 
-                <tr>
+<td class="text-center">
 
-                    <td colspan="8"
-                        class="text-center">
+<?php echo $row['fine_date_modified']; ?>
 
-                        No Fine Records Found
+</td>
 
-                    </td>
+<td class="text-center text-nowrap">
 
-                </tr>
+<?php if($row['status'] == 'Unpaid'){ ?>
 
-                <?php
+<a href="view.php?pay=<?php echo $row['fine_id']; ?>"
+   class="btn btn-success btn-sm"
+   onclick="return confirm('Mark this fine as paid?')">
 
-            }
+    Pay
 
-            ?>
+</a>
 
-            </tbody>
+<?php } ?>
 
-        </table>
+<a href="edit.php?id=<?php echo $row['fine_id']; ?>"
+   class="btn btn-warning btn-sm">
 
-    </div>
+    Edit
+
+</a>
+
+<a href="delete.php?id=<?php echo $row['fine_id']; ?>"
+   class="btn btn-danger btn-sm"
+   onclick="return confirm('Delete this fine?')">
+
+    Delete
+
+</a>
+
+</td>
+
+</tr>
+
+<?php
+
+}
+
+} else {
+
+?>
+
+<tr>
+
+<td colspan="8"
+    class="text-center">
+
+    No Fine Records Found
+
+</td>
+
+</tr>
+
+<?php } ?>
+
+</tbody>
+
+</table>
+
+</div>
 
 </div>
 

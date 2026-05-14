@@ -206,7 +206,7 @@
 
     </a>
 
-    <a href="../books/.php">
+    <a href="../books/view.php">
 
         <i class="bi bi-book-fill"></i>
 
@@ -222,7 +222,7 @@
 
     </a>
 
-    <a href="../borrow/view.php">
+    <a href="../borrow/borrow.php">
 
         <i class="bi bi-journal-arrow-down"></i>
 

@@ -63,6 +63,7 @@ $result = $conn->query($sql);
                     <th class="text-center">Last Name</th>
                     <th class="text-center">Birthday</th>
                     <th class="text-center">Email</th>
+
                     <th style="width:1%;"
                         class="text-center">
 
@@ -109,6 +110,13 @@ $result = $conn->query($sql);
                             <td class='text-nowrap'>
 
                                 <div class='d-flex gap-1'>
+
+                                    <a href='profile.php?id=".$row['member_id']."'
+                                       class='btn btn-info btn-sm px-3'>
+
+                                        Profile
+
+                                    </a>
 
                                     <a href='edit.php?id=".$row['member_id']."'
                                        class='btn btn-warning btn-sm px-3'>

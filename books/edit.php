@@ -26,6 +26,7 @@ if(isset($_POST['update'])){
 }
 
 ?>
+<?php include("../dashboard/includes/sidebar.php"); ?>
 
 <!DOCTYPE html>
 <html>

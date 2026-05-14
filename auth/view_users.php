@@ -1,632 +1,284 @@
 <?php
-session_start();
 
-require_once '../config/db.php';
+include("../config/db.php");
 
-if(!isset($_SESSION['username'])){
-    header("Location: login.php");
-    exit();
-}
+$sql = "
+SELECT *
+FROM users
+ORDER BY user_id ASC
+";
 
-$sql = "SELECT * FROM `user` ORDER BY user_id ASC";
-$result = mysqli_query($conn, $sql);
+$result = $conn->query($sql);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Modern LMS Dashboard</title>
 
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<meta charset="UTF-8">
 
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+<title>Users Management</title>
 
-  <style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet">
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Poppins',sans-serif;
-    }
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    body{
-      min-height:100vh;
-      overflow-x:hidden;
-      background:
-        linear-gradient(rgba(6, 35, 51, 0.75),
-        rgba(10, 75, 95, 0.80)),
-        url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2070&auto=format&fit=crop');
-      background-size:cover;
-      background-position:center;
-      background-attachment:fixed;
-      position:relative;
-    }
+<style>
 
-    /* Floating Shapes */
-
-    .shape{
-      position:absolute;
-      opacity:0.12;
-      z-index:0;
-      animation:float 6s ease-in-out infinite;
-    }
-
-    .book1{
-      top:120px;
-      left:50px;
-      font-size:120px;
-      color:#9be7c4;
-    }
-
-    .book2{
-      bottom:80px;
-      right:100px;
-      font-size:140px;
-      color:#64dfdf;
-      animation-delay:2s;
-    }
-
-    .book3{
-      top:300px;
-      right:300px;
-      font-size:100px;
-      color:#80ffdb;
-      animation-delay:4s;
-    }
-
-    @keyframes float{
-      0%{
-        transform:translateY(0px);
-      }
-      50%{
-        transform:translateY(-20px);
-      }
-      100%{
-        transform:translateY(0px);
-      }
-    }
-
-    /* Navbar */
-
-    .navbar{
-      background:rgba(8, 25, 40, 0.85) !important;
-      backdrop-filter:blur(10px);
-      padding:15px 25px;
-      box-shadow:0 4px 15px rgba(0,0,0,0.3);
-    }
-
-    .navbar-brand{
-      color:#fff !important;
-      font-size:28px;
-      font-weight:700;
-      letter-spacing:1px;
-    }
-
-    .nav-btn{
-      border-radius:12px;
-      padding:8px 18px;
-      font-weight:500;
-      transition:0.3s;
-      margin-left:10px;
-    }
-
-    .nav-btn:hover{
-      transform:translateY(-2px);
-    }
-
-    /* Dashboard Wrapper */
-
-    .dashboard-container{
-      position:relative;
-      z-index:10;
-      padding:50px 20px;
-    }
-
-    /* Dashboard Card */
-
-    .dashboard-card{
-      background:rgba(255,255,255,0.12);
-      backdrop-filter:blur(15px);
-      border:1px solid rgba(255,255,255,0.2);
-      border-radius:25px;
-      padding:35px;
-      box-shadow:0 8px 32px rgba(0,0,0,0.25);
-    }
-
-    /* Title */
-
-    .dashboard-title{
-      color:#fff;
-      font-size:38px;
-      font-weight:700;
-      margin-bottom:10px;
-    }
-
-    .dashboard-subtitle{
-      color:#d8f3dc;
-      margin-bottom:30px;
-    }
-
-    /* Stats Cards */
-
-    .stat-card{
-      border-radius:20px;
-      padding:25px;
-      color:#fff;
-      position:relative;
-      overflow:hidden;
-      transition:0.3s;
-      min-height:150px;
-    }
-
-    .stat-card:hover{
-      transform:translateY(-5px);
-    }
-
-    .stat-card i{
-      font-size:45px;
-      opacity:0.3;
-      position:absolute;
-      right:20px;
-      bottom:15px;
-    }
-
-    .bg-green{
-      background:linear-gradient(135deg,#2ecc71,#27ae60);
-    }
-
-    .bg-blue{
-      background:linear-gradient(135deg,#3498db,#2980b9);
-    }
-
-    .bg-teal{
-      background:linear-gradient(135deg,#00b4d8,#0077b6);
-    }
-
-    .bg-darkblue{
-      background:linear-gradient(135deg,#1d3557,#457b9d);
-    }
-
-    .stat-number{
-      font-size:34px;
-      font-weight:700;
-    }
-
-    .stat-title{
-      font-size:16px;
-      margin-top:5px;
-    }
-
-    /* Table */
-
-    .table-wrapper{
-    margin-top: 100px;
-    padding: 25px;
-
-    background: rgba(0, 255, 170, 0.12);
-
-    backdrop-filter: blur(18px);
-
-    border: 1px solid rgba(255,255,255,0.15);
-
-    border-radius: 24px;
-
-    box-shadow: 0 8px 35px rgba(0,0,0,0.35);
+body{
+    overflow-x:hidden;
+    background:#f4f6f9;
 }
 
-.glass-table{
-    width: 100%;
-
-    border-collapse: collapse;
-
-    overflow: hidden;
-
-    border-radius: 18px;
-
-    background: rgba(255,255,255,0.08);
-
-    color: white;
-}
-
-
-.glass-table thead{
-    background: linear-gradient(135deg,#00c896,#00e5a8);
-}
-.glass-table thead th{
-    padding: 18px;
-
-    color: white;
-
-    font-size: 18px;
-
-    font-weight: bold;
-
-    text-align: center;
-
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-}
-
-
-.glass-table tbody tr{
-    transition: 0.3s ease;
-}
-
-.glass-table tbody tr:nth-child(even){
-    background: rgba(255,255,255,0.06);
-}
-
-.glass-table tbody tr:nth-child(odd){
-    background: rgba(255,255,255,0.12);
-}
-
-.glass-table tbody tr:hover{
-    background: rgba(0,255,170,0.18);
-
-    transform: scale(1.005);
-}
-
-.glass-table td{
-    padding: 18px;
-
-    text-align: center;
-
-    color: white;
-
-    font-size: 16px;
-
-    font-weight: 600;
-
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-.user-table{
-    width: 100%;
-
-    border-collapse: collapse;
-
-    background: #26a5bb60;
-
-    border: 3px solid #414347;
-
-    border-radius: 15px;
-
-    overflow: hidden;
-}
-
-.user-table thead{
-    background: #99a19e;
-}
-
-.user-table thead th{
-    color: Black;
-
-    text-align: center;
-
-    padding: 18px;
-
-    font-size: 14px;
-
-    font-weight: bold;
-
-    border: 1px solid rgba(119, 118, 118, 0.4);
-}
-
-.user-table tbody td{
-    background: #69bfd49f;
-
-    color: Black;
-
-    text-align: center;
-
-    padding: 18px;
-
-    border: 1px solid rgba(119,118,118,0.4);
-
-    font-size: 12px;
-
-    font-weight: 600;
-}
-
-
-.user-table tbody tr:hover{
-    background: #31be60a4;
-
-    transition: 0.3s;
-}
-
-
-.user-table-box{
-    border-radius: 14px;
-
-    overflow: hidden;
-
-    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-
-    margin-top: 20px;
-}
-
-
-.no-user{
-    color: Black;
-
-    font-size: 14px;
-
-    font-weight: bold;
-}
-.action-buttons{
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:50px;
-
-    white-space:nowrap;
-}
-
-    /* Buttons */
-
-    .btn-edit{
-    background:#ffd60a;
-
-    color:#000;
-
-    border:2.5px solid #ccc;
-
-    border-radius:5px;
-
-    padding:6px 20px;
-
-    font-weight:400;
-
-    text-decoration:none;
-
-    display:inline-flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    min-width:80px;
-
+/* MAIN CONTENT */
+
+.main-content{
+    margin-left:250px;
+    padding:20px;
     transition:0.3s;
 }
 
-   .btn-delete{
-    background:#ef233c;
+/* TOP SPACE */
 
-    color:#fff;
-
-    border:2.5px solid #ccc;
-
-    border-radius:5px;
-
-    padding:6px 20px;
-
-    font-weight:500;
-
-    text-decoration:none;
-
-    display:inline-flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    min-width:80px;
-
-    transition:0.3s;
-}
-    .btn-edit:hover,
-    .btn-delete:hover{
-      background:#d90429;
-
-    transform:translateY(-2px);
+.content-wrapper{
+    margin-top:100px;
 }
 
-    /* Footer */
+</style>
 
-    .footer{
-      text-align:center;
-      color:#cde;
-      padding:20px;
-      margin-top:30px;
-      font-size:14px;
-    }
-
-    /* Responsive */
-
-    @media(max-width:768px){
-
-      .dashboard-title{
-        font-size:28px;
-      }
-
-      .navbar-brand{
-        font-size:22px;
-      }
-
-      .dashboard-card{
-        padding:20px;
-      }
-
-      .table{
-        min-width:900px;
-      }
-
-      .table-wrapper{
-        overflow-x:auto;
-      }
-    }
-
-  </style>
 </head>
 
 <body>
 
-  <!-- Floating Library Shapes -->
+<?php include("../dashboard/includes/sidebar.php"); ?>
 
-  <i class="bi bi-book-half shape book1"></i>
-  <i class="bi bi-journal-richtext shape book2"></i>
-  <i class="bi bi-book shape book3"></i>
+<div class="main-content" id="mainContent">
 
-  <!-- Navbar -->
+<?php include("../dashboard/includes/navbar.php"); ?>
 
-  <nav class="navbar navbar-expand-lg navbar-dark">
+<div class="content-wrapper">
 
-    <div class="container-fluid">
+<div class="container-fluid">
 
-      <a class="navbar-brand" href="#">
-        <i class="bi bi-book-fill"></i> LMS
-      </a>
+<div class="card shadow p-4 rounded-4 border-0">
 
-      <div class="d-flex">
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-        <a href="dashboard.php" class="btn btn-light nav-btn text-decoration-none">
-          <i class="bi bi-speedometer2"></i> Dashboard
-        </a>
+<h2 class="mb-0">
 
-        <a href="view_users.php" class="btn btn-warning nav-btn text-decoration-none">
-          <i class="bi bi-people-fill"></i> Users
-        </a>
+<i class="bi bi-people-fill"></i>
 
-        <a href="logout.php" class="btn btn-danger nav-btn text-decoration-none">
-          <i class="bi bi-box-arrow-right"></i> Logout
-        </a>
+System Users
 
-      </div>
+</h2>
 
-    </div>
+<a href="add_user.php"
+   class="btn btn-primary">
 
-  </nav>
+<i class="bi bi-plus-circle"></i>
 
-  <!-- Dashboard -->
+Add User
 
-  <div class="container dashboard-container">
+</a>
 
-    <div class="dashboard-card">
+</div>
 
-      <h1 class="dashboard-title">
-        Virtual Library Dashboard
-      </h1>
+<table class="table table-bordered table-hover align-middle">
 
-      <p class="dashboard-subtitle">
-        Manage books, users and library records in a modern smart environment.
-      </p>
+<thead class="table-dark">
 
-      <!-- Stats -->
+<tr>
 
-      <div class="row g-4">
+<th class="text-center">
+    User ID
+</th>
 
-        <div class="col-md-3">
+<th class="text-center">
+    First Name
+</th>
 
-          <div class="stat-card bg-green">
+<th class="text-center">
+    Last Name
+</th>
 
-            <div class="stat-number">1,500 +</div>
-            <div class="stat-title">Books Available</div>
+<th class="text-center">
+    Email
+</th>
 
-            <i class="bi bi-book-fill"></i>
+<th class="text-center">
+    Username
+</th>
 
-          </div>
+<th class="text-center">
+    Role
+</th>
 
-        </div>
+<th class="text-center">
+    Created At
+</th>
 
-        <div class="col-md-3">
+<th class="text-center">
+    Action
+</th>
 
-          <div class="stat-card bg-blue">
+</tr>
 
-            <div class="stat-number">350 +</div>
-            <div class="stat-title">Active Users</div>
+</thead>
 
-            <i class="bi bi-people-fill"></i>
+<tbody>
 
-          </div>
+<?php
 
-        </div>
+if($result->num_rows > 0){
 
-        <div class="col-md-3">
+while($row = $result->fetch_assoc()){
 
-          <div class="stat-card bg-teal">
+?>
 
-            <div class="stat-number">80 +</div>
-            <div class="stat-title">Books Borrowed</div>
+<tr>
 
-            <i class="bi bi-journal-check"></i>
+<td class="text-center">
 
-          </div>
+<?php echo $row['user_id']; ?>
 
-        </div>
+</td>
 
-        <div class="col-md-3">
+<td class="text-center">
 
-          <div class="stat-card bg-darkblue">
+<?php echo $row['firstname']; ?>
 
-            <div class="stat-number">40 +</div>
-            <div class="stat-title">New Arrivals</div>
+</td>
 
-            <i class="bi bi-stars"></i>
+<td class="text-center">
 
-          </div>
+<?php echo $row['lastname']; ?>
 
-        </div>
+</td>
 
-      </div>
+<td class="text-center">
 
-    </div>
+<?php echo $row['email']; ?>
 
+</td>
 
+<td class="text-center">
 
-    <div class="table-wrapper">
-      <h3 class="text-white mb-3"><i class="bi bi-people-fill"></i> Registered Users</h3>
-      <table class="table user-table">
-        <thead>
-          <tr>
-            <th>User ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Email</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php if (mysqli_num_rows($result) > 0): ?>
-            <?php while($row = mysqli_fetch_assoc($result)): ?>
-              <tr>
-                <td><?php echo htmlspecialchars($row['user_id']); ?></td>
-                <td><?php echo htmlspecialchars($row['first_name']); ?></td>
-                <td><?php echo htmlspecialchars($row['last_name']); ?></td>
-                <td><?php echo htmlspecialchars($row['username']); ?></td>
-                <td><?php echo htmlspecialchars($row['password']); ?></td>
-                <td><?php echo htmlspecialchars($row['email']); ?></td>
-                <td>
-                  <a class="btn-edit text-decoration-none" href="update_user.php?id=<?php echo urlencode($row['user_id']); ?>">Edit</a>
-                  <a class="btn-delete text-decoration-none" href="delete_user.php?id=<?php echo urlencode($row['user_id']); ?>" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
-                </td>
-              </tr>
-            <?php endwhile; ?>
-          <?php else: ?>
-            <tr><td colspan="7" class="no-user">No users found</td></tr>
-          <?php endif; ?>
-        </tbody>
-      </table>
-    </div>
-    <div class="footer">
-      © 2026 Library Management System | Designed by CG Software Developer | All Rights Reserved.
-    </div>
+<?php echo $row['username']; ?>
 
-  </div>
+</td>
+
+<td class="text-center">
+
+<?php
+
+if(isset($row['role'])){
+
+if($row['role'] == 'Admin'){
+
+?>
+
+<span class="badge bg-danger">
+
+Admin
+
+</span>
+
+<?php } else { ?>
+
+<span class="badge bg-primary">
+
+Librarian
+
+</span>
+
+<?php
+
+}
+
+} else {
+
+?>
+
+<span class="badge bg-secondary">
+
+No Role
+
+</span>
+
+<?php } ?>
+
+</td>
+
+<td class="text-center">
+
+<?php echo $row['created_at']; ?>
+
+</td>
+
+<td class="text-center text-nowrap">
+
+<a href="edit_user.php?id=<?php echo $row['user_id']; ?>"
+   class="btn btn-warning btn-sm">
+
+<i class="bi bi-pencil-square"></i>
+
+Edit
+
+</a>
+
+<a href="delete_user.php?id=<?php echo $row['user_id']; ?>"
+   class="btn btn-danger btn-sm"
+   onclick="return confirm('Delete this user?')">
+
+<i class="bi bi-trash"></i>
+
+Delete
+
+</a>
+
+</td>
+
+</tr>
+
+<?php
+
+}
+
+} else {
+
+?>
+
+<tr>
+
+<td colspan="8"
+    class="text-center">
+
+No Users Found
+
+</td>
+
+</tr>
+
+<?php } ?>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </body>
 </html>
