@@ -5,38 +5,59 @@ require_once '../config/db.php';
 $message = "";
 $error = "";
 
+/* Auto Generate User ID */
+function generateUserId($conn) {
+    $query = "SELECT user_id FROM `user` ORDER BY CAST(SUBSTRING(user_id, 2) AS UNSIGNED) DESC LIMIT 1";
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $lastId = $row['user_id']; // Example: U005
+        $number = intval(substr($lastId, 1));
+        $newNumber = $number + 1;
+    } else {
+        $newNumber = 1;
+    }
+
+    return "U" . str_pad($newNumber, 3, "0", STR_PAD_LEFT);
+}
+
+$generatedUserId = generateUserId($conn);
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $userid    = trim($_POST['userid'] ?? '');
+
+    // User ID auto generated, not manual
+    $userid    = $generatedUserId;
     $firstname = trim($_POST['firstname'] ?? '');
     $lastname  = trim($_POST['lastname'] ?? '');
     $username  = trim($_POST['username'] ?? '');
     $email     = trim($_POST['email'] ?? '');
     $password  = $_POST['password'] ?? '';
 
-    if ($userid === '' || $firstname === '' || $lastname === '' || $username === '' || $email === '' || $password === '') {
+    if ($firstname === '' || $lastname === '' || $username === '' || $email === '' || $password === '') {
         $error = "All fields are required.";
-    } elseif (!preg_match('/^U[0-9]{3}$/', $userid)) {
-        $error = "User ID must be like U001.";
     } elseif (strlen($password) <= 8) {
         $error = "Password must be more than 8 characters.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Invalid email format.";
     } else {
-        // IMPORTANT: table name is `user`; column name is user_id
-        $check = mysqli_prepare($conn, "SELECT user_id FROM `user` WHERE user_id = ? OR username = ? OR email = ? LIMIT 1");
-        mysqli_stmt_bind_param($check, "sss", $userid, $username, $email);
+
+        $check = mysqli_prepare($conn, "SELECT user_id FROM `user` WHERE username = ? OR email = ? LIMIT 1");
+        mysqli_stmt_bind_param($check, "ss", $username, $email);
         mysqli_stmt_execute($check);
         $result = mysqli_stmt_get_result($check);
 
         if (mysqli_num_rows($result) > 0) {
-            $error = "User ID, Username or Email already exists.";
+            $error = "Username or Email already exists.";
         } else {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
             $stmt = mysqli_prepare($conn, "INSERT INTO `user` (user_id, email, first_name, last_name, username, password) VALUES (?, ?, ?, ?, ?, ?)");
             mysqli_stmt_bind_param($stmt, "ssssss", $userid, $email, $firstname, $lastname, $username, $hashedPassword);
 
             if (mysqli_stmt_execute($stmt)) {
                 $message = "Registration Successful! Now you can login.";
+                $generatedUserId = generateUserId($conn);
             } else {
                 $error = "Registration failed. Please try again.";
             }
@@ -340,7 +361,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <form method="POST">
 
             <div class="input-box">
-                <input type="text" name="userid" placeholder="User ID" required>
+                <input type="text" name="userid" value="<?= $generatedUserId ?>" placeholder="User ID" readonly required>
             </div>
 
             <div class="input-box">
