@@ -4,68 +4,148 @@ include("../dashboard/includes/global.php");
 include("../config/db.php");
 include("../dashboard/includes/sidebar.php");
 
-/* PAY FINE */
+/* AUTO UPDATE FINES */
 
-if(isset($_GET['pay'])){
+$today = date("Y-m-d");
 
-    $id = $_GET['pay'];
+/* GET ALL OVERDUE BORROWED BOOKS */
 
-    $stmt = $conn->prepare("
-    UPDATE fine
-    SET status='Paid'
-    WHERE fine_id=?
-    ");
+$borrowQuery = "
+SELECT *
+FROM bookborrower
+WHERE
+    due_date < '$today'
+    AND borrow_status='Borrowed'
+";
 
-    $stmt->bind_param("s", $id);
+$borrowResult = mysqli_query($conn, $borrowQuery);
 
-    $stmt->execute();
+while($borrow = mysqli_fetch_assoc($borrowResult)){
 
-    header("Location: view.php");
+    $borrow_id = $borrow['borrow_id'];
+
+    $book_id = $borrow['book_id'];
+
+    $member_id = $borrow['member_id'];
+
+    /* CALCULATE OVERDUE DAYS */
+
+    $dueDate = new DateTime($borrow['due_date']);
+
+    $currentDate = new DateTime($today);
+
+    $overdue_days = $dueDate->diff($currentDate)->days;
+
+    /* RS 10 PER DAY */
+
+    $fine_amount = $overdue_days * 10;
+
+    /* CHECK EXISTING UNPAID FINE */
+
+    $checkFine = mysqli_query(
+        $conn,
+        "
+        SELECT *
+        FROM fine
+        WHERE
+            borrow_id='$borrow_id'
+            AND status='Unpaid'
+        "
+    );
+
+    /* UPDATE EXISTING */
+
+    if(mysqli_num_rows($checkFine) > 0){
+
+        mysqli_query(
+            $conn,
+            "
+            UPDATE fine
+            SET
+                overdue_days='$overdue_days',
+                fine_amount='$fine_amount',
+                fine_date_modified=NOW()
+            WHERE
+                borrow_id='$borrow_id'
+                AND status='Unpaid'
+            "
+        );
+
+    } else {
+
+        /* GENERATE FINE ID */
+
+        $fineQuery = mysqli_query(
+            $conn,
+            "
+            SELECT fine_id
+            FROM fine
+            ORDER BY fine_id DESC
+            LIMIT 1
+            "
+        );
+
+        if(mysqli_num_rows($fineQuery) > 0){
+
+            $fineRow = mysqli_fetch_assoc($fineQuery);
+
+            $number = intval(substr($fineRow['fine_id'],1));
+
+            $number++;
+
+        } else {
+
+            $number = 1;
+
+        }
+
+        $fine_id = "F" . str_pad(
+            $number,
+            3,
+            "0",
+            STR_PAD_LEFT
+        );
+
+        /* INSERT NEW FINE */
+
+        mysqli_query(
+            $conn,
+            "
+            INSERT INTO fine
+            (
+                fine_id,
+                borrow_id,
+                book_id,
+                member_id,
+                overdue_days,
+                fine_amount,
+                status,
+                fine_date_modified
+            )
+            VALUES
+            (
+                '$fine_id',
+                '$borrow_id',
+                '$book_id',
+                '$member_id',
+                '$overdue_days',
+                '$fine_amount',
+                'Unpaid',
+                NOW()
+            )
+            "
+        );
+
+    }
 
 }
 
-/* FETCH FINES WITH AUTO UPDATED FINE */
+/* FETCH FINES */
 
 $sql = "
-SELECT
-    fine.*,
-
-    bb.due_date,
-
-    CASE
-        WHEN
-            fine.status = 'Unpaid'
-            AND DATEDIFF(CURDATE(), bb.due_date) > 0
-
-        THEN
-            DATEDIFF(CURDATE(), bb.due_date) * 10
-
-        ELSE
-            fine.fine_amount
-
-    END AS updated_fine,
-
-    CASE
-        WHEN
-            fine.status = 'Unpaid'
-            AND DATEDIFF(CURDATE(), bb.due_date) > 0
-
-        THEN
-            DATEDIFF(CURDATE(), bb.due_date)
-
-        ELSE
-            fine.overdue_days
-
-    END AS updated_days
-
+SELECT *
 FROM fine
-
-LEFT JOIN bookborrower bb
-ON
-    fine.book_id = bb.book_id
-    AND fine.member_id = bb.member_id
-
-ORDER BY fine.fine_date_modified DESC
+ORDER BY fine_date_modified DESC
 ";
 
 $result = $conn->query($sql);
@@ -102,15 +182,10 @@ $result = $conn->query($sql);
 <div class="d-flex justify-content-between align-items-center mb-4">
 
 <h2>
-    Library Fines
+
+Library Fines
+
 </h2>
-
-<a href="add.php"
-   class="btn btn-primary">
-
-    Add Fine
-
-</a>
 
 </div>
 
@@ -120,14 +195,41 @@ $result = $conn->query($sql);
 
 <tr>
 
-<th class="text-center">Fine ID</th>
-<th class="text-center">Book ID</th>
-<th class="text-center">Member ID</th>
-<th class="text-center">Overdue Days</th>
-<th class="text-center">Fine Amount</th>
-<th class="text-center">Status</th>
-<th class="text-center">Date Modified</th>
-<th class="text-center">Action</th>
+<th class="text-center">
+    Fine ID
+</th>
+
+<th class="text-center">
+    Borrow ID
+</th>
+
+<th class="text-center">
+    Book ID
+</th>
+
+<th class="text-center">
+    Member ID
+</th>
+
+<th class="text-center">
+    Overdue Days
+</th>
+
+<th class="text-center">
+    Fine Amount
+</th>
+
+<th class="text-center">
+    Status
+</th>
+
+<th class="text-center">
+    Last Updated
+</th>
+
+<th class="text-center">
+    Action
+</th>
 
 </tr>
 
@@ -153,6 +255,12 @@ while($row = $result->fetch_assoc()){
 
 <td class="text-center">
 
+<?php echo $row['borrow_id']; ?>
+
+</td>
+
+<td class="text-center">
+
 <?php echo $row['book_id']; ?>
 
 </td>
@@ -165,19 +273,25 @@ while($row = $result->fetch_assoc()){
 
 <td class="text-center">
 
-<?php echo $row['updated_days']; ?>
+<?php echo $row['overdue_days']; ?>
+
+Days
 
 </td>
 
 <td class="text-center">
 
-Rs. <?php echo $row['updated_fine']; ?>
+Rs. <?php echo $row['fine_amount']; ?>
 
 </td>
 
 <td class="text-center">
 
-<?php if($row['status'] == 'Paid'){ ?>
+<?php
+
+if($row['status'] == 'Paid'){
+
+?>
 
 <span class="badge bg-success">
 
@@ -205,30 +319,26 @@ Unpaid
 
 <td class="text-center text-nowrap">
 
-<?php if($row['status'] == 'Unpaid'){ ?>
+<?php
 
-<a href="view.php?pay=<?php echo $row['fine_id']; ?>"
-   class="btn btn-success btn-sm"
-   onclick="return confirm('Mark this fine as paid?')">
+if($row['status'] == 'Unpaid'){
 
-    Pay
+?>
+
+<a href="pay.php?id=<?php echo $row['fine_id']; ?>"
+class="btn btn-success btn-sm">
+
+Mark Paid
 
 </a>
 
 <?php } ?>
 
-<a href="edit.php?id=<?php echo $row['fine_id']; ?>"
-   class="btn btn-warning btn-sm">
-
-    Edit
-
-</a>
-
 <a href="delete.php?id=<?php echo $row['fine_id']; ?>"
-   class="btn btn-danger btn-sm"
-   onclick="return confirm('Delete this fine?')">
+class="btn btn-danger btn-sm"
+onclick="return confirm('Delete this fine?')">
 
-    Delete
+Delete
 
 </a>
 
@@ -246,10 +356,10 @@ Unpaid
 
 <tr>
 
-<td colspan="8"
-    class="text-center">
+<td colspan="9"
+class="text-center">
 
-    No Fine Records Found
+No Fine Records Found
 
 </td>
 
