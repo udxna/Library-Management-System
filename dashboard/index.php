@@ -5,80 +5,152 @@ ini_set('display_errors', 1);
 
 include("../config/db.php");
 
-/* Default Values */
+/* TOTAL MEMBERS */
 
 $totalMembers = 0;
+
+$members = $conn->query("
+SELECT COUNT(*) AS total
+FROM member
+");
+
+if($members){
+
+    $row = $members->fetch_assoc();
+
+    $totalMembers = $row['total'];
+
+}
+
+/* TOTAL BOOKS */
+
 $totalBooks = 0;
-$totalBorrow = 0;
+
+$books = $conn->query("
+SELECT COUNT(*) AS total
+FROM book
+");
+
+if($books){
+
+    $row = $books->fetch_assoc();
+
+    $totalBooks = $row['total'];
+
+}
+
+/* BORROWED BOOKS */
+
+$totalBorrowed = 0;
+
+$borrowed = $conn->query("
+SELECT COUNT(*) AS total
+FROM bookborrower
+WHERE borrow_status='Borrowed'
+");
+
+if($borrowed){
+
+    $row = $borrowed->fetch_assoc();
+
+    $totalBorrowed = $row['total'];
+
+}
+
+/* AVAILABLE BOOKS */
+
+$availableBooks = $totalBooks - $totalBorrowed;
+
+/* UNPAID FINES */
+
 $totalFines = 0;
 
-/* Total Members */
+$fines = $conn->query("
+SELECT COUNT(*) AS total
+FROM fine
+WHERE status='Unpaid'
+");
 
-$checkMember = $conn->query("SHOW TABLES LIKE 'member'");
+if($fines){
 
-if($checkMember->num_rows > 0){
+    $row = $fines->fetch_assoc();
 
-    $members = $conn->query("SELECT * FROM member");
-
-    if($members){
-
-        $totalMembers = $members->num_rows;
-
-    }
+    $totalFines = $row['total'];
 
 }
 
-/* Total Books */
+/* TOTAL CATEGORIES */
 
-$checkBook = $conn->query("SHOW TABLES LIKE 'book'");
+$totalCategories = 0;
 
-if($checkBook->num_rows > 0){
+$categories = $conn->query("
+SELECT COUNT(*) AS total
+FROM bookcategory
+");
 
-    $books = $conn->query("SELECT * FROM book");
+if($categories){
 
-    if($books){
+    $row = $categories->fetch_assoc();
 
-        $totalBooks = $books->num_rows;
-
-    }
-
-}
-
-/* Total Borrow */
-
-$checkBorrow = $conn->query("SHOW TABLES LIKE 'borrow'");
-
-if($checkBorrow->num_rows > 0){
-
-    $borrow = $conn->query("SELECT * FROM borrow");
-
-    if($borrow){
-
-        $totalBorrow = $borrow->num_rows;
-
-    }
+    $totalCategories = $row['total'];
 
 }
 
-/* Total Fines */
+/* PAID FINES */
 
-$checkFines = $conn->query("SHOW TABLES LIKE 'fines'");
+$paidFines = 0;
 
-if($checkFines->num_rows > 0){
+$paid = $conn->query("
+SELECT COUNT(*) AS total
+FROM fine
+WHERE status='Paid'
+");
 
-    $fines = $conn->query("SELECT * FROM fines");
+if($paid){
 
-    if($fines){
+    $row = $paid->fetch_assoc();
 
-        $totalFines = $fines->num_rows;
-
-    }
+    $paidFines = $row['total'];
 
 }
 
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 <style>
-    .dashboard-hover{
+
+body{
+    overflow-x:hidden;
+    background:#f4f6f9;
+}
+
+.main-content{
+    margin-left:250px;
+    padding:20px;
+}
+
+.content-wrapper{
+    margin-top:90px;
+}
+
+.dashboard-hover{
     transition:0.3s;
     cursor:pointer;
 }
@@ -87,25 +159,8 @@ if($checkFines->num_rows > 0){
     transform:translateY(-5px);
     box-shadow:0 10px 25px rgba(0,0,0,0.2) !important;
 }
+
 </style>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Dashboard</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 </head>
 
@@ -119,329 +174,413 @@ if($checkFines->num_rows > 0){
 
 <?php include("../dashboard/includes/navbar.php"); ?>
 
+<div class="content-wrapper">
+
 <h1 class="fw-bold mb-4">
-    Dashboard
+
+Dashboard
+
 </h1>
 
-<!-- Dashboard Cards -->
+<!-- FIRST ROW -->
 
 <div class="row g-4 mb-4">
 
-    <!-- Members -->
+<!-- MEMBERS -->
 
-    <div class="col-md-3">
+<div class="col-md-3">
 
-        <a href="../members/view.php"
-        class="text-decoration-none text-dark">
+<a href="../members/view.php"
+class="text-decoration-none text-dark">
 
-        <div class="card shadow border-0 p-4 text-center dashboard-hover">
-            <h1 class="text-primary">
+<div class="card shadow border-0 p-4 text-center dashboard-hover">
 
-                <i class="bi bi-people-fill"></i>
+<h1 class="text-primary">
 
-            </h1>
+<i class="bi bi-people-fill"></i>
 
-            <h2>
-                <?php echo $totalMembers; ?>
-            </h2>
+</h1>
 
-            <p class="mb-0">
-                Total Members
-            </p>
+<h2>
 
-        </div>
-        </a>
-    </div>
+<?php echo $totalMembers; ?>
 
-    <!-- Books -->
+</h2>
 
-    <div class="col-md-3">
+<p class="mb-0">
 
-        <a href="../books/view.php"
-        class="text-decoration-none text-dark">
+Total Members
 
-        <div class="card shadow border-0 p-4 text-center dashboard-hover">
-
-            <h1 class="text-success">
-
-                <i class="bi bi-book-fill"></i>
-
-            </h1>
-
-            <h2>
-                <?php echo $totalBooks; ?>
-            </h2>
-
-            <p class="mb-0">
-                Total Books
-            </p>
-
-        </div>
-        </a>
-    </div>
-
-    <!-- Borrow -->
-
-    <div class="col-md-3">
-
-        <a href="../borrow/view.php"
-        class="text-decoration-none text-dark">
-
-        <div class="card shadow border-0 p-4 text-center dashboard-hover">
-
-            <h1 class="text-warning">
-
-                <i class="bi bi-journal-check"></i>
-
-            </h1>
-
-            <h2>
-                <?php echo $totalBorrow; ?>
-            </h2>
-
-            <p class="mb-0">
-                Borrowed Books
-            </p>
-
-        </div>
-        </a>
-    </div>
-
-    <!-- Fines -->
-
-    <div class="col-md-3">
-
-        <a href="../fines/view.php"
-        class="text-decoration-none text-dark">
-
-        <div class="card shadow border-0 p-4 text-center dashboard-hover">
-            <h1 class="text-danger">
-
-                <i class="bi bi-cash-stack"></i>
-
-            </h1>
-
-            <h2>
-                <?php echo $totalFines; ?>
-            </h2>
-
-            <p class="mb-0">
-                Total Fines
-            </p>
-
-        </div>
-        </a>
-    </div>
+</p>
 
 </div>
 
-<!-- Quick Actions + Recent Activity -->
+</a>
+
+</div>
+
+<!-- BOOKS -->
+
+<div class="col-md-3">
+
+<a href="../books/view.php"
+class="text-decoration-none text-dark">
+
+<div class="card shadow border-0 p-4 text-center dashboard-hover">
+
+<h1 class="text-success">
+
+<i class="bi bi-book-fill"></i>
+
+</h1>
+
+<h2>
+
+<?php echo $totalBooks; ?>
+
+</h2>
+
+<p class="mb-0">
+
+Total Books
+
+</p>
+
+</div>
+
+</a>
+
+</div>
+
+<!-- BORROWED -->
+
+<div class="col-md-3">
+
+<a href="../borrow/borrow.php"
+class="text-decoration-none text-dark">
+
+<div class="card shadow border-0 p-4 text-center dashboard-hover">
+
+<h1 class="text-warning">
+
+<i class="bi bi-journal-check"></i>
+
+</h1>
+
+<h2>
+
+<?php echo $totalBorrowed; ?>
+
+</h2>
+
+<p class="mb-0">
+
+Borrowed Books
+
+</p>
+
+</div>
+
+</a>
+
+</div>
+
+<!-- UNPAID FINES -->
+
+<div class="col-md-3">
+
+<a href="../fines/view.php"
+class="text-decoration-none text-dark">
+
+<div class="card shadow border-0 p-4 text-center dashboard-hover">
+
+<h1 class="text-danger">
+
+<i class="bi bi-cash-stack"></i>
+
+</h1>
+
+<h2>
+
+<?php echo $totalFines; ?>
+
+</h2>
+
+<p class="mb-0">
+
+Unpaid Fines
+
+</p>
+
+</div>
+
+</a>
+
+</div>
+
+</div>
+
+<!-- SECOND ROW -->
 
 <div class="row g-4 mb-4">
 
-    <!-- Quick Actions -->
+<!-- AVAILABLE BOOKS -->
 
-    <div class="col-md-4">
+<div class="col-md-4">
 
-        <div class="card shadow border-0 p-4 h-100">
+<div class="card shadow border-0 p-4 text-center dashboard-hover">
 
-            <h4 class="mb-4">
-                Quick Actions
-            </h4>
+<h1 class="text-success">
 
-            <div class="d-grid gap-3">
+<i class="bi bi-check-circle-fill"></i>
 
-                <a href="../members/add.php"
-                   class="btn btn-primary">
+</h1>
 
-                    <i class="bi bi-person-plus-fill"></i>
+<h2>
 
-                    Add Member
+<?php echo $availableBooks; ?>
 
-                </a>
+</h2>
 
-                <a href="../books/add.php"
-                   class="btn btn-success">
+<p class="mb-0">
 
-                    <i class="bi bi-book-fill"></i>
+Available Books
 
-                    Add Book
-
-                </a>
-
-                <a href="../categories/category_handler.php"
-                   class="btn btn-warning text-dark">
-
-                    <i class="bi bi-tags-fill"></i>
-
-                    Add Category
-
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- Recent Activity -->
-
-    <div class="col-md-8">
-
-        <div class="card shadow border-0 p-4">
-
-            <h4 class="mb-4">
-                Recent Activity
-            </h4>
-
-            <table class="table table-hover align-middle">
-
-                <thead class="table-dark">
-
-                    <tr>
-
-                        <th>
-                            Member
-                        </th>
-
-                        <th>
-                            Action
-                        </th>
-
-                        <th>
-                            Birthday
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                <?php
-
-                $recentMembers = $conn->query("
-                    SELECT * FROM member
-                    ORDER BY member_id DESC
-                    LIMIT 5
-                ");
-
-                if($recentMembers && $recentMembers->num_rows > 0){
-
-                    while($row = $recentMembers->fetch_assoc()){
-
-                        echo "
-
-                        <tr>
-
-                            <td>
-
-                                ".$row['first_name']." ".$row['last_name']."
-
-                            </td>
-
-                            <td>
-
-                                Registered
-
-                            </td>
-
-                            <td>
-
-                                ".$row['birthday']."
-
-                            </td>
-
-                        </tr>
-
-                        ";
-
-                    }
-
-                } else {
-
-                    echo "
-
-                    <tr>
-
-                        <td colspan='3'
-                            class='text-center'>
-
-                            No Recent Activity
-
-                        </td>
-
-                    </tr>
-
-                    ";
-
-                }
-
-                ?>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
+</p>
 
 </div>
 
-<!-- System Information -->
+</div>
+
+<!-- CATEGORIES -->
+
+<div class="col-md-4">
+
+<a href="../categories/book_category.php"
+class="text-decoration-none text-dark">
+
+<div class="card shadow border-0 p-4 text-center dashboard-hover">
+
+<h1 class="text-warning">
+
+<i class="bi bi-tags-fill"></i>
+
+</h1>
+
+<h2>
+
+<?php echo $totalCategories; ?>
+
+</h2>
+
+<p class="mb-0">
+
+Book Categories
+
+</p>
+
+</div>
+
+</a>
+
+</div>
+<!-- PAID FINES -->
+
+<div class="col-md-4">
+
+<div class="card shadow border-0 p-4 text-center dashboard-hover">
+
+<h1 class="text-primary">
+
+<i class="bi bi-cash-coin"></i>
+
+</h1>
+
+<h2>
+
+<?php echo $paidFines; ?>
+
+</h2>
+
+<p class="mb-0">
+
+Paid Fines
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RECENT BORROW ACTIVITY -->
+
+<div class="card shadow border-0 p-4 mb-4">
+
+<h4 class="mb-4">
+
+Recent Borrow Activity
+
+</h4>
+
+<table class="table table-hover">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Book ID</th>
+<th>Member ID</th>
+<th>Borrow Date</th>
+<th>Due Date</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<?php
+
+$recent = $conn->query("
+SELECT *
+FROM bookborrower
+ORDER BY borrow_date DESC
+LIMIT 5
+");
+
+if($recent && $recent->num_rows > 0){
+
+while($row = $recent->fetch_assoc()){
+
+?>
+
+<tr>
+
+<td>
+
+<?php echo $row['book_id']; ?>
+
+</td>
+
+<td>
+
+<?php echo $row['member_id']; ?>
+
+</td>
+
+<td>
+
+<?php echo $row['borrow_date']; ?>
+
+</td>
+
+<td>
+
+<?php echo $row['due_date']; ?>
+
+</td>
+
+<td>
+
+<?php echo $row['borrow_status']; ?>
+
+</td>
+
+</tr>
+
+<?php
+
+}
+
+} else {
+
+?>
+
+<tr>
+
+<td colspan="5"
+class="text-center">
+
+No Recent Activity
+
+</td>
+
+</tr>
+
+<?php } ?>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- SYSTEM INFO -->
 
 <div class="card shadow border-0 p-4">
 
-    <h4 class="mb-4">
-        System Information
-    </h4>
+<h4 class="mb-4">
 
-    <div class="row">
+System Information
 
-        <div class="col-md-4">
+</h4>
 
-            <p>
+<div class="row">
 
-                <strong>
-                    PHP Version:
-                </strong>
+<div class="col-md-4">
 
-                <?php echo phpversion(); ?>
+<p>
 
-            </p>
+<strong>
 
-        </div>
+PHP Version:
 
-        <div class="col-md-4">
+</strong>
 
-            <p>
+<?php echo phpversion(); ?>
 
-                <strong>
-                    Server:
-                </strong>
+</p>
 
-                Apache
+</div>
 
-            </p>
+<div class="col-md-4">
 
-        </div>
+<p>
 
-        <div class="col-md-4">
+<strong>
 
-            <p>
+Server:
 
-                <strong>
-                    Database:
-                </strong>
+</strong>
 
-                MySQL
+Apache
 
-            </p>
+</p>
 
-        </div>
+</div>
 
-    </div>
+<div class="col-md-4">
+
+<p>
+
+<strong>
+
+Database:
+
+</strong>
+
+MySQL
+
+</p>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 

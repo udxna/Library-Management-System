@@ -226,7 +226,8 @@ if (!isset($_SESSION['username'])) {
             .welcome-user{
                 font-size:22px;
             }
-        }
+     }
+         
 
     </style>
 
@@ -249,7 +250,7 @@ if (!isset($_SESSION['username'])) {
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
 
-            <a href="manage_users.php" class="nav-link-btn users-btn">
+            <a href="view_users.php" class="nav-link-btn users-btn">
                 <i class="bi bi-people-fill"></i> Users
             </a>
 
@@ -270,7 +271,7 @@ if (!isset($_SESSION['username'])) {
     <div class="glass-card text-center">
 
         <h1 class="welcome-title">
-            Welcome to LMS Dashboard
+            Welcome to Our LMS Dashboard
         </h1>
 
         <h3 class="welcome-user">
@@ -279,7 +280,7 @@ if (!isset($_SESSION['username'])) {
         </h3>
 
         <p class="subtitle">
-            Smart Library Management System with Modern Glassmorphism UI
+            Smart Library Management System
         </p>
 
         <!-- STATS -->
@@ -294,7 +295,7 @@ if (!isset($_SESSION['username'])) {
                         <i class="bi bi-book-fill"></i>
                     </div>
 
-                    <div class="stat-number">1250</div>
+                    <div class="stat-number">1500 +</div>
 
                     <div class="stat-text">
                         Total Books
@@ -312,7 +313,7 @@ if (!isset($_SESSION['username'])) {
                         <i class="bi bi-people-fill"></i>
                     </div>
 
-                    <div class="stat-number">320</div>
+                    <div class="stat-number">350 +</div>
 
                     <div class="stat-text">
                         Active Users
@@ -330,7 +331,7 @@ if (!isset($_SESSION['username'])) {
                         <i class="bi bi-journal-check"></i>
                     </div>
 
-                    <div class="stat-number">89</div>
+                    <div class="stat-number">80 +</div>
 
                     <div class="stat-text">
                         Borrowed Books
@@ -346,19 +347,18 @@ if (!isset($_SESSION['username'])) {
 
         <div>
 
-            <a href="manage_users.php" class="action-btn manage-btn">
+            <a href="view_users.php" class="action-btn manage-btn">
                 <i class="bi bi-person-gear"></i>
-                Manage Users
+                Update Users
             </a>
 
-            <a href="manage_books.php" class="action-btn books-btn">
-                <i class="bi bi-book"></i>
-                Manage Books
-            </a>
+    
 
         </div>
 
+        
     </div>
+
 
 </section>
 

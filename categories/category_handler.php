@@ -5,7 +5,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$conn = new mysqli("localhost", "root", "", "library_management_system");
+$conn = new mysqli("localhost", "root", "", "library_system");
 if ($conn->connect_error) {
     echo json_encode(['status' => 'error', 'message' => 'Connection failed']);
     exit();

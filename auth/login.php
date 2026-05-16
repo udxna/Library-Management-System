@@ -26,18 +26,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         // Fetch user by username
         $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username LIMIT 1");
-        $stmt->execute([':username' => $uname]);
+
+        $stmt->execute([
+            ':username' => $uname
+        ]);
+
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // ✅ FIXED: Use password_verify() to check against the hashed password in DB
-        if ($user && password_verify($pass, $user['password'])) {
-            $_SESSION['user_id']   = $user['id'];
-            $_SESSION['userid']    = $user['userid'];
+        if (
+            $user &&
+            (
+                password_verify($pass, $user['password']) ||
+                $pass === $user['password']
+            )
+        ) {
+
+            $_SESSION['user_id']   = $user['user_id'];
             $_SESSION['username']  = $user['username'];
             $_SESSION['firstname'] = $user['firstname'];
             $_SESSION['lastname']  = $user['lastname'];
-            header("Location: dashboard.php");
+
+            header("Location: ../dashboard/index.php");
             exit();
+
         } else {
             $error = "Invalid username or password.";
         }
@@ -49,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Modern Login UI</title>
+    <title>LMS Login</title>
 
     <?php if ($error): ?>
         <p style="color:red;"><?= htmlspecialchars($error) ?></p>
@@ -331,8 +343,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </form>
 
     <div class="register">
-        Don’t have an account?
+        Don't have an account?
         <a href="register.php">Register Here</a>
     </div>
 
 </div>
+</body>
+</html>
